@@ -1,0 +1,149 @@
+body {
+    background: url("./resources/blankMap.jpg");
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+label {
+    color: #CCCCCC;
+}
+.elite {
+    color: yellow !important;
+    /*border-radius: 80px;
+    border: 2px solid yellow;*/
+}
+.rotate {
+    transform: rotate(90deg);
+}
+.revrotate {
+    transform: rotate(-90deg);
+}
+.horz {
+    transform: rotate(90deg);
+}
+.map {
+    position: absolute;
+    z-index: 1;
+    scale: 30%;
+}
+.item {
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    background-size: 50px;
+    background-repeat: no-repeat;
+    z-index: 30;
+}
+.summon {
+    z-index: 50 !important;
+    border-radius: 80px;
+    background-color: white;
+    font-size: 40px;
+    color: black;
+    text-align: center;
+}
+.character {
+    z-index: 50 !important;
+    background-color: white;
+    border-radius: 80px;
+    border: 1px solid white;
+}
+/* TODO: fix this */
+.bear {
+    background-image: url("./resources/bear.png");
+    border: 1px solid white;
+    border-radius: 80px;
+}
+.bt {
+    background-image: url("./resources/tyrant.png");
+}
+.sun {
+    background-image: url("./resources/sun.png");
+}
+.tinkerer {
+    background-image: url("./resources/tinkerer.png");
+}
+.spellweaver {
+    background-image: url("./resources/spellweaver.png");
+}
+.coin {
+    background-image: url("./scenBook/tokens/Coin.png");
+}
+.start {
+    background-image: url("./scenBook/icons/start.png");
+}
+.startHorz {
+    background-image: url("./scenBook/icons/startHorz.png");
+}
+.trap {
+    background-image: url("./scenBook/tokens/spikeTrap.png");
+}
+.trapHorz {
+    background-image: url("./scenBook/tokens/spikeTrapHorz.png");
+}
+.hazard {
+    background-image: url("./scenBook/tokens/hotCoals.png");
+}
+.hazardHorz {
+    background-image: url("./scenBook/tokens/hotCoalsHorz.png");
+}
+.difficult {
+    background-image: url("./scenBook/tokens/water.png");
+}
+.difficultHorz {
+    background-image: url("./scenBook/tokens/waterHorz.png");
+}
+.treasure {
+    background-image: url("./scenBook/tokens/treasureVert.png");
+}
+.treasureHorz {
+    background-image: url("./scenBook/tokens/treasure.png");
+}
+.pressure {
+    background-image: url("./scenBook/tokens/pressurePlate.png");
+}
+.pressureHorz {
+    background-image: url("./scenBook/tokens/pressurePlateHorz.png");
+}
+.altar {
+    background-image: url("./scenBook/tokens/altar.png");
+}
+.altarHorz {
+    background-image: url("./scenBook/tokens/altarHorz.png");
+}
+.door {
+    background-image: url("./scenBook/tokens/door.png");
+}
+.doorHorz {
+    background-image: url("./scenBook/tokens/doorHorz.png");
+}
+.obstacle1Horz {
+    background-image: url("./scenBook/tokens/boulder1Horz.png");
+}
+.obstacle2Horz {
+    background-image: url("./scenBook/tokens/boulder2Horz.png");
+    background-size: 59px !important;
+    width: 60px !important;
+    height: 100px !important;
+}
+.obstacle3Horz {
+    background-image: url("./scenBook/tokens/boulder3Horz.png");
+    background-size: 100px !important;
+    height: 100px !important;
+    width: 100px !important;
+}
+.obstacle1 {
+    background-image: url("./scenBook/tokens/boulder1.png");
+}
+.obstacle2 {
+    background-image: url("./scenBook/tokens/boulder2.png");
+    background-size: 100px !important;
+    width: 100px !important;
+    height: 60px !important;
+}
+.obstacle3 {
+    background-image: url("./scenBook/tokens/boulder3.png");
+}
+.monster {
+    z-index: 50 !important;
+    color: white;
+}

@@ -1,0 +1,211 @@
+
+.horzAncientArtillery {
+    background-image: url("./scenBook/monsters/Horz-AncientArtillery.png");
+}
+.horzBanditArcher {
+    background-image: url("./scenBook/monsters/Horz-BanditArcher.png");
+}
+.horzBanditGuard {
+    background-image: url("./scenBook/monsters/Horz-BanditGuard.png");
+}
+.horzBlackImp {
+    background-image: url("./scenBook/monsters/Horz-BlackImp.png");
+}
+.horzCaveBear {
+    background-image: url("./scenBook/monsters/Horz-CaveBear.png");
+}
+.horzCityArcher {
+    background-image: url("./scenBook/monsters/Horz-CityArcher.png");
+}
+.horzCityGuard {
+    background-image: url("./scenBook/monsters/Horz-CityGuard.png");
+}
+.horzCultist {
+    background-image: url("./scenBook/monsters/Horz-Cultist.png");
+}
+.horzDeepTerror {
+    background-image: url("./scenBook/monsters/Horz-DeepTerror.png");
+}
+.horzEarthDemon {
+    background-image: url("./scenBook/monsters/Horz-EarthDemon.png");
+}
+.horzFlameDemon {
+    background-image: url("./scenBook/monsters/Horz-FlameDemon.png");
+}
+.horzForestImp {
+    background-image: url("./scenBook/monsters/Horz-ForestImp.png");
+}
+.horzFrostDemon {
+    background-image: url("./scenBook/monsters/Horz-FrostDemon.png");
+}
+.horzGiantViper {
+    background-image: url("./scenBook/monsters/Horz-GiantViper.png");
+}
+.horzHarrowerInfester {
+    background-image: url("./scenBook/monsters/Horz-HarrowerInfester.png");
+}
+.horzHound {
+    background-image: url("./scenBook/monsters/Horz-Hound.png");
+}
+.horzInoxArcher {
+    background-image: url("./scenBook/monsters/Horz-InoxArcher.png");
+}
+.horzInoxBodyguard {
+    background-image: url("./scenBook/monsters/Horz-InoxBodyguard.png");
+}
+.horzInoxGuard {
+    background-image: url("./scenBook/monsters/Horz-InoxGuard.png");
+}
+.horzInoxShaman {
+    background-image: url("./scenBook/monsters/Horz-InoxShaman.png");
+}
+.horzLivingBones {
+    background-image: url("./scenBook/monsters/Horz-LivingBones.png");
+}
+.horzLivingDead {
+    background-image: url("./scenBook/monsters/Horz-LivingDead.png");
+}
+.horzLivingSpirit {
+    background-image: url("./scenBook/monsters/Horz-LivingSpirit.png");
+}
+.horzLurker {
+    background-image: url("./scenBook/monsters/Horz-Lurker.png");
+}
+.horzNightDemon {
+    background-image: url("./scenBook/monsters/Horz-NightDemon.png");
+}
+.horzOoze {
+    background-image: url("./scenBook/monsters/Horz-Ooze.png");
+}
+.horzRendingDrake {
+    background-image: url("./scenBook/monsters/Horz-RendingDrake.png");
+}
+.horzSavaasIcestorm {
+    background-image: url("./scenBook/monsters/Horz-SavaasIcestorm.png");
+}
+.horzSavaasLavaflow {
+    background-image: url("./scenBook/monsters/Horz-SavaasLavaflow.png");
+}
+.horzSpittingDrake {
+    background-image: url("./scenBook/monsters/Horz-SpittingDrake.png");
+}
+.horzStoneGolem {
+    background-image: url("./scenBook/monsters/Horz-StoneGolem.png");
+}
+.horzSunDemon {
+    background-image: url("./scenBook/monsters/Horz-SunDemon.png");
+}
+.horzVermlingScout {
+    background-image: url("./scenBook/monsters/Horz-VermlingScout.png");
+}
+.horzVermlingShaman {
+    background-image: url("./scenBook/monsters/Horz-VermlingShaman.png");
+}
+.horzWindDemon {
+    background-image: url("./scenBook/monsters/Horz-WindDemon.png");
+}
+.vertAncientArtillery {
+    background-image: url("./scenBook/monsters/Vert-AncientArtillery.png");
+}
+.vertBanditArcher {
+    background-image: url("./scenBook/monsters/Vert-BanditArcher.png");
+}
+.vertBanditGuard {
+    background-image: url("./scenBook/monsters/Vert-BanditGuard.png");
+}
+.vertBlackImp {
+    background-image: url("./scenBook/monsters/Vert-BlackImp.png");
+}
+.vertCaveBear {
+    background-image: url("./scenBook/monsters/Vert-CaveBear.png");
+}
+.vertCityArcher {
+    background-image: url("./scenBook/monsters/Vert-CityArcher.png");
+}
+.vertCityGuard {
+    background-image: url("./scenBook/monsters/Vert-CityGuard.png");
+}
+.vertCultist {
+    background-image: url("./scenBook/monsters/Vert-Cultist.png");
+}
+.vertDeepTerror {
+    background-image: url("./scenBook/monsters/Vert-DeepTerror.png");
+}
+.vertEarthDemon {
+    background-image: url("./scenBook/monsters/Vert-EarthDemon.png");
+}
+.vertFlameDemon {
+    background-image: url("./scenBook/monsters/Vert-FlameDemon.png");
+}
+.vertForestImp {
+    background-image: url("./scenBook/monsters/Vert-ForestImp.png");
+}
+.vertFrostDemon {
+    background-image: url("./scenBook/monsters/Vert-FrostDemon.png");
+}
+.vertGiantViper {
+    background-image: url("./scenBook/monsters/Vert-GiantViper.png");
+}
+.vertHarrowerInfester {
+    background-image: url("./scenBook/monsters/Vert-HarrowerInfester.png");
+}
+.vertHound {
+    background-image: url("./scenBook/monsters/Vert-Hound.png");
+}
+.vertInoxArcher {
+    background-image: url("./scenBook/monsters/Vert-InoxArcher.png");
+}
+.vertInoxBodyguard {
+    background-image: url("./scenBook/monsters/Vert-InoxBodyguard.png");
+}
+.vertInoxGuard {
+    background-image: url("./scenBook/monsters/Vert-InoxGuard.png");
+}
+.vertInoxShaman {
+    background-image: url("./scenBook/monsters/Vert-InoxShaman.png");
+}
+.vertLivingBones {
+    background-image: url("./scenBook/monsters/Vert-LivingBones.png");
+}
+.vertLivingDead {
+    background-image: url("./scenBook/monsters/Vert-LivingDead.png");
+}
+.vertLivingSpirit {
+    background-image: url("./scenBook/monsters/Vert-LivingSpirit.png");
+}
+.vertLurker {
+    background-image: url("./scenBook/monsters/Vert-Lurker.png");
+}
+.vertNightDemon {
+    background-image: url("./scenBook/monsters/Vert-NightDemon.png");
+}
+.vertOoze {
+    background-image: url("./scenBook/monsters/Vert-Ooze.png");
+}
+.vertRendingDrake {
+    background-image: url("./scenBook/monsters/Vert-RendingDrake.png");
+}
+.vertSavaasIcestorm {
+    background-image: url("./scenBook/monsters/Vert-SavaasIcestorm.png");
+}
+.vertSavaasLavaflow {
+    background-image: url("./scenBook/monsters/Vert-SavaasLavaflow.png");
+}
+.vertSpittingDrake {
+    background-image: url("./scenBook/monsters/Vert-SpittingDrake.png");
+}
+.vertStoneGolem {
+    background-image: url("./scenBook/monsters/Vert-StoneGolem.png");
+}
+.vertSunDemon {
+    background-image: url("./scenBook/monsters/Vert-SunDemon.png");
+}
+.vertVermlingScout {
+    background-image: url("./scenBook/monsters/Vert-VermlingScout.png");
+}
+.vertVermlingShaman {
+    background-image: url("./scenBook/monsters/Vert-VermlingShaman.png");
+}
+.vertWindDemon {
+    background-image: url("./scenBook/monsters/Vert-WindDemon.png");
+}
