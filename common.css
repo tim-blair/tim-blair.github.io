@@ -23,7 +23,14 @@ label {
 .map {
     position: absolute;
     z-index: 1;
-    scale: 30%;
+    transform: scale(0.3);
+    transform-origin: top left;
+}
+.map-rotate {
+    transform: scale(0.3) rotate(90deg) !important;
+}
+.map-revrotate {
+    transform: scale(0.3) rotate(-90deg) !important;
 }
 .item {
     position: absolute;
