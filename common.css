@@ -26,6 +26,9 @@ label {
     transform: scale(0.3);
     transform-origin: top left;
 }
+.waiting-area {
+    position: unset !important;
+}
 .item {
     position: absolute;
     height: 50px;

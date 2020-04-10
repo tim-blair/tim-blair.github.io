@@ -86,7 +86,7 @@ function handleClick(e) {
         selected = null;
         return false;
     }
-    if(target.classList.contains('map') || target.tagName === 'INPUT' || target.tagName === 'BODY') {
+    if (!target.classList.contains('item')) {
         return true;
     }
     selected = target;
@@ -96,6 +96,7 @@ function move(id, x, y) {
     const selected = document.querySelector(`#${id}`);
     selected.style.top = `${y - selected.clientHeight/2}`;
     selected.style.left = `${x - selected.clientWidth/2}`;
+    selected.classList.remove('waiting-area');
     history.push({
         id,
         type: 'move',
@@ -118,6 +119,7 @@ function createWithId(id, text, ...classes) {
         item.classList.add(objClass);
     }
     item.classList.add('item');
+    item.classList.add('waiting-area');
     history.push({
         id: item.id,
         type: 'create',
