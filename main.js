@@ -83,6 +83,7 @@ function handleClick(e) {
     if(selected) {
         // get x,y and move target there
         move(selected.id, e.pageX, e.pageY);
+        selected.classList.remove('selected');
         selected = null;
         return false;
     }
@@ -90,6 +91,7 @@ function handleClick(e) {
         return true;
     }
     selected = target;
+    selected.classList.add('selected');
 }
 
 function move(id, x, y) {
