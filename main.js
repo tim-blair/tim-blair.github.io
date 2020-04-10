@@ -94,9 +94,8 @@ function handleClick(e) {
 
 function move(id, x, y) {
     const selected = document.querySelector(`#${id}`);
-    // TODO: center or otherwise improve this
-    selected.style.top = y;
-    selected.style.left = x;
+    selected.style.top = `${y - selected.clientHeight/2}`;
+    selected.style.left = `${x - selected.clientWidth/2}`;
     history.push({
         id,
         type: 'move',
@@ -105,7 +104,7 @@ function move(id, x, y) {
 }
 
 function createWithAlignment(name) {
-    create('', `${name}${ALIGNMENT === 'horz' ? 'Horz' : ''}`); 
+    create('', `${name}${ALIGNMENT === 'horz' ? 'Horz' : ''}`);
 }
 
 function create(text, ...classes) {
