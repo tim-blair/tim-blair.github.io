@@ -90,7 +90,7 @@ function handleClick(e) {
         selected = null;
         return false;
     }
-    if (!target.classList.contains('item')) {
+    if (!target.classList.contains('item') || !target.id) {
         return true;
     }
     selected = target;

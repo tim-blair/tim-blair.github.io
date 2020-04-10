@@ -81,6 +81,7 @@ label {
 }
 .start {
     background-image: url("./scenBook/icons/start.png");
+    opacity: 40%;
 }
 .startHorz {
     background-image: url("./scenBook/icons/startHorz.png");
@@ -123,6 +124,7 @@ label {
 }
 .door {
     background-image: url("./scenBook/tokens/door.png");
+    height: 57px;
 }
 .doorHorz {
     background-image: url("./scenBook/tokens/doorHorz.png");
