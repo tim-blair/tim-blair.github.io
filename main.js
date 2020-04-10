@@ -78,7 +78,7 @@ if(ALIGNMENT === 'horz') {
 }
 
 function clearSelection() {
-    selected.classList.remove('selected');
+    selected && selected.classList.remove('selected');
     selected = null;
 }
 
@@ -230,8 +230,8 @@ function initDragDrop(item) {
     item.ondragend = evt => {
         const rect = item.getBoundingClientRect();
         move(evt.target.id,
-            evt.clientX + (rect.width / 2) + offsetX - 1,
-            evt.clientY + (rect.height / 2) + offsetY - 1
+            evt.pageX + (rect.width / 2) + offsetX - 1,
+            evt.pageY + (rect.height / 2) + offsetY - 1
         );
         clearSelection();
     };
