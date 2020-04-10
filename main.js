@@ -78,24 +78,30 @@ if(ALIGNMENT === 'horz') {
 }
 
 function handleClick(e) {
+    if (e.button !== 0) {
+        return true;
+    }
     e = e || window.event;
     const target = e.target || e.srcElement;
     if(selected) {
         // get x,y and move target there
         move(selected.id, e.pageX, e.pageY);
+        selected.classList.remove('selected');
         selected = null;
         return false;
     }
-    if(target.classList.contains('map') || target.tagName === 'INPUT' || target.tagName === 'BODY') {
+    if (!target.classList.contains('item') || !target.id) {
         return true;
     }
     selected = target;
+    selected.classList.add('selected');
 }
 
 function move(id, x, y) {
     const selected = document.querySelector(`#${id}`);
     selected.style.top = `${y - selected.clientHeight/2}`;
     selected.style.left = `${x - selected.clientWidth/2}`;
+    selected.classList.remove('waiting-area');
     history.push({
         id,
         type: 'move',
@@ -118,6 +124,7 @@ function createWithId(id, text, ...classes) {
         item.classList.add(objClass);
     }
     item.classList.add('item');
+    item.classList.add('waiting-area');
     history.push({
         id: item.id,
         type: 'create',

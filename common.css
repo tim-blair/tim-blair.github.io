@@ -20,17 +20,18 @@ label {
 .horz {
     transform: rotate(90deg);
 }
+.map-container {
+    position: relative;
+}
 .map {
+    pointer-events:none;
     position: absolute;
     z-index: 1;
     transform: scale(0.3);
     transform-origin: top left;
 }
-.map-rotate {
-    transform: scale(0.3) rotate(90deg) !important;
-}
-.map-revrotate {
-    transform: scale(0.3) rotate(-90deg) !important;
+.waiting-area {
+    position: unset !important;
 }
 .item {
     position: absolute;
@@ -39,6 +40,9 @@ label {
     background-size: 50px;
     background-repeat: no-repeat;
     z-index: 30;
+}
+.selected {
+    border: 2px solid turquoise !important;
 }
 .summon {
     z-index: 50 !important;
@@ -77,6 +81,7 @@ label {
 }
 .start {
     background-image: url("./scenBook/icons/start.png");
+    opacity: 40%;
 }
 .startHorz {
     background-image: url("./scenBook/icons/startHorz.png");
@@ -119,6 +124,7 @@ label {
 }
 .door {
     background-image: url("./scenBook/tokens/door.png");
+    height: 57px;
 }
 .doorHorz {
     background-image: url("./scenBook/tokens/doorHorz.png");
@@ -153,4 +159,8 @@ label {
 .monster {
     z-index: 50 !important;
     color: white;
+    font-size: x-large;
+    text-align: center;
+    line-height: 3;
+    font-weight: bold;
 }
