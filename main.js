@@ -77,6 +77,11 @@ if(ALIGNMENT === 'horz') {
     monsters.set('wind demon',  'vertWindDemon');
 }
 
+function clearSelection() {
+    selected.classList.remove('selected');
+    selected = null;
+}
+
 function handleClick(e) {
     if (e.button !== 0) {
         return true;
@@ -86,8 +91,7 @@ function handleClick(e) {
     if(selected) {
         // get x,y and move target there
         move(selected.id, e.pageX, e.pageY);
-        selected.classList.remove('selected');
-        selected = null;
+        clearSelection(selected);
         return false;
     }
     if (!target.classList.contains('item') || !target.id) {
@@ -131,6 +135,7 @@ function createWithId(id, text, ...classes) {
         meta: {text, classes: toArray(item.classList)}
     });
     item.textContent = text;
+    initDragDrop(item);
     document.body.appendChild(item);
 }
 
@@ -194,4 +199,23 @@ function load(events) {
         }
     }, 100);
     nextId = maxIdSeen + 1;
+}
+
+function initDragDrop(item) {
+    item.draggable = true;
+
+    item.ondragend = evt => {
+        move(evt.target.id, evt.clientX, evt.clientY);
+        clearSelection();
+    };
+}
+
+function blessPredefinedItems() {
+    document.querySelectorAll('.item').forEach(item => {
+        initDragDrop(item);
+    });
+}
+
+window.onload = function() {
+    blessPredefinedItems();
 }
