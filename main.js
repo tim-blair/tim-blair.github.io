@@ -225,7 +225,7 @@ function initDragDrop(item) {
         const rect = evt.target.getBoundingClientRect();
         offsetX = rect.x - evt.clientX;
         offsetY = rect.y - evt.clientY;
-    }
+    };
 
     item.ondragend = evt => {
         const rect = item.getBoundingClientRect();
@@ -238,7 +238,7 @@ function initDragDrop(item) {
 }
 
 function blessPredefinedItems() {
-    document.querySelectorAll('.item').forEach(item => {
+    document.querySelectorAll('.item[id]').forEach(item => {
         initDragDrop(item);
     });
 }
@@ -249,4 +249,4 @@ window.onload = function() {
     if (history) {
         load(history);
     }
-}
+};
