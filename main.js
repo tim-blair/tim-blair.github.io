@@ -78,6 +78,9 @@ if(ALIGNMENT === 'horz') {
 }
 
 function handleClick(e) {
+    if (e.button !== 0) {
+        return true;
+    }
     e = e || window.event;
     const target = e.target || e.srcElement;
     if(selected) {
