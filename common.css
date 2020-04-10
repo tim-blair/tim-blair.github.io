@@ -20,6 +20,9 @@ label {
 .horz {
     transform: rotate(90deg);
 }
+.map-container {
+    position: relative;
+}
 .map {
     pointer-events:none;
     position: absolute;
