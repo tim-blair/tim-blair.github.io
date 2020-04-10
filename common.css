@@ -150,4 +150,8 @@ label {
 .monster {
     z-index: 50 !important;
     color: white;
+    font-size: x-large;
+    text-align: center;
+    line-height: 3;
+    font-weight: bold;
 }
