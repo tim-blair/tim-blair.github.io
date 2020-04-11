@@ -4,15 +4,13 @@ const peerConnections = [];
 let hostConnection = null;
 let nextId = 100;
 
-let monsters = new Map();
-
 function setScenario() {
     const mapContainer = document.querySelector('.scenario-container');
     Object.keys(scenario.map).forEach(mapName =>
         mapContainer.appendChild(createMapTile(mapName, scenario.map[mapName])));
     scenario.start.forEach(start => mapContainer.appendChild(createScenarioItem('start', start)));
     scenario.doors.forEach(door => mapContainer.appendChild(createScenarioItem('door', door)));
-    monsters = allMonsters(scenario.alignment);
+    seedMonsterTypes(scenario.monsters);
 }
 
 function clearSelection() {
@@ -62,6 +60,16 @@ function addClasses(element, classes) {
 
 function itemClass(name) {
     return `${name}${scenario.alignment === 'horz' ? 'Horz' : ''}`;
+}
+
+function seedMonsterTypes(monsterTypes) {
+    const monsterSelector = document.querySelector('#monster_type');
+    monsterTypes.forEach(monsterType => {
+        const opt = document.createElement('option');
+        opt.value = monsterType;
+        opt.innerHTML = monsterType;
+        monsterSelector.appendChild(opt);
+    });
 }
 
 function createMapTile(mapName, { classes = [], style }) {
@@ -156,19 +164,10 @@ function obstacle(size) {
 }
 
 function monster() {
-    let classes = ['monster'];
     const isElite = document.querySelector("#elite").checked;
-    if (isElite) {
-        classes.push('elite');
-    }
     const standee = document.querySelector("#standee").value;
     const type = document.querySelector("#monster_type").value.toLowerCase();
-    for (let name of monsters.keys()) {
-        if (name.includes(type)) {
-            classes.push(monsters.get(name));
-            break;
-        }
-    }
+    const classes = monsterClasses(scenario, type, isElite);
     create(standee, ...classes);
 }
 
