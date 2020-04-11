@@ -1,5 +1,7 @@
 let selected = null;
 const history = [];
+const peerConnections = [];
+let hostConnection = null;
 let nextId = 100;
 
 const monsters = new Map();
@@ -182,6 +184,12 @@ function monster() {
 
 function recordEvent(evt) {
     history.push(evt);
+    if(!loading) {
+        for(conn of peerConnections) {
+            conn.send([evt]);
+        }
+        hostConnection && hostConnection.send([evt]);
+    }
     save();
 }
 
@@ -199,11 +207,17 @@ function reset() {
     location.reload();
 }
 
-function load(events) {
+function loadRaw(events) {
     const parsed = JSON.parse(events);
+    load(parsed);
+}
+
+let loading = false;
+function load(events) {
+    loading = true;
     let maxIdSeen = nextId - 1;
-    const createEvents = parsed.filter(event => event.type === 'create');
-    const moveEvents = parsed.filter(event => event.type === 'move');
+    const createEvents = events.filter(event => event.type === 'create');
+    const moveEvents = events.filter(event => event.type === 'move');
     for(let event of createEvents) {
         createWithId(event.id, event.meta.text, ...event.meta.classes);
         maxIdSeen = Math.max(maxIdSeen, parseInt(event.id.slice(2)));
@@ -213,6 +227,7 @@ function load(events) {
         for(let event of moveEvents) {
             move(event.id, event.meta.x, event.meta.y);
         }
+        loading = false;
     }, 100);
     nextId = maxIdSeen + 1;
 }
@@ -247,6 +262,34 @@ window.onload = function() {
     blessPredefinedItems();
     const history = localStorage.getItem("history");
     if (history) {
-        load(history);
+        loadRaw(history);
     }
 };
+
+let peer = new Peer();
+let peeringId;
+
+peer.on('open', (id) => {
+    peeringId = id;
+    console.log(`peering id is: ${id}`);
+});
+
+// Someone connected to us, push our history to them
+peer.on('connection', (connection) => { 
+    connection.on('open', () => {
+        connection.send(history);
+    });
+    connection.on('data', load);
+    peerConnections.push(connection);
+});
+peer.on('error', (err) => { 
+    console.log(`error: ${err}`);
+});
+
+function connect() {
+    const peerId = document.querySelector(`#peer`).value;
+    hostConnection = peer.connect(peerId);
+    hostConnection.on('open', () => {
+        hostConnection.on('data', load);
+    });
+}
