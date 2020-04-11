@@ -88,12 +88,14 @@ label {
 }
 .trap {
     background-image: url("./scenBook/tokens/spikeTrap.png");
+    height: 57px;
 }
 .trapHorz {
     background-image: url("./scenBook/tokens/spikeTrapHorz.png");
 }
 .hazard {
     background-image: url("./scenBook/tokens/hotCoals.png");
+    height: 57px;
 }
 .hazardHorz {
     background-image: url("./scenBook/tokens/hotCoalsHorz.png");
@@ -106,18 +108,21 @@ label {
 }
 .treasure {
     background-image: url("./scenBook/tokens/treasureVert.png");
+    height: 57px;
 }
 .treasureHorz {
     background-image: url("./scenBook/tokens/treasure.png");
 }
 .pressure {
     background-image: url("./scenBook/tokens/pressurePlate.png");
+    height: 57px;
 }
 .pressureHorz {
     background-image: url("./scenBook/tokens/pressurePlateHorz.png");
 }
 .altar {
     background-image: url("./scenBook/tokens/altar.png");
+    height: 57px;
 }
 .altarHorz {
     background-image: url("./scenBook/tokens/altarHorz.png");
@@ -146,6 +151,7 @@ label {
 }
 .obstacle1 {
     background-image: url("./scenBook/tokens/boulder1.png");
+    height: 57px;
 }
 .obstacle2 {
     background-image: url("./scenBook/tokens/boulder2.png");
