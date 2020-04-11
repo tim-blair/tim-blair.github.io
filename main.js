@@ -251,16 +251,25 @@ window.onload = function() {
     }
 };
 
-let peer = new Peer({key: 'lwjd5qra8257b9'});
+let peer = new Peer();//{key: 'lwjd5qra8257b9'});
 let peeringId;
 
+debugger;
 peer.on('open', (id) => {
     debugger;
     peeringId = id;
 });
 
+peer.on('connection', (dataConnection) => { 
+    debugger;
+});
+peer.on('error', (err) => { 
+    debugger;
+});
+
 function connect() {
-    const peerId = document.querySelector(`#peer`);
+    debugger;
+    const peerId = document.querySelector(`#peer`).value;
     let conn = peer.connect(peerId);
     conn.on('open', () => {
         conn.on('data', (data) => {
