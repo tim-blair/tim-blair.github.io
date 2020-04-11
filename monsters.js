@@ -1,5 +1,5 @@
 
-export function allMonsters(alignment) {
+function allMonsters(alignment) {
     const monsters = new Map();
     monsters.set('ancient artillery', 'AncientArtillery');
     monsters.set('bandit archer', 'BanditArcher');
