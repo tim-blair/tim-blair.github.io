@@ -2,16 +2,21 @@
     <head>
         <title>Scenario 20</title>
         <!-- Set alignment to horizontal or vertical (horz/vert) to match the scenario tiles -->
-        <script>const ALIGNMENT = 'vert';</script>
         <link href='./monster.css' rel='stylesheet'>
         <link href='./common.css' rel='stylesheet'>
+        <script src="./peer.js" type="text/javascript"></script>
+        <script src="./monsters.js" type="text/javascript"></script>
+        <script src="./scenarios.js" type="text/javascript"></script>
+        <script>const scenario = scenarios.get(20);</script>
         <script src="./main.js" type="text/javascript"></script>
     </head>
     <body onclick="handleClick(event)" style="width:100%;height:1300px">
         <div style="margin:10px 0">
             <input type="checkbox" value="Elite" id="elite" />
             <label for="elite">Elite</label>
-            <input type="text" id="monster_type"/>
+            <select id="monster_type">
+                <option value=""></option>
+            </select>
             <label for="standee">Standee:</label>
             <input type="number" id="standee" name="standee" min="1" max="10">
             <input type="button" value="Monster" onclick="monster()" />
@@ -27,28 +32,12 @@
         <input type="button" value="Altar" onclick="altar()" />
         <input type="button" value="Treasure" onclick="treasure()" />
         <input type="button" value="Pressure plate" onclick="pressure()" />
-        <div class="map-container">
-            <div class="map" style="top:304px;left:289px;">
-                <img src="./scenBook/scenTiles/K1a.png"/>
-            </div>
-            <div class="map" style="top:598px;left:59px;">
-                <img class="rotate" src="./scenBook/scenTiles/J1a.png"/>
-            </div>
-            <div class="map" style="top:658px;left:554px;transform: scale(0.15);">
-                <img src="./scenBook/scenTiles/C1a.png"/>
-            </div>
-            <div class="map" style="top:0;left:350px">
-                <img src="./scenBook/scenTiles/D1a.png"/>
-            </div>
-            <div class="start item" style="top:903px;left:77px"></div>
-            <div class="start item" style="top:955px;left:49px"></div>
-            <div class="start item" style="top:955px;left:106px"></div>
-            <div class="start item" style="top:955px;left:165px"></div>
-            <div class="start item" style="top:1006px;left:136px"></div>
-            <div class="door item" style="top: 292px; left: 546px;"></div>
-            <div class="door item" style="top: 647px; left: 400px;"></div>
-            <div class="door item" style="top: 647px; left: 691px;"></div>
+        <div style="margin:10px 0">
+            <label for="peer">Peer ID:</label>
+            <input type="text" id="peer"/>
+            <input type="button" value="Connect" onclick="connect()" />
         </div>
+        <div class="scenario-container"></div>
         <div id="gh-bt" class="bt character item waiting-area"></div>
         <div id="gh-bear" class="bear character item waiting-area"></div>
         <div id="gh-sun" class="sun character item waiting-area"></div>

@@ -1,4 +1,6 @@
-
+.missing-monster {
+    background-color: aquamarine;
+}
 .horzAncientArtillery {
     background-image: url("./scenBook/monsters/Horz-AncientArtillery.png");
 }
