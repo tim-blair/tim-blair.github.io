@@ -1,7 +1,6 @@
 let selected = null;
 const history = [];
 const peerConnections = [];
-let hostConnection = null;
 let nextId = 100;
 
 function setScenario() {
@@ -26,7 +25,7 @@ function handleClick(e) {
     const target = e.target || e.srcElement;
     if (selected) {
         // get x,y and move target there
-        move(selected.id, e.pageX, e.pageY);
+        move('', selected.id, e.pageX, e.pageY);
         clearSelection();
         return false;
     }
@@ -37,12 +36,12 @@ function handleClick(e) {
     selected.classList.add('selected');
 }
 
-function move(id, x, y) {
+function move(source, id, x, y) {
     const selected = document.querySelector(`#${id}`);
     selected.style.top = `${y - selected.clientHeight / 2}`;
     selected.style.left = `${x - selected.clientWidth / 2}`;
     selected.classList.remove('waiting-area');
-    recordEvent({
+    recordEvent(source, {
         id,
         type: 'move',
         meta: {x, y}
@@ -97,14 +96,14 @@ function createWithAlignment(name) {
 }
 
 function create(text, ...classes) {
-    createWithId(`gh${nextId++}`, text, ...classes);
+    createWithId('', `gh${nextId++}`, text, ...classes);
 }
 
-function createWithId(id, text, ...classes) {
+function createWithId(source, id, text, ...classes) {
     const item = document.createElement('div');
     item.id = id;
     addClasses(item, [...classes, 'item', 'waiting-area']);
-    recordEvent({
+    recordEvent(source, {
         id: item.id,
         type: 'create',
         meta: {text, classes: toArray(item.classList)}
@@ -171,13 +170,12 @@ function monster() {
     create(standee, ...classes);
 }
 
-function recordEvent(evt) {
+function recordEvent(source, evt) {
     history.push(evt);
-    if (!loading) {
-        for (conn of peerConnections) {
+    for (conn of peerConnections) {
+        if(conn.peer !== source) {
             conn.send([evt]);
         }
-        hostConnection && hostConnection.send([evt]);
     }
     save();
 }
@@ -198,24 +196,24 @@ function reset() {
 
 function loadRaw(events) {
     const parsed = JSON.parse(events);
-    load(parsed);
+    load('', parsed);
 }
 
 let loading = false;
 
-function load(events) {
+function load(source, events) {
     loading = true;
     let maxIdSeen = nextId - 1;
     const createEvents = events.filter(event => event.type === 'create');
     const moveEvents = events.filter(event => event.type === 'move');
     for (let event of createEvents) {
-        createWithId(event.id, event.meta.text, ...event.meta.classes);
+        createWithId(source, event.id, event.meta.text, ...event.meta.classes);
         maxIdSeen = Math.max(maxIdSeen, parseInt(event.id.slice(2)));
     }
     // Wait for the DOM updates
     setTimeout(() => {
         for (let event of moveEvents) {
-            move(event.id, event.meta.x, event.meta.y);
+            move(source, event.id, event.meta.x, event.meta.y);
         }
         loading = false;
     }, 100);
@@ -234,7 +232,7 @@ function initDragDrop(item) {
 
     item.ondragend = evt => {
         const rect = item.getBoundingClientRect();
-        move(evt.target.id,
+        move('', evt.target.id,
             evt.pageX + (rect.width / 2) + offsetX - 1,
             evt.pageY + (rect.height / 2) + offsetY - 1
         );
@@ -270,7 +268,7 @@ peer.on('connection', (connection) => {
     connection.on('open', () => {
         connection.send(history);
     });
-    connection.on('data', load);
+    connection.on('data', (data) => load(connection.peer, data));
     peerConnections.push(connection);
 });
 peer.on('error', (err) => {
@@ -279,8 +277,9 @@ peer.on('error', (err) => {
 
 function connect() {
     const peerId = document.querySelector(`#peer`).value;
-    hostConnection = peer.connect(peerId);
-    hostConnection.on('open', () => {
-        hostConnection.on('data', load);
+    const connection = peer.connect(peerId);
+    connection.on('open', () => {
+        connection.on('data', (data) => load(connection.peer, data));
     });
+    peerConnections.push(connection);
 }
