@@ -20,7 +20,7 @@ monsters.set('inox bodyguard', 'InoxBodyguard');
 monsters.set('inox guard', 'InoxGuard');
 monsters.set('inox shaman', 'InoxShaman');
 monsters.set('living bones', 'LivingBones');
-monsters.set('living dead', 'LivingDead');
+monsters.set('living corpse', 'LivingDead');
 monsters.set('living spirit', 'LivingSpirit');
 monsters.set('lurker', 'Lurker');
 monsters.set('night demon', 'NightDemon');
