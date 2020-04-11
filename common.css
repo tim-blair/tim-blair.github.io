@@ -20,7 +20,7 @@ label {
 .horz {
     transform: rotate(90deg);
 }
-.map-container {
+.scenario-container {
     position: relative;
 }
 .map {
