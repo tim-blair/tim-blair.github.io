@@ -1,6 +1,7 @@
 let selected = null;
 const history = [];
 const peerConnections = [];
+let hostConnection = null;
 let nextId = 100;
 
 const monsters = new Map();
@@ -183,8 +184,11 @@ function monster() {
 
 function recordEvent(evt) {
     history.push(evt);
-    for(conn of peerConnections) {
-        conn.send([evt]);
+    if(!loading) {
+        for(conn of peerConnections) {
+            conn.send([evt]);
+        }
+        hostConnection && hostConnection.send([evt]);
     }
     save();
 }
@@ -208,7 +212,9 @@ function loadRaw(events) {
     load(parsed);
 }
 
+let loading = false;
 function load(events) {
+    loading = true;
     let maxIdSeen = nextId - 1;
     const createEvents = events.filter(event => event.type === 'create');
     const moveEvents = events.filter(event => event.type === 'move');
@@ -221,6 +227,7 @@ function load(events) {
         for(let event of moveEvents) {
             move(event.id, event.meta.x, event.meta.y);
         }
+        loading = false;
     }, 100);
     nextId = maxIdSeen + 1;
 }
@@ -272,6 +279,7 @@ peer.on('connection', (connection) => {
     connection.on('open', () => {
         connection.send(history);
     });
+    connection.on('data', load);
     peerConnections.push(connection);
 });
 peer.on('error', (err) => { 
@@ -280,10 +288,8 @@ peer.on('error', (err) => {
 
 function connect() {
     const peerId = document.querySelector(`#peer`).value;
-    let conn = peer.connect(peerId);
-    conn.on('open', () => {
-        conn.on('data', (data) => {
-            load(data);
-        });
+    hostConnection = peer.connect(peerId);
+    hostConnection.on('open', () => {
+        hostConnection.on('data', load);
     });
 }
