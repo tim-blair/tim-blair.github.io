@@ -1,5 +1,6 @@
 const scenarios = new Map();
 scenarios.set(1, {
+    id: 1,
     alignment: 'horz',
     map: {
         G1b: {classes: ['revrotate'], style: {top: '144px', left: '400px'}},
@@ -10,6 +11,7 @@ scenarios.set(1, {
     doors: []
 });
 scenarios.set(20, {
+    id: 20,
     alignment: 'vert',
     map: {
         K1a: {style: {top: '304px', left: '289px'}},

@@ -185,7 +185,7 @@ function recordEvent(evt) {
 
 function save() {
     const serializedHistory = JSON.stringify(history);
-    localStorage.setItem("history", serializedHistory);
+    localStorage.setItem(`history[${scenario.id}]`, serializedHistory);
 }
 
 function view() {
@@ -193,7 +193,7 @@ function view() {
 }
 
 function reset() {
-    localStorage.removeItem('history');
+    localStorage.removeItem(`history[${scenario.id}]`);
     location.reload();
 }
 
@@ -252,7 +252,7 @@ function blessPredefinedItems() {
 window.onload = function () {
     setScenario();
     blessPredefinedItems();
-    const history = localStorage.getItem("history");
+    const history = localStorage.getItem(`history[${scenario.id}]`);
     if (history) {
         loadRaw(history);
     }
