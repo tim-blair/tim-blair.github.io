@@ -250,3 +250,23 @@ window.onload = function() {
         load(history);
     }
 };
+
+let peer = new Peer({key: 'lwjd5qra8257b9'});
+let peeringId;
+
+peer.on('open', (id) => {
+    debugger;
+    peeringId = id;
+});
+
+function connect() {
+    const peerId = document.querySelector(`#peer`);
+    let conn = peer.connect(peerId);
+    conn.on('open', () => {
+        conn.on('data', (data) => {
+            console.log('got some data', data);
+        });
+
+        conn.send('yo');
+    });
+}
