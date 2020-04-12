@@ -160,6 +160,9 @@ label {
 }
 .obstacle3 {
     background-image: url("./scenBook/tokens/boulder3.png");
+    background-size: 100px !important;
+    height: 100px !important;
+    width: 100px !important;
 }
 .monster {
     z-index: 50 !important;
