@@ -24,8 +24,13 @@ function handleClick(e) {
     e = e || window.event;
     const target = e.target || e.srcElement;
     if (selected) {
-        // get x,y and move target there
-        move('', selected.id, e.pageX - selected.parentElement.offsetLeft, e.pageY - selected.parentElement.offsetTop);
+        const x = e.pageX - selected.parentElement.offsetLeft;
+        const y = e.pageY - selected.parentElement.offsetTop;
+        if (shouldBeRemoved(selected, x, y)) {
+            remove('', selected.id);
+        } else {
+            move('', selected.id, x, y);
+        }
         clearSelection();
         return false;
     }
@@ -47,6 +52,28 @@ function move(source, id, x, y) {
         meta: {x, y}
     });
     save();
+}
+
+function remove(source, id) {
+    const item = document.querySelector(`#${id}`);
+    document.querySelector('.scenario-container').removeChild(item);
+    recordEvent(source, {
+        id,
+        type: 'remove',
+    });
+    save();
+}
+
+function shouldBeRemoved(element, x, y) {
+    return !element.classList.contains('character')
+        && !element.classList.contains('summon')
+        && withinTrashCan(x, y);
+}
+
+function withinTrashCan(x, y) {
+    const trashCan = document.querySelector('.trash-can');
+    return x >= trashCan.offsetLeft && x <= trashCan.offsetLeft + trashCan.offsetWidth
+        && y >= trashCan.offsetTop && y <= trashCan.offsetTop + trashCan.offsetHeight;
 }
 
 function setStyle(element, style) {
@@ -71,7 +98,7 @@ function seedMonsterTypes(monsterTypes) {
     });
 }
 
-function createMapTile(mapName, { classes = [], style }) {
+function createMapTile(mapName, {classes = [], style}) {
     const div = document.createElement('div');
     addClasses(div, ['map']);
     setStyle(div, style);
@@ -173,7 +200,7 @@ function monster() {
 function recordEvent(source, evt) {
     history.push(evt);
     for (conn of peerConnections) {
-        if(conn.peer !== source) {
+        if (conn.peer !== source) {
             conn.send([evt]);
         }
     }
@@ -205,7 +232,7 @@ function load(source, events) {
     loading = true;
     let maxIdSeen = nextId - 1;
     const createEvents = events.filter(event => event.type === 'create');
-    const moveEvents = events.filter(event => event.type === 'move');
+    const moveEvents = events.filter(event => event.type === 'move' || 'remove');
     for (let event of createEvents) {
         createWithId(source, event.id, event.meta.text, ...event.meta.classes);
         maxIdSeen = Math.max(maxIdSeen, parseInt(event.id.slice(2)));
@@ -213,7 +240,12 @@ function load(source, events) {
     // Wait for the DOM updates
     setTimeout(() => {
         for (let event of moveEvents) {
-            move(source, event.id, event.meta.x, event.meta.y);
+            if (event.type === 'move') {
+                move(source, event.id, event.meta.x, event.meta.y);
+            }
+            if (event.type === 'remove') {
+                remove(source, event.id);
+            }
         }
         loading = false;
     }, 100);
@@ -232,10 +264,13 @@ function initDragDrop(item) {
 
     item.ondragend = evt => {
         const rect = item.getBoundingClientRect();
-        move('', evt.target.id,
-            evt.pageX - item.parentElement.offsetLeft + (rect.width / 2) + offsetX - 1,
-            evt.pageY - item.parentElement.offsetTop + (rect.height / 2) + offsetY - 1
-        );
+        const x = evt.pageX - item.parentElement.offsetLeft + (rect.width / 2) + offsetX - 1;
+        const y = evt.pageY - item.parentElement.offsetTop + (rect.height / 2) + offsetY - 1;
+        if (shouldBeRemoved(evt.target, x, y)) {
+            remove('', evt.target.id);
+        } else {
+            move('', evt.target.id, x, y);
+        }
         clearSelection();
     };
 }

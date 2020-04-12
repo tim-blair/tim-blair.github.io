@@ -40,9 +40,16 @@ label {
     background-size: 50px;
     background-repeat: no-repeat;
     z-index: 30;
+    border-radius: 80px;
 }
-.item.selected {
+.item.selected, .item:hover[id] {
     box-shadow: 0 0 3px 3px turquoise;
+}
+.trash-can {
+    background-image: url("./resources/trashCan.png");
+    background-size: contain;
+    height: 60px;
+    width: 50px;
 }
 .summon {
     z-index: 50 !important;
@@ -141,12 +148,14 @@ label {
     background-size: 59px !important;
     width: 60px !important;
     height: 100px !important;
+    border-radius: 10px;
 }
 .obstacle3Horz {
     background-image: url("./scenBook/tokens/boulder3Horz.png");
     background-size: 100px !important;
     height: 100px !important;
     width: 100px !important;
+    border-radius: 10px;
 }
 .obstacle1 {
     background-image: url("./scenBook/tokens/boulder1.png");
@@ -157,12 +166,14 @@ label {
     background-size: 100px !important;
     width: 100px !important;
     height: 60px !important;
+    border-radius: 10px;
 }
 .obstacle3 {
     background-image: url("./scenBook/tokens/boulder3.png");
     background-size: 100px !important;
     height: 100px !important;
     width: 100px !important;
+    border-radius: 10px;
 }
 .monster {
     z-index: 50 !important;

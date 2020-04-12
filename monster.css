@@ -215,7 +215,7 @@
 .vertWindDemon {
     background-image: url("./scenBook/monsters/Vert-WindDemon.png");
 }
-// Bosses
+/*Bosses*/
 .horzBanditCommander {
     background-image: url("./resources/banditCommander.jpg");
     border-radius: var(--boss-radius);
