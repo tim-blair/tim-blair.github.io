@@ -34,6 +34,21 @@ monsters.set('sun demon', 'SunDemon');
 monsters.set('vermling scout', 'VermlingScout');
 monsters.set('vermling shaman', 'VermlingShaman');
 monsters.set('wind demon', 'WindDemon');
+// Bosses
+monsters.set('bandit commander', 'BanditCommander');
+monsters.set('merciless overseer', 'MercilessOverseer');
+monsters.set('inox bodyguard', 'InoxBodyguard');
+monsters.set('captain of the guard', 'GuardCaptain');
+monsters.set('jekserah', 'Jekserah');
+monsters.set('prime demon', 'PrimeDemon');
+monsters.set('elder drake', 'ElderDrake');
+monsters.set('betrayer', 'Betrayer');
+monsters.set('colorless', 'Colorless');
+monsters.set('sightless eye', 'SightlessEye');
+monsters.set('dark rider', 'DarkRider');
+monsters.set('winged horror', 'WingedHorror');
+monsters.set('gloom', 'Gloom');
+
 
 function monsterClasses(scenario, monster, elite) {
     return [
