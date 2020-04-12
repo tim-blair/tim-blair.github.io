@@ -142,6 +142,7 @@ label {
 }
 .startHorz {
     background-image: url("./scenBook/icons/startHorz.png");
+    opacity: 40%;
 }
 .trap {
     background-image: url("./scenBook/tokens/spikeTrap.png");
