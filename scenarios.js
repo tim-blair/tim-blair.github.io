@@ -31,5 +31,8 @@ scenarios.set(20, {
         {top: '292px', left: '546px'},
         {top: '647px', left: '400px'},
         {top: '647px', left: '691px'},
-    ]
+    ],
+    markers: {
+        1: {top: '302px', left: '553px'},
+    }
 });

@@ -9,6 +9,7 @@ function setScenario() {
         scenarioContainer.appendChild(createMapTile(mapName, scenario.map[mapName])));
     scenario.start.forEach(start => scenarioContainer.appendChild(createScenarioItem('start', start)));
     scenario.doors.forEach(door => scenarioContainer.appendChild(createScenarioItem('door', door)));
+    Object.keys(scenario.markers).forEach(name => scenarioContainer.appendChild(createMarker(name, scenario.markers[name])));
     seedMonsterTypes(scenario.monsters);
 }
 
@@ -109,6 +110,14 @@ function createMapTile(mapName, {classes = [], style}) {
     div.appendChild(img);
 
     return div;
+}
+
+function createMarker(name, style) {
+    const item = document.createElement('div');
+    addClasses(item, ['marker']);
+    setStyle(item, style);
+    item.textContent = name;
+    return item;
 }
 
 function createScenarioItem(name, style) {

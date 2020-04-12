@@ -51,6 +51,18 @@ label {
     height: 60px;
     width: 50px;
 }
+.marker {
+    position: absolute;
+    z-index: 31;
+    border-radius: 80px;
+    background-color: firebrick;
+    font-size: 26px;
+    color: antiquewhite;
+    text-align: center;
+    height: 30px;
+    width: 30px;
+    border: 3px solid antiquewhite;
+}
 .summon {
     z-index: 50 !important;
     border-radius: 80px;
