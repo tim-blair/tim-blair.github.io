@@ -58,14 +58,13 @@ label {
     border-radius: 80px;
     border: 1px solid white;
 }
-/* TODO: fix this */
-.bear {
-    background-image: url("./resources/bear.png");
+.twoMinisBrown {
+    background-image: url("./resources/twoMinisBrown.png");
     border: 1px solid white;
     border-radius: 80px;
 }
-.bt {
-    background-image: url("./resources/tyrant.png");
+.twoMinis {
+    background-image: url("./resources/twoMinis.png");
 }
 .sun {
     background-image: url("./resources/sun.png");
@@ -161,6 +160,9 @@ label {
 }
 .obstacle3 {
     background-image: url("./scenBook/tokens/boulder3.png");
+    background-size: 100px !important;
+    height: 100px !important;
+    width: 100px !important;
 }
 .monster {
     z-index: 50 !important;

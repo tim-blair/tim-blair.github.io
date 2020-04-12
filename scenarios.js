@@ -19,7 +19,7 @@ scenarios.set(20, {
         C1a: {style: {top: '658px', left: '554px', transform: 'scale(0.15)'}},
         D1a: {style: {top: '0', left: '350px'}},
     },
-    monsters: ['living bones', 'cultist', 'night demon', 'living corpse'],
+    monsters: ['living bones', 'cultist', 'night demon', 'living corpse', 'jekserah'],
     start: [
         {top: '903px', left: '77px'},
         {top: '955px', left: '49px'},
