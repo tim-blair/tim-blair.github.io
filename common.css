@@ -94,6 +94,45 @@ label {
 .spellweaver {
     background-image: url("./resources/spellweaver.png");
 }
+.scoundrel {
+    background-image: url("./resources/scoundrel.png");
+}
+.angryFace {
+    background-image: url("./resources/angryFace.png");
+}
+.lightning {
+    background-image: url("./resources/lightning.png");
+}
+.triforce {
+    background-image: url("./resources/triforce.png");
+}
+.cragheart {
+    background-image: url("./resources/cragheart.png");
+}
+.mindthief {
+    background-image: url("./resources/mindthief.png");
+}
+.circles {
+    background-image: url("./resources/circles.png");
+}
+.brute {
+    background-image: url("./resources/brute.png");
+}
+.cthulu {
+    background-image: url("./resources/cthulu.png");
+}
+.eclipse {
+    background-image: url("./resources/eclipse.png");
+}
+.musicNote {
+    background-image: url("./resources/musicNote.png");
+}
+.saw {
+    background-image: url("./resources/saw.png");
+}
+.threeSpears {
+    background-image: url("./resources/threeSpears.png");
+}
 .coin {
     background-image: url("./scenBook/tokens/Coin.png");
 }
