@@ -4,11 +4,11 @@ const peerConnections = [];
 let nextId = 100;
 
 function setScenario() {
-    const mapContainer = document.querySelector('.scenario-container');
+    const scenarioContainer = document.querySelector('.scenario-container');
     Object.keys(scenario.map).forEach(mapName =>
-        mapContainer.appendChild(createMapTile(mapName, scenario.map[mapName])));
-    scenario.start.forEach(start => mapContainer.appendChild(createScenarioItem('start', start)));
-    scenario.doors.forEach(door => mapContainer.appendChild(createScenarioItem('door', door)));
+        scenarioContainer.appendChild(createMapTile(mapName, scenario.map[mapName])));
+    scenario.start.forEach(start => scenarioContainer.appendChild(createScenarioItem('start', start)));
+    scenario.doors.forEach(door => scenarioContainer.appendChild(createScenarioItem('door', door)));
     seedMonsterTypes(scenario.monsters);
 }
 
@@ -25,7 +25,7 @@ function handleClick(e) {
     const target = e.target || e.srcElement;
     if (selected) {
         // get x,y and move target there
-        move('', selected.id, e.pageX, e.pageY);
+        move('', selected.id, e.pageX - selected.parentElement.offsetLeft, e.pageY - selected.parentElement.offsetTop);
         clearSelection();
         return false;
     }
@@ -110,7 +110,7 @@ function createWithId(source, id, text, ...classes) {
     });
     item.textContent = text;
     initDragDrop(item);
-    document.body.appendChild(item);
+    document.querySelector('.scenario-container').appendChild(item);
 }
 
 function toArray(classList) {
@@ -233,8 +233,8 @@ function initDragDrop(item) {
     item.ondragend = evt => {
         const rect = item.getBoundingClientRect();
         move('', evt.target.id,
-            evt.pageX + (rect.width / 2) + offsetX - 1,
-            evt.pageY + (rect.height / 2) + offsetY - 1
+            evt.pageX - item.parentElement.offsetLeft + (rect.width / 2) + offsetX - 1,
+            evt.pageY - item.parentElement.offsetTop + (rect.height / 2) + offsetY - 1
         );
         clearSelection();
     };
