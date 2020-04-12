@@ -13,6 +13,7 @@ scenarios.set(1, {
 scenarios.set(20, {
     id: 20,
     alignment: 'vert',
+    style: {height: '1150px'},
     map: {
         K1a: {style: {top: '304px', left: '289px'}},
         J1a: {classes: ['rotate'], style: {top: '598px', left: '59px'}},
