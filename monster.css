@@ -216,133 +216,67 @@
     background-image: url("./scenBook/monsters/Vert-WindDemon.png");
 }
 /*Bosses*/
-.horzBanditCommander {
+.horzBanditCommander, .vertBanditCommander {
     background-image: url("./resources/banditCommander.jpg");
     border-radius: var(--boss-radius);
     border: var(--boss-border);
 }
-.horzMercilessOverseer {
+.horzMercilessOverseer, .vertMercilessOverseer {
     background-image: url("./resources/mercilessOverseer.jpg");
     border-radius: var(--boss-radius);
     border: var(--boss-border);
 }
-.horzInoxBodyguard {
+.horzInoxBodyguard, .vertInoxBodyguard {
     background-image: url("./resources/inoxBodyguard.jpg");
     border-radius: var(--boss-radius);
     border: var(--boss-border);
 }
-.horzGuardCaptain {
+.horzGuardCaptain, .vertGuardCaptain {
     background-image: url("./resources/guardCaptain.jpg");
     border-radius: var(--boss-radius);
     border: var(--boss-border);
 }
-.horzPrimeDemon {
+.horzPrimeDemon, .vertPrimeDemon {
     background-image: url("./resources/primeDemon.jpg");
     border-radius: var(--boss-radius);
     border: var(--boss-border);
 }
-.horzElderDrake {
+.horzElderDrake, .vertElderDrake {
     background-image: url("./resources/elderDrake.jpg");
     border-radius: var(--boss-radius);
     border: var(--boss-border);
 }
-.horzSightlessEye {
+.horzSightlessEye, .vertSightlessEye {
     background-image: url("./resources/sightlessEye.jpg");
     border-radius: var(--boss-radius);
     border: var(--boss-border);
 }
-.horzDarkRider {
+.horzDarkRider, .vertDarkRider {
     background-image: url("./resources/darkRider.jpg");
     border-radius: var(--boss-radius);
     border: var(--boss-border);
 }
-.horzWingedHorror {
+.horzWingedHorror, .vertWingedHorror {
     background-image: url("./resources/wingedHorror.jpg");
     border-radius: var(--boss-radius);
     border: var(--boss-border);
 }
-.horzColorless {
+.horzColorless, .vertColorless {
     background-image: url("./resources/colorless.jpg");
     border-radius: var(--boss-radius);
     border: var(--boss-border);
 }
-.horzJekserah {
+.horzJekserah, .vertJekserah {
     background-image: url("./resources/jekserah.jpg");
     border-radius: var(--boss-radius);
     border: var(--boss-border);
 }
-.horzBetrayer {
+.horzBetrayer, .vertBetrayer {
     background-image: url("./resources/betrayer.jpg");
     border-radius: var(--boss-radius);
     border: var(--boss-border);
 }
-.horzGloom {
-    background-image: url("./resources/gloom.jpg");
-    border-radius: var(--boss-radius);
-    border: var(--boss-border);
-}
-
-.vertBanditCommander {
-    background-image: url("./resources/banditCommander.jpg");
-    border-radius: var(--boss-radius);
-    border: var(--boss-border);
-}
-.vertMercilessOverseer {
-    background-image: url("./resources/mercilessOverseer.jpg");
-    border-radius: var(--boss-radius);
-    border: var(--boss-border);
-}
-.vertInoxBodyguard {
-    background-image: url("./resources/inoxBodyguard.jpg");
-    border-radius: var(--boss-radius);
-    border: var(--boss-border);
-}
-.vertGuardCaptain {
-    background-image: url("./resources/guardCaptain.jpg");
-    border-radius: var(--boss-radius);
-    border: var(--boss-border);
-}
-.vertPrimeDemon {
-    background-image: url("./resources/primeDemon.jpg");
-    border-radius: var(--boss-radius);
-    border: var(--boss-border);
-}
-.vertElderDrake {
-    background-image: url("./resources/elderDrake.jpg");
-    border-radius: var(--boss-radius);
-    border: var(--boss-border);
-}
-.vertSightlessEye {
-    background-image: url("./resources/sightlessEye.jpg");
-    border-radius: var(--boss-radius);
-    border: var(--boss-border);
-}
-.vertDarkRider {
-    background-image: url("./resources/darkRider.jpg");
-    border-radius: var(--boss-radius);
-    border: var(--boss-border);
-}
-.vertWingedHorror {
-    background-image: url("./resources/wingedHorror.jpg");
-    border-radius: var(--boss-radius);
-    border: var(--boss-border);
-}
-.vertColorless {
-    background-image: url("./resources/colorless.jpg");
-    border-radius: var(--boss-radius);
-    border: var(--boss-border);
-}
-.vertJekserah {
-    background-image: url("./resources/jekserah.jpg");
-    border-radius: var(--boss-radius);
-    border: var(--boss-border);
-}
-.vertBetrayer {
-    background-image: url("./resources/betrayer.jpg");
-    border-radius: var(--boss-radius);
-    border: var(--boss-border);
-}
-.vertGloom {
+.horzGloom, .vertGloom {
     background-image: url("./resources/gloom.jpg");
     border-radius: var(--boss-radius);
     border: var(--boss-border);
