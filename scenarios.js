@@ -22,6 +22,31 @@ scenarios.set(1, {
         {top: '470px', left: '623px'},
     ]
 });
+scenarios.set(18, {
+    id: 18,
+    alignment: 'horz',
+    style: {height: '900px'},
+    map: {
+        H1b: {classes: ['rotate'], style: {top: '0px', left: '405px'}},
+        H3b: {classes: ['rotate'], style: {top: '409px', left: '405px'}},
+        M1a: {classes: ['rotate'], style: {top: '408px', left: '30px'}},
+    },
+    monsters: ['giant viper', 'ooze', 'vermling scout'],
+    start: [
+        {top: '164px', left: '447px'},
+        {top: '223px', left: '447px'},
+        {top: '194px', left: '498px'},
+        {top: '252px', left: '498px'},
+        {top: '223px', left: '550px'},
+    ],
+    doors: [
+        {top: '400px', left: '754px'},
+        {top: '603px', left: '400px'},
+    ],
+    markers: {
+        1: {top: '613px', left: '410px'},
+    }
+});
 scenarios.set(20, {
     id: 20,
     alignment: 'vert',
