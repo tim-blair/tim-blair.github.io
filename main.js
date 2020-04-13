@@ -32,7 +32,7 @@ function handleClick(e) {
     if (selected) {
         const x = e.pageX - selected.parentElement.offsetLeft;
         const y = e.pageY - selected.parentElement.offsetTop;
-        if (shouldBeRemoved(selected, x, y)) {
+        if (shouldBeRemoved(x, y)) {
             remove('', selected.id);
         } else {
             move('', selected.id, x, y);
@@ -70,10 +70,8 @@ function remove(source, id) {
     save();
 }
 
-function shouldBeRemoved(element, x, y) {
-    return !element.classList.contains('character')
-        && !element.classList.contains('summon')
-        && withinTrashCan(x, y);
+function shouldBeRemoved(x, y) {
+    return withinTrashCan(x, y);
 }
 
 function withinTrashCan(x, y) {
@@ -290,7 +288,7 @@ function initDragDrop(item) {
         const rect = item.getBoundingClientRect();
         const x = evt.pageX - item.parentElement.offsetLeft + (rect.width / 2) + offsetX - 1;
         const y = evt.pageY - item.parentElement.offsetTop + (rect.height / 2) + offsetY - 1;
-        if (shouldBeRemoved(evt.target, x, y)) {
+        if (shouldBeRemoved(x, y)) {
             remove('', evt.target.id);
         } else {
             move('', evt.target.id, x, y);
