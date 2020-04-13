@@ -7,8 +7,20 @@ scenarios.set(1, {
         I1b: {classes: ['rotate'], style: {top: '91px', left: '204px'}},
         L1a: {classes: ['rotate'], style: {top: '423px', left: '487px'}},
     },
-    start: [],
-    doors: []
+    monsters: ['bandit guard', 'bandit archer', 'living bones'],
+    start: [
+        {top: '705px', left: '625px'},
+        {top: '735px', left: '575px'},
+        {top: '675px', left: '575px'},
+        {top: '705px', left: '525px'},
+        {top: '675px', left: '675px'},
+        {top: '735px', left: '675px'},
+        {top: '705px', left: '725px'},
+    ],
+    doors: [
+        {top: '235px', left: '521px'},
+        {top: '470px', left: '623px'},
+    ]
 });
 scenarios.set(20, {
     id: 20,

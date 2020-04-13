@@ -1,12 +1,16 @@
 <html lang="en">
     <head>
-        <title>Scenario 20</title>
+        <title>Scenario</title>
         <link href='./monster.css' rel='stylesheet'>
         <link href='./common.css' rel='stylesheet'>
         <script src="./peer.js" type="text/javascript"></script>
         <script src="./monsters.js" type="text/javascript"></script>
         <script src="./scenarios.js" type="text/javascript"></script>
-        <script>const scenario = scenarios.get(20);</script>
+        <script>
+            const url = new URL(window.location.href);
+            const scenarioNumber = parseInt(url.searchParams.get('n'));
+            const scenario = scenarios.get(scenarioNumber);
+        </script>
         <script src="./main.js" type="text/javascript"></script>
     </head>
     <body onclick="handleClick(event)">
