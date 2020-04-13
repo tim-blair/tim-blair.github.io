@@ -288,16 +288,30 @@ function initDragDrop(item) {
         offsetY = rect.y - evt.clientY;
     };
 
-    item.ondragend = evt => {
+    const finishDrag = evt => {
         const rect = item.getBoundingClientRect();
         const x = evt.pageX - item.parentElement.offsetLeft + (rect.width / 2) + offsetX - 1;
         const y = evt.pageY - item.parentElement.offsetTop + (rect.height / 2) + offsetY - 1;
         if (shouldBeRemoved(x, y)) {
-            remove('', evt.target.id);
+            remove('', item.id);
         } else {
-            move('', evt.target.id, x, y);
+            move('', item.id, x, y);
         }
         clearSelection();
+    };
+
+    item.ondragend = evt => {
+        // should be true in all browsers, except firefox
+        if (evt.pageX !== 0 && evt.pageY !== 0) {
+            finishDrag(evt);
+        }
+    };
+
+    document.body.ondragleave = evt => {
+        // should be true only in firefox when drag ends
+        if (evt.buttons === 0) {
+            finishDrag(evt);
+        }
     };
 }
 
