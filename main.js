@@ -5,16 +5,12 @@ let nextId = 100;
 
 function setScenario() {
     const scenarioContainer = document.querySelector('.scenario-container');
-    if(scenario.style) {
-        setStyle(scenarioContainer, scenario.style);
-    }
+    setStyle(scenarioContainer, scenario.style);
     Object.keys(scenario.map).forEach(mapName =>
         scenarioContainer.appendChild(createMapTile(mapName, scenario.map[mapName])));
     scenario.start.forEach(start => scenarioContainer.appendChild(createScenarioItem('start', start)));
     scenario.doors.forEach(door => scenarioContainer.appendChild(createScenarioItem('door', door)));
-    if(scenario.markers) {
-        Object.keys(scenario.markers).forEach(name => scenarioContainer.appendChild(createMarker(name, scenario.markers[name])));
-    }
+    Object.keys(scenario.markers || {}).forEach(name => scenarioContainer.appendChild(createMarker(name, scenario.markers[name])));
     seedMonsterTypes(scenario.monsters);
 }
 
@@ -80,7 +76,7 @@ function withinTrashCan(x, y) {
         && y >= trashCan.offsetTop && y <= trashCan.offsetTop + trashCan.offsetHeight;
 }
 
-function setStyle(element, style) {
+function setStyle(element, style = {}) {
     Object.keys(style).forEach(key => element.style.setProperty(key, style[key]));
 }
 
@@ -97,7 +93,7 @@ function seedMonsterTypes(monsterTypes) {
     monsterTypes.forEach(monsterType => {
         const opt = document.createElement('option');
         opt.value = monsterType;
-        opt.innerHTML = monsterType;
+        opt.innerHTML = monsterType.replace(/\b\w/g, l => l.toUpperCase());
         monsterSelector.appendChild(opt);
     });
 }
