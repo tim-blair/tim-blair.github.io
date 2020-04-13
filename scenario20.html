@@ -11,6 +11,29 @@
     </head>
     <body onclick="handleClick(event)">
         <div style="margin:10px 0">
+            <select id="character">
+                <option value="angryFace">Angry Face</option>
+                <option value="brute">Brute</option>
+                <option value="circles">Circles</option>
+                <option value="cragheart">Cragheart</option>
+                <option value="cthulu">Cthulu</option>
+                <option value="eclipse">Eclipse</option>
+                <option value="lightning">Lightning</option>
+                <option value="mindthief">Mindthief</option>
+                <option value="musicNote">Music Note</option>
+                <option value="saw">Saw</option>
+                <option value="scoundrel">Scoundrel</option>
+                <option value="spellweaver">Spellweaver</option>
+                <option value="sun">Sun</option>
+                <option value="threeSpears">Three Spears</option>
+                <option value="tinkerer">Tinkerer</option>
+                <option value="triforce">Triforce</option>
+                <option value="twoMinis">Two Minis</option>
+                <option value="twoMinisBrown">Two Minis (2)</option>
+            </select>
+            <input type="button" value="Character" onclick="character()" />
+        </div>
+        <div style="margin:10px 0">
             <input type="checkbox" value="Elite" id="elite" />
             <label for="elite">Elite</label>
             <select id="monster_type">
@@ -38,11 +61,6 @@
         </div>
         <div class="scenario-container">
             <div class="trash-can waiting-area"></div>
-            <div id="gh-twoMinis" class="twoMinis character item waiting-area"></div>
-            <div id="gh-minis" class="twoMinisBrown character item waiting-area"></div>
-            <div id="gh-sun" class="sun character item waiting-area"></div>
-            <div id="gh-spellweaver" class="spellweaver character item waiting-area"></div>
-            <div id="gh-tinkerer" class="tinkerer character item waiting-area"></div>
             <div id="gh5" class="summon item waiting-area">&#x2659</div>
             <div id="gh6" class="summon item waiting-area">&#x2699</div>
             <div id="gh7" class="summon item waiting-area">&#x269B</div>

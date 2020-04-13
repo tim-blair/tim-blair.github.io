@@ -207,6 +207,11 @@ function monster() {
     create(standee, ...classes);
 }
 
+function character() {
+    const type = document.querySelector("#character").value;
+    create('', 'character', type);
+}
+
 function recordEvent(source, evt) {
     history.push(evt);
     for (conn of peerConnections) {
