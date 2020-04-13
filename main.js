@@ -5,10 +5,12 @@ let nextId = 100;
 
 function setScenario() {
     const scenarioContainer = document.querySelector('.scenario-container');
+    setStyle(scenarioContainer, scenario.style);
     Object.keys(scenario.map).forEach(mapName =>
         scenarioContainer.appendChild(createMapTile(mapName, scenario.map[mapName])));
     scenario.start.forEach(start => scenarioContainer.appendChild(createScenarioItem('start', start)));
     scenario.doors.forEach(door => scenarioContainer.appendChild(createScenarioItem('door', door)));
+    Object.keys(scenario.markers || {}).forEach(name => scenarioContainer.appendChild(createMarker(name, scenario.markers[name])));
     seedMonsterTypes(scenario.monsters);
 }
 
@@ -24,8 +26,13 @@ function handleClick(e) {
     e = e || window.event;
     const target = e.target || e.srcElement;
     if (selected) {
-        // get x,y and move target there
-        move('', selected.id, e.pageX - selected.parentElement.offsetLeft, e.pageY - selected.parentElement.offsetTop);
+        const x = e.pageX - selected.parentElement.offsetLeft;
+        const y = e.pageY - selected.parentElement.offsetTop;
+        if (shouldBeRemoved(x, y)) {
+            remove('', selected.id);
+        } else {
+            move('', selected.id, x, y);
+        }
         clearSelection();
         return false;
     }
@@ -49,7 +56,27 @@ function move(source, id, x, y) {
     save();
 }
 
-function setStyle(element, style) {
+function remove(source, id) {
+    const item = document.querySelector(`#${id}`);
+    document.querySelector('.scenario-container').removeChild(item);
+    recordEvent(source, {
+        id,
+        type: 'remove',
+    });
+    save();
+}
+
+function shouldBeRemoved(x, y) {
+    return withinTrashCan(x, y);
+}
+
+function withinTrashCan(x, y) {
+    const trashCan = document.querySelector('.trash-can');
+    return x >= trashCan.offsetLeft && x <= trashCan.offsetLeft + trashCan.offsetWidth
+        && y >= trashCan.offsetTop && y <= trashCan.offsetTop + trashCan.offsetHeight;
+}
+
+function setStyle(element, style = {}) {
     Object.keys(style).forEach(key => element.style.setProperty(key, style[key]));
 }
 
@@ -66,12 +93,12 @@ function seedMonsterTypes(monsterTypes) {
     monsterTypes.forEach(monsterType => {
         const opt = document.createElement('option');
         opt.value = monsterType;
-        opt.innerHTML = monsterType;
+        opt.innerHTML = monsterType.replace(/\b\w/g, l => l.toUpperCase());
         monsterSelector.appendChild(opt);
     });
 }
 
-function createMapTile(mapName, { classes = [], style }) {
+function createMapTile(mapName, {classes = [], style}) {
     const div = document.createElement('div');
     addClasses(div, ['map']);
     setStyle(div, style);
@@ -82,6 +109,14 @@ function createMapTile(mapName, { classes = [], style }) {
     div.appendChild(img);
 
     return div;
+}
+
+function createMarker(name, style) {
+    const item = document.createElement('div');
+    addClasses(item, ['marker']);
+    setStyle(item, style);
+    item.textContent = name;
+    return item;
 }
 
 function createScenarioItem(name, style) {
@@ -146,6 +181,10 @@ function treasure() {
     createWithAlignment(`treasure`);
 }
 
+function terrain() {
+    createWithAlignment(`terrain`);
+}
+
 function altar() {
     createWithAlignment(`altar`);
 }
@@ -170,10 +209,20 @@ function monster() {
     create(standee, ...classes);
 }
 
+function character() {
+    const type = document.querySelector("#character").value;
+    create('', 'character', type);
+}
+
+function summon() {
+    const type = document.querySelector("#summon").value;
+    create(type, 'summon');
+}
+
 function recordEvent(source, evt) {
     history.push(evt);
     for (conn of peerConnections) {
-        if(conn.peer !== source) {
+        if (conn.peer !== source) {
             conn.send([evt]);
         }
     }
@@ -205,7 +254,7 @@ function load(source, events) {
     loading = true;
     let maxIdSeen = nextId - 1;
     const createEvents = events.filter(event => event.type === 'create');
-    const moveEvents = events.filter(event => event.type === 'move');
+    const moveEvents = events.filter(event => event.type === 'move' || 'remove');
     for (let event of createEvents) {
         createWithId(source, event.id, event.meta.text, ...event.meta.classes);
         maxIdSeen = Math.max(maxIdSeen, parseInt(event.id.slice(2)));
@@ -213,7 +262,12 @@ function load(source, events) {
     // Wait for the DOM updates
     setTimeout(() => {
         for (let event of moveEvents) {
-            move(source, event.id, event.meta.x, event.meta.y);
+            if (event.type === 'move') {
+                move(source, event.id, event.meta.x, event.meta.y);
+            }
+            if (event.type === 'remove') {
+                remove(source, event.id);
+            }
         }
         loading = false;
     }, 100);
@@ -230,13 +284,30 @@ function initDragDrop(item) {
         offsetY = rect.y - evt.clientY;
     };
 
-    item.ondragend = evt => {
+    const finishDrag = evt => {
         const rect = item.getBoundingClientRect();
-        move('', evt.target.id,
-            evt.pageX - item.parentElement.offsetLeft + (rect.width / 2) + offsetX - 1,
-            evt.pageY - item.parentElement.offsetTop + (rect.height / 2) + offsetY - 1
-        );
+        const x = evt.pageX - item.parentElement.offsetLeft + (rect.width / 2) + offsetX - 1;
+        const y = evt.pageY - item.parentElement.offsetTop + (rect.height / 2) + offsetY - 1;
+        if (shouldBeRemoved(x, y)) {
+            remove('', item.id);
+        } else {
+            move('', item.id, x, y);
+        }
         clearSelection();
+    };
+
+    item.ondragend = evt => {
+        // should be true in all browsers, except firefox
+        if (evt.pageX !== 0 && evt.pageY !== 0) {
+            finishDrag(evt);
+        }
+    };
+
+    document.body.ondragleave = evt => {
+        // should be true only in firefox when drag ends
+        if (evt.buttons === 0) {
+            finishDrag(evt);
+        }
     };
 }
 

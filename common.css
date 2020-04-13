@@ -6,10 +6,11 @@ body {
 label {
     color: #CCCCCC;
 }
+.configBox {
+    margin: 10px 0;
+}
 .elite {
     color: yellow !important;
-    /*border-radius: 80px;
-    border: 2px solid yellow;*/
 }
 .rotate {
     transform: rotate(90deg);
@@ -40,9 +41,28 @@ label {
     background-size: 50px;
     background-repeat: no-repeat;
     z-index: 30;
+    border-radius: 80px;
 }
-.item.selected {
+.item.selected, .item:hover[id] {
     box-shadow: 0 0 3px 3px turquoise;
+}
+.trash-can {
+    background-image: url("./resources/trashCan.png");
+    background-size: contain;
+    height: 60px;
+    width: 50px;
+}
+.marker {
+    position: absolute;
+    z-index: 31;
+    border-radius: 80px;
+    background-color: firebrick;
+    font-size: 19px;
+    color: antiquewhite;
+    text-align: center;
+    height: 22px;
+    width: 22px;
+    border: 3px solid antiquewhite;
 }
 .summon {
     z-index: 50 !important;
@@ -75,6 +95,45 @@ label {
 .spellweaver {
     background-image: url("./resources/spellweaver.png");
 }
+.scoundrel {
+    background-image: url("./resources/scoundrel.png");
+}
+.angryFace {
+    background-image: url("./resources/angryFace.png");
+}
+.lightning {
+    background-image: url("./resources/lightning.png");
+}
+.triforce {
+    background-image: url("./resources/triforce.png");
+}
+.cragheart {
+    background-image: url("./resources/cragheart.png");
+}
+.mindthief {
+    background-image: url("./resources/mindthief.png");
+}
+.circles {
+    background-image: url("./resources/circles.png");
+}
+.brute {
+    background-image: url("./resources/brute.png");
+}
+.cthulu {
+    background-image: url("./resources/cthulu.png");
+}
+.eclipse {
+    background-image: url("./resources/eclipse.png");
+}
+.musicNote {
+    background-image: url("./resources/musicNote.png");
+}
+.saw {
+    background-image: url("./resources/saw.png");
+}
+.threeSpears {
+    background-image: url("./resources/threeSpears.png");
+}
 .coin {
     background-image: url("./scenBook/tokens/Coin.png");
 }
@@ -84,6 +143,7 @@ label {
 }
 .startHorz {
     background-image: url("./scenBook/icons/startHorz.png");
+    opacity: 40%;
 }
 .trap {
     background-image: url("./scenBook/tokens/spikeTrap.png");
@@ -111,6 +171,13 @@ label {
 }
 .treasureHorz {
     background-image: url("./scenBook/tokens/treasure.png");
+}
+.terrain {
+    background-image: url("./scenBook/tokens/water.png");
+    height: 57px;
+}
+.terrainHorz {
+    background-image: url("./scenBook/tokens/waterHorz.png");
 }
 .pressure {
     background-image: url("./scenBook/tokens/pressurePlate.png");
@@ -141,12 +208,14 @@ label {
     background-size: 59px !important;
     width: 60px !important;
     height: 100px !important;
+    border-radius: 10px;
 }
 .obstacle3Horz {
     background-image: url("./scenBook/tokens/boulder3Horz.png");
     background-size: 100px !important;
     height: 100px !important;
     width: 100px !important;
+    border-radius: 10px;
 }
 .obstacle1 {
     background-image: url("./scenBook/tokens/boulder1.png");
@@ -157,12 +226,14 @@ label {
     background-size: 100px !important;
     width: 100px !important;
     height: 60px !important;
+    border-radius: 10px;
 }
 .obstacle3 {
     background-image: url("./scenBook/tokens/boulder3.png");
     background-size: 100px !important;
     height: 100px !important;
     width: 100px !important;
+    border-radius: 10px;
 }
 .monster {
     z-index: 50 !important;
