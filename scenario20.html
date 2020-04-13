@@ -33,6 +33,23 @@
             </select>
             <input type="button" value="Character" onclick="character()" />
         </div>
+        <!-- TODO: make this a class -->
+        <div style="margin:10px 0">
+            <select id="summon">
+                <option value="&#x27B5;">Arrow</option>
+                <option value="&#x269B;">Atom</option>
+                <option value="&#x2623;">Bio Hazard</option>
+                <option value="&#x1F525;">Flame</option>
+                <option value="&#x2699;">Gear</option>
+                <option value="&#x2658;">Knight</option>
+                <option value="&#x2659;">Pawn</option>
+                <option value="&#x26CF;">Pick</option>
+                <option value="&#x2656;">Rook</option>
+                <option value="&#x2744;">Snow</option>
+                <option value="&#x2694;">Swords</option>
+            </select>
+            <input type="button" value="Summon" onclick="summon()" />
+        </div>
         <div style="margin:10px 0">
             <input type="checkbox" value="Elite" id="elite" />
             <label for="elite">Elite</label>
@@ -61,11 +78,6 @@
         </div>
         <div class="scenario-container">
             <div class="trash-can waiting-area"></div>
-            <div id="gh5" class="summon item waiting-area">&#x2659</div>
-            <div id="gh6" class="summon item waiting-area">&#x2699</div>
-            <div id="gh7" class="summon item waiting-area">&#x269B</div>
-            <div id="gh8" class="summon item waiting-area">&#x2694</div>
-            <div id="gh9" class="summon item waiting-area">&#x1F525</div>
         </div>
     </body>
 </html>

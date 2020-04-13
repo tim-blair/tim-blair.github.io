@@ -212,6 +212,11 @@ function character() {
     create('', 'character', type);
 }
 
+function summon() {
+    const type = document.querySelector("#summon").value;
+    create(type, 'summon');
+}
+
 function recordEvent(source, evt) {
     history.push(evt);
     for (conn of peerConnections) {
