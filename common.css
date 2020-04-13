@@ -6,10 +6,11 @@ body {
 label {
     color: #CCCCCC;
 }
+.configBox {
+    margin: 10px 0;
+}
 .elite {
     color: yellow !important;
-    /*border-radius: 80px;
-    border: 2px solid yellow;*/
 }
 .rotate {
     transform: rotate(90deg);
