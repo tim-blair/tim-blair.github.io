@@ -172,6 +172,13 @@ label {
 .treasureHorz {
     background-image: url("./scenBook/tokens/treasure.png");
 }
+.terrain {
+    background-image: url("./scenBook/tokens/water.png");
+    height: 57px;
+}
+.terrainHorz {
+    background-image: url("./scenBook/tokens/waterHorz.png");
+}
 .pressure {
     background-image: url("./scenBook/tokens/pressurePlate.png");
     height: 57px;

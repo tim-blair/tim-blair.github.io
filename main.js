@@ -185,6 +185,10 @@ function treasure() {
     createWithAlignment(`treasure`);
 }
 
+function terrain() {
+    createWithAlignment(`terrain`);
+}
+
 function altar() {
     createWithAlignment(`altar`);
 }
