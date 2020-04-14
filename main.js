@@ -285,38 +285,34 @@ function load(source, events) {
     nextId = maxIdSeen + 1;
 }
 
+let dragOffsetX = 0;
+let dragOffsetY = 0;
+let draggedItem;
+
+function finishDrag(evt) {
+    const rect = draggedItem.getBoundingClientRect();
+    const x = evt.pageX - draggedItem.parentElement.offsetLeft + (rect.width / 2) + dragOffsetX - 1;
+    const y = evt.pageY - draggedItem.parentElement.offsetTop + (rect.height / 2) + dragOffsetY - 1;
+    if (shouldBeRemoved(x, y)) {
+        remove('', draggedItem.id);
+    } else {
+        move('', draggedItem.id, x, y);
+    }
+    clearSelection();
+};
+
 function initDragDrop(item) {
     item.draggable = true;
-    let offsetX = 0;
-    let offsetY = 0;
     item.ondragstart = evt => {
         const rect = evt.target.getBoundingClientRect();
-        offsetX = rect.x - evt.clientX;
-        offsetY = rect.y - evt.clientY;
-    };
-
-    const finishDrag = evt => {
-        const rect = item.getBoundingClientRect();
-        const x = evt.pageX - item.parentElement.offsetLeft + (rect.width / 2) + offsetX - 1;
-        const y = evt.pageY - item.parentElement.offsetTop + (rect.height / 2) + offsetY - 1;
-        if (shouldBeRemoved(x, y)) {
-            remove('', item.id);
-        } else {
-            move('', item.id, x, y);
-        }
-        clearSelection();
+        dragOffsetX = rect.x - evt.clientX;
+        dragOffsetY = rect.y - evt.clientY;
+        draggedItem = evt.target;
     };
 
     item.ondragend = evt => {
         // should be true in all browsers, except firefox
         if (evt.pageX !== 0 && evt.pageY !== 0) {
-            finishDrag(evt);
-        }
-    };
-
-    document.body.ondragleave = evt => {
-        // should be true only in firefox when drag ends
-        if (evt.buttons === 0) {
             finishDrag(evt);
         }
     };
@@ -328,6 +324,12 @@ window.onload = function () {
     if (history) {
         loadRaw(history);
     }
+    document.body.ondragleave = evt => {
+        // should be true only in firefox when drag ends
+        if (evt.buttons === 0) {
+            finishDrag(evt);
+        }
+    };
 };
 
 let peer = new Peer();
