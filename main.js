@@ -180,6 +180,10 @@ function trap() {
     createWithAlignment(`trap`);
 }
 
+function stunTrap() {
+    createWithAlignment(`stunTrap`);
+}
+
 function pressure() {
     createWithAlignment(`pressure`);
 }

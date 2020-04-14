@@ -159,11 +159,18 @@ label {
 .hazardHorz {
     background-image: url("./scenBook/tokens/hotCoalsHorz.png");
 }
-.difficult {
+.difficult, .water {
     background-image: url("./scenBook/tokens/water.png");
 }
-.difficultHorz {
+.difficultHorz, .waterHorz {
     background-image: url("./scenBook/tokens/waterHorz.png");
+}
+.poisonGas, .stunTrap {
+    background-image: url("./scenBook/tokens/poisonGas.png");
+    height: 55px;
+}
+.poisonGasHorz, .stunTrapHorz {
+    background-image: url("./scenBook/tokens/poisonGasHorz.png");
 }
 .treasure {
     background-image: url("./scenBook/tokens/treasureVert.png");
