@@ -252,6 +252,7 @@ function reset() {
     localStorage.removeItem(`history[${scenario.id}]`);
     removeAll('.scenario-container');
     removeAll('.scenario-items');
+    removeAll('#monster_type');
     setScenario();
 }
 
