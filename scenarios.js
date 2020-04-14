@@ -8,6 +8,7 @@ scenarios.set(1, {
         L1a: {classes: ['rotate'], style: {top: '423px', left: '487px'}},
     },
     monsters: ['bandit guard', 'bandit archer', 'living bones'],
+    items: ['coin', 'treasure', 'trap', 'obstacle1'],
     start: [
         {top: '705px', left: '625px'},
         {top: '735px', left: '575px'},
@@ -32,6 +33,7 @@ scenarios.set(18, {
         M1a: {classes: ['rotate'], style: {top: '408px', left: '30px'}},
     },
     monsters: ['giant viper', 'ooze', 'vermling scout'],
+    items: ['coin', 'treasure', 'poisonGas', 'water'],
     start: [
         {top: '164px', left: '447px'},
         {top: '223px', left: '447px'},
@@ -58,6 +60,7 @@ scenarios.set(20, {
         D1a: {style: {top: '0', left: '350px'}},
     },
     monsters: ['living bones', 'cultist', 'night demon', 'living corpse', 'jekserah'],
+    items: ['coin', 'treasure', 'bearTrap', 'obstacle1'],
     start: [
         {top: '903px', left: '77px'},
         {top: '955px', left: '49px'},

@@ -54,27 +54,19 @@
             </select>
             <input type="button" value="Summon" onclick="summon()" />
         </div>
-        <div class="configBox">
-            <input type="checkbox" value="Elite" id="elite" />
-            <label for="elite">Elite</label>
-            <select id="monster_type">
-                <option value=""></option>
-            </select>
-            <label for="standee">Standee:</label>
-            <input type="number" id="standee" name="standee" min="1" max="10">
-            <input type="button" value="Monster" onclick="monster()" />
+        <div class="available-item-container">
+            <div class="configBox monster-box">
+                <input type="checkbox" value="Elite" id="elite" />
+                <label for="elite">Elite</label>
+                <select id="monster_type">
+                    <option value=""></option>
+                </select>
+                <label for="standee">Standee:</label>
+                <input type="number" id="standee" name="standee" min="1" max="10">
+                <input type="button" value="Monster" onclick="monster()" />
+            </div>
+            <div class="scenario-items"></div>
         </div>
-        <input type="button" value="Coin" onclick="coin()" />
-        <input type="button" value="Obstacle" onclick="obstacle(1)" />
-        <input type="button" value="Double Obstacle" onclick="obstacle(2)" />
-        <input type="button" value="Triple Obstacle" onclick="obstacle(3)" />
-        <input type="button" value="Trap" onclick="trap()" />
-        <input type="button" value="Stun Trap" onclick="stunTrap()" />
-        <input type="button" value="Hazard" onclick="hazard()" />
-        <input type="button" value="Altar" onclick="altar()" />
-        <input type="button" value="Treasure" onclick="treasure()" />
-        <input type="button" value="Pressure plate" onclick="pressure()" />
-        <input type="button" value="Difficult terrain" onclick="terrain()" />
         <div class="configBox">
             <label for="peer">Peer ID:</label>
             <input type="text" id="peer"/>

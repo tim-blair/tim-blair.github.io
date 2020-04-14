@@ -5,12 +5,14 @@ let nextId = 100;
 
 function setScenario() {
     const scenarioContainer = document.querySelector('.scenario-container');
+    const scenarioItemsContainer = document.querySelector('.scenario-items');
     setStyle(scenarioContainer, scenario.style);
     scenarioContainer.appendChild(createTrashCan());
     Object.keys(scenario.map).forEach(mapName =>
         scenarioContainer.appendChild(createMapTile(mapName, scenario.map[mapName])));
-    scenario.start.forEach(start => scenarioContainer.appendChild(createScenarioItem('start', start)));
-    scenario.doors.forEach(door => scenarioContainer.appendChild(createScenarioItem('door', door)));
+    scenario.start.forEach(start => scenarioContainer.appendChild(createScenarioItem('start', {style: start})));
+    scenario.doors.forEach(door => scenarioContainer.appendChild(createScenarioItem('door', {style: door})));
+    scenario.items.forEach(item => scenarioItemsContainer.appendChild(createScenarioItem(item, {click: () => createWithAlignment(item)})));
     Object.keys(scenario.markers || {}).forEach(name => scenarioContainer.appendChild(createMarker(name, scenario.markers[name])));
     seedMonsterTypes(scenario.monsters);
 }
@@ -126,10 +128,11 @@ function createMarker(name, style) {
     return item;
 }
 
-function createScenarioItem(name, style) {
+function createScenarioItem(name, {style, click}) {
     const item = document.createElement('div');
     addClasses(item, [itemClass(name), 'item']);
     setStyle(item, style);
+    click && (item.onclick = click);
     return item;
 }
 
@@ -178,10 +181,6 @@ function start() {
 
 function trap() {
     createWithAlignment(`trap`);
-}
-
-function stunTrap() {
-    createWithAlignment(`stunTrap`);
 }
 
 function pressure() {
@@ -251,11 +250,16 @@ function view() {
 
 function reset() {
     localStorage.removeItem(`history[${scenario.id}]`);
-    const scenarioContainer = document.querySelector('.scenario-container');
-    while (scenarioContainer.firstChild) {
-        scenarioContainer.removeChild(scenarioContainer.lastChild);
-    }
+    removeAll('.scenario-container');
+    removeAll('.scenario-items');
     setScenario();
+}
+
+function removeAll(selector) {
+    const container = document.querySelector(selector);
+    while (container.firstChild) {
+        container.removeChild(container.lastChild);
+    }
 }
 
 function loadRaw(events) {
