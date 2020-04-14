@@ -18,8 +18,8 @@ scenarios.set(1, {
         {top: '705px', left: '725px'},
     ],
     doors: [
-        {top: '235px', left: '521px'},
-        {top: '470px', left: '623px'},
+        {top: '229px', left: '514px'},
+        {top: '466px', left: '616px'},
     ]
 });
 scenarios.set(18, {
@@ -40,8 +40,8 @@ scenarios.set(18, {
         {top: '223px', left: '550px'},
     ],
     doors: [
-        {top: '400px', left: '754px'},
-        {top: '603px', left: '400px'},
+        {top: '392px', left: '742px'},
+        {top: '596px', left: '391px'},
     ],
     markers: {
         1: {top: '613px', left: '410px'},
@@ -66,11 +66,11 @@ scenarios.set(20, {
         {top: '1006px', left: '136px'},
     ],
     doors: [
-        {top: '292px', left: '546px'},
-        {top: '647px', left: '400px'},
-        {top: '647px', left: '691px'},
+        {top: '286px', left: '539px'},
+        {top: '641px', left: '394px'},
+        {top: '641px', left: '685px'},
     ],
     markers: {
-        1: {top: '307px', left: '557px'},
+        1: {top: '307px', left: '556px'},
     }
 });

@@ -195,10 +195,17 @@ label {
 }
 .door {
     background-image: url("./scenBook/tokens/door.png");
-    height: 57px;
+    height: 69px;
+    width: 60px;
+    background-size: 61px;
+    border-radius: 0;
 }
 .doorHorz {
     background-image: url("./scenBook/tokens/doorHorz.png");
+    height: 67px;
+    width: 67px;
+    background-size: 67px;
+    border-radius: 0;
 }
 .obstacle1Horz {
     background-image: url("./scenBook/tokens/boulder1Horz.png");
