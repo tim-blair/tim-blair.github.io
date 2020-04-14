@@ -361,7 +361,6 @@ function connect() {
     }
     connection.on('open', () => {
         connection.on('data', (data) => {
-            debugger;
             if (data.reset) {
                 reset();
             }
