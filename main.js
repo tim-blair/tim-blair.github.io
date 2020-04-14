@@ -1,11 +1,12 @@
 let selected = null;
 const history = [];
-const peerConnections = [];
+const peerConnections = {};
 let nextId = 100;
 
 function setScenario() {
     const scenarioContainer = document.querySelector('.scenario-container');
     setStyle(scenarioContainer, scenario.style);
+    scenarioContainer.appendChild(createTrashCan());
     Object.keys(scenario.map).forEach(mapName =>
         scenarioContainer.appendChild(createMapTile(mapName, scenario.map[mapName])));
     scenario.start.forEach(start => scenarioContainer.appendChild(createScenarioItem('start', start)));
@@ -96,6 +97,12 @@ function seedMonsterTypes(monsterTypes) {
         opt.innerHTML = monsterType.replace(/\b\w/g, l => l.toUpperCase());
         monsterSelector.appendChild(opt);
     });
+}
+
+function createTrashCan() {
+    const div = document.createElement('div');
+    addClasses(div, ['trash-can', 'waiting-area']);
+    return div;
 }
 
 function createMapTile(mapName, {classes = [], style}) {
@@ -221,11 +228,11 @@ function summon() {
 
 function recordEvent(source, evt) {
     history.push(evt);
-    for (conn of peerConnections) {
+    Object.values(peerConnections).forEach(conn => {
         if (conn.peer !== source) {
-            conn.send([evt]);
+            conn.send({history: [evt]});
         }
-    }
+    });
     save();
 }
 
@@ -240,7 +247,11 @@ function view() {
 
 function reset() {
     localStorage.removeItem(`history[${scenario.id}]`);
-    location.reload();
+    const scenarioContainer = document.querySelector('.scenario-container');
+    while (scenarioContainer.firstChild) {
+        scenarioContainer.removeChild(scenarioContainer.lastChild);
+    }
+    setScenario();
 }
 
 function loadRaw(events) {
@@ -311,15 +322,8 @@ function initDragDrop(item) {
     };
 }
 
-function blessPredefinedItems() {
-    document.querySelectorAll('.item[id]').forEach(item => {
-        initDragDrop(item);
-    });
-}
-
 window.onload = function () {
     setScenario();
-    blessPredefinedItems();
     const history = localStorage.getItem(`history[${scenario.id}]`);
     if (history) {
         loadRaw(history);
@@ -337,10 +341,13 @@ peer.on('open', (id) => {
 // Someone connected to us, push our history to them
 peer.on('connection', (connection) => {
     connection.on('open', () => {
-        connection.send(history);
+        connection.send({reset: true, history});
     });
-    connection.on('data', (data) => load(connection.peer, data));
-    peerConnections.push(connection);
+    if (peerConnections[connection.peer]) {
+        return;
+    }
+    connection.on('data', (data) => load(connection.peer, data.history));
+    peerConnections[connection.peer] = connection;
 });
 peer.on('error', (err) => {
     console.log(`error: ${err}`);
@@ -349,8 +356,17 @@ peer.on('error', (err) => {
 function connect() {
     const peerId = document.querySelector(`#peer`).value;
     const connection = peer.connect(peerId);
+    if (peerConnections[connection.peer]) {
+        return;
+    }
     connection.on('open', () => {
-        connection.on('data', (data) => load(connection.peer, data));
+        connection.on('data', (data) => {
+            debugger;
+            if (data.reset) {
+                reset();
+            }
+            load(connection.peer, data.history);
+        });
     });
-    peerConnections.push(connection);
+    peerConnections[connection.peer] = connection;
 }
