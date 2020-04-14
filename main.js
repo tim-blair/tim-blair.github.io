@@ -299,7 +299,7 @@ function finishDrag(evt) {
         move('', draggedItem.id, x, y);
     }
     clearSelection();
-};
+}
 
 function initDragDrop(item) {
     item.draggable = true;
