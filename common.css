@@ -9,6 +9,9 @@ label {
 .configBox {
     margin: 10px 0;
 }
+.monster-box {
+    margin-right: 10px;
+}
 .elite {
     color: yellow !important;
 }
@@ -24,12 +27,21 @@ label {
 .scenario-container {
     position: relative;
 }
+.scenario-items {
+    display: flex;
+}
+.scenario-items > * {
+    position: unset !important;
+}
 .map {
     pointer-events:none;
     position: absolute;
     z-index: 1;
     transform: scale(0.3);
     transform-origin: top left;
+}
+.available-item-container {
+    display: flex;
 }
 .waiting-area {
     position: unset !important;
@@ -41,7 +53,7 @@ label {
     background-size: 50px;
     background-repeat: no-repeat;
     z-index: 30;
-    border-radius: 80px;
+    border-radius: 12px;
 }
 .item.selected, .item:hover[id] {
     box-shadow: 0 0 3px 3px turquoise;
@@ -134,7 +146,7 @@ label {
 .threeSpears {
     background-image: url("./resources/threeSpears.png");
 }
-.coin {
+.coin, .coinHorz {
     background-image: url("./scenBook/tokens/Coin.png");
 }
 .start {
@@ -159,11 +171,26 @@ label {
 .hazardHorz {
     background-image: url("./scenBook/tokens/hotCoalsHorz.png");
 }
-.difficult {
+.terrain, .difficult, .water {
     background-image: url("./scenBook/tokens/water.png");
+    height: 57px;
 }
-.difficultHorz {
+.terrainHorz, .difficultHorz, .waterHorz {
     background-image: url("./scenBook/tokens/waterHorz.png");
+}
+.poisonGas {
+    background-image: url("./scenBook/tokens/poisonGas.png");
+    height: 55px;
+}
+.poisonGasHorz {
+    background-image: url("./scenBook/tokens/poisonGasHorz.png");
+}
+.bearTrap {
+    background-image: url("./scenBook/tokens/bearTrap.png");
+    height: 55px;
+}
+.bearTrapHorz {
+    background-image: url("./scenBook/tokens/bearTrapHorz.png");
 }
 .treasure {
     background-image: url("./scenBook/tokens/treasureVert.png");
@@ -171,13 +198,6 @@ label {
 }
 .treasureHorz {
     background-image: url("./scenBook/tokens/treasure.png");
-}
-.terrain {
-    background-image: url("./scenBook/tokens/water.png");
-    height: 57px;
-}
-.terrainHorz {
-    background-image: url("./scenBook/tokens/waterHorz.png");
 }
 .pressure {
     background-image: url("./scenBook/tokens/pressurePlate.png");
@@ -195,10 +215,15 @@ label {
 }
 .door {
     background-image: url("./scenBook/tokens/door.png");
-    height: 57px;
+    height: 69px;
+    width: 60px;
+    background-size: 61px;
 }
 .doorHorz {
     background-image: url("./scenBook/tokens/doorHorz.png");
+    height: 67px;
+    width: 67px;
+    background-size: 67px;
 }
 .obstacle1Horz {
     background-image: url("./scenBook/tokens/boulder1Horz.png");
@@ -208,14 +233,12 @@ label {
     background-size: 59px !important;
     width: 60px !important;
     height: 100px !important;
-    border-radius: 10px;
 }
 .obstacle3Horz {
     background-image: url("./scenBook/tokens/boulder3Horz.png");
     background-size: 100px !important;
     height: 100px !important;
     width: 100px !important;
-    border-radius: 10px;
 }
 .obstacle1 {
     background-image: url("./scenBook/tokens/boulder1.png");
@@ -226,14 +249,12 @@ label {
     background-size: 100px !important;
     width: 100px !important;
     height: 60px !important;
-    border-radius: 10px;
 }
 .obstacle3 {
     background-image: url("./scenBook/tokens/boulder3.png");
     background-size: 100px !important;
     height: 100px !important;
     width: 100px !important;
-    border-radius: 10px;
 }
 .monster {
     z-index: 50 !important;
