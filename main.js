@@ -1,5 +1,5 @@
 let selected = null;
-const history = [];
+let history = [];
 const peerConnections = {};
 let nextId = 100;
 
@@ -246,6 +246,32 @@ function save() {
 
 function view() {
     console.log(JSON.stringify(history));
+}
+
+function compact() {
+    const trimmed = new Map();
+    for(let evt of history) {
+        switch(evt.type) {
+            case 'create':
+                trimmed.set(evt.id, {create: evt});
+                break;
+            case 'move':
+                const eventToUpdate = trimmed.get(evt.id);
+                eventToUpdate.move = evt;
+                break;
+            case 'remove':
+                trimmed.delete(evt.id);
+                break;
+        }
+    }
+    history = [];
+    trimmed.forEach(value => {
+        history.push(value.create);
+        if(value.move) {
+            history.push(value.move);
+        }
+    });
+    save();
 }
 
 function reset() {
