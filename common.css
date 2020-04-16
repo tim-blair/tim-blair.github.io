@@ -3,7 +3,7 @@ body {
     background-size: 100%;
     background-repeat: no-repeat;
 }
-label {
+label, .labelText {
     color: #CCCCCC;
 }
 .configBox {

@@ -377,6 +377,8 @@ let peeringId;
 peer.on('open', (id) => {
     peeringId = id;
     console.log(`peering id is: ${id}`);
+    const selfId = document.querySelector('#selfId');
+    selfId.textContent = `My ID: ${id}`;
 });
 
 // Someone connected to us, push our history to them
