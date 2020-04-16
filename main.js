@@ -47,7 +47,7 @@ function handleClick(e) {
 }
 
 function move(source, id, x, y) {
-    const selected = document.querySelector(`#${id}`);
+    const selected = document.querySelector(`[id='${id}']`);
     selected.style.top = `${y - selected.clientHeight / 2}`;
     selected.style.left = `${x - selected.clientWidth / 2}`;
     selected.classList.remove('waiting-area');
@@ -60,7 +60,7 @@ function move(source, id, x, y) {
 }
 
 function remove(source, id) {
-    const item = document.querySelector(`#${id}`);
+    const item = document.querySelector(`[id='${id}']`);
     document.querySelector('.scenario-container').removeChild(item);
     recordEvent(source, {
         id,
