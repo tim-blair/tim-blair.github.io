@@ -141,7 +141,11 @@ function createWithAlignment(name) {
 }
 
 function create(text, ...classes) {
-    createWithId('', `gh${nextId++}`, text, ...classes);
+    if (!peeringId) {
+        console.log(`Cannot create ${text}: waiting for peeringId`);
+        return;
+    }
+    createWithId('', `${peeringId}-gh${nextId++}`, text, ...classes);
 }
 
 function createWithId(source, id, text, ...classes) {
@@ -303,7 +307,7 @@ function load(source, events) {
     const moveEvents = events.filter(event => event.type === 'move' || 'remove');
     for (let event of createEvents) {
         createWithId(source, event.id, event.meta.text, ...event.meta.classes);
-        maxIdSeen = Math.max(maxIdSeen, parseInt(event.id.slice(2)));
+        maxIdSeen = Math.max(maxIdSeen, parseInt(event.id.substring(event.id.indexOf('-') + 3)));
     }
     // Wait for the DOM updates
     setTimeout(() => {
