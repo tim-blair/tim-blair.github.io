@@ -8,9 +8,10 @@ label {
 }
 .configBox {
     margin: 10px 0;
+    align-self: center;
 }
 .monster-box {
-    margin-right: 10px;
+    margin-right: 20px;
 }
 .elite {
     color: yellow !important;
@@ -30,6 +31,7 @@ label {
 }
 .scenario-items {
     display: flex;
+    align-items: center;
 }
 .scenario-items > * {
     position: unset !important;
