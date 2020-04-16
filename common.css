@@ -55,8 +55,11 @@ label {
     z-index: 30;
     border-radius: 12px;
 }
-.item.selected, .item:hover[id] {
-    box-shadow: 0 0 3px 3px turquoise;
+.item.selected {
+    box-shadow: 0 0 3px 3px turquoise !important;
+}
+.item:hover[id] {
+    box-shadow: 0 0 1px 1px turquoise;
 }
 .trash-can {
     background-image: url("./resources/trashCan.png");
@@ -148,6 +151,7 @@ label {
 }
 .coin, .coinHorz {
     background-image: url("./scenBook/tokens/Coin.png");
+    z-index: 32;
 }
 .start {
     background-image: url("./scenBook/icons/start.png");
@@ -163,6 +167,7 @@ label {
 }
 .trapHorz {
     background-image: url("./scenBook/tokens/spikeTrapHorz.png");
+    height: 45px;
 }
 .hazard {
     background-image: url("./scenBook/tokens/hotCoals.png");
@@ -170,6 +175,7 @@ label {
 }
 .hazardHorz {
     background-image: url("./scenBook/tokens/hotCoalsHorz.png");
+    height: 45px;
 }
 .terrain, .difficult, .water {
     background-image: url("./scenBook/tokens/water.png");
@@ -177,6 +183,7 @@ label {
 }
 .terrainHorz, .difficultHorz, .waterHorz {
     background-image: url("./scenBook/tokens/waterHorz.png");
+    height: 45px;
 }
 .poisonGas {
     background-image: url("./scenBook/tokens/poisonGas.png");
@@ -184,6 +191,7 @@ label {
 }
 .poisonGasHorz {
     background-image: url("./scenBook/tokens/poisonGasHorz.png");
+    height: 45px;
 }
 .bearTrap {
     background-image: url("./scenBook/tokens/bearTrap.png");
@@ -191,6 +199,7 @@ label {
 }
 .bearTrapHorz {
     background-image: url("./scenBook/tokens/bearTrapHorz.png");
+    height: 45px;
 }
 .treasure {
     background-image: url("./scenBook/tokens/treasureVert.png");
@@ -198,6 +207,7 @@ label {
 }
 .treasureHorz {
     background-image: url("./scenBook/tokens/treasure.png");
+    height: 45px;
 }
 .pressure {
     background-image: url("./scenBook/tokens/pressurePlate.png");
@@ -205,6 +215,7 @@ label {
 }
 .pressureHorz {
     background-image: url("./scenBook/tokens/pressurePlateHorz.png");
+    height: 45px;
 }
 .altar {
     background-image: url("./scenBook/tokens/altar.png");
@@ -212,6 +223,7 @@ label {
 }
 .altarHorz {
     background-image: url("./scenBook/tokens/altarHorz.png");
+    height: 45px;
 }
 .door {
     background-image: url("./scenBook/tokens/door.png");
@@ -227,6 +239,7 @@ label {
 }
 .obstacle1Horz {
     background-image: url("./scenBook/tokens/boulder1Horz.png");
+    height: 45px;
 }
 .obstacle2Horz {
     background-image: url("./scenBook/tokens/boulder2Horz.png");
