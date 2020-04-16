@@ -89,7 +89,7 @@ label {
     text-align: center;
 }
 .character {
-    z-index: 50 !important;
+    z-index: 40 !important;
     background-color: white;
     border-radius: 80px;
     border: 1px solid white;
@@ -152,7 +152,11 @@ label {
 }
 .coin, .coinHorz {
     background-image: url("./scenBook/tokens/Coin.png");
-    z-index: 32;
+    background-position: center;
+    z-index: 45;
+    width: 33px;
+    height: 33px;
+    border-radius: 18px;
 }
 .start {
     background-image: url("./scenBook/icons/start.png");
@@ -205,10 +209,12 @@ label {
 .treasure {
     background-image: url("./scenBook/tokens/treasureVert.png");
     height: 57px;
+    z-index: 45;
 }
 .treasureHorz {
     background-image: url("./scenBook/tokens/treasure.png");
     height: 45px;
+    z-index: 45;
 }
 .pressure {
     background-image: url("./scenBook/tokens/pressurePlate.png");
