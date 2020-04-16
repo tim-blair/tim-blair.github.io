@@ -14,6 +14,7 @@ label {
 }
 .elite {
     color: yellow !important;
+    background-color: yellow !important;
 }
 .rotate {
     transform: rotate(90deg);
@@ -272,6 +273,7 @@ label {
 .monster {
     z-index: 50 !important;
     color: white;
+    background-color: white;
     font-size: x-large;
     text-align: center;
     line-height: 3;
