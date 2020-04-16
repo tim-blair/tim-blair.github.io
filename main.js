@@ -1,5 +1,5 @@
 let selected = null;
-const history = [];
+let history = [];
 const peerConnections = {};
 let nextId = 100;
 
@@ -47,7 +47,7 @@ function handleClick(e) {
 }
 
 function move(source, id, x, y) {
-    const selected = document.querySelector(`#${id}`);
+    const selected = document.querySelector(`[id='${id}']`);
     selected.style.top = `${y - selected.clientHeight / 2}`;
     selected.style.left = `${x - selected.clientWidth / 2}`;
     selected.classList.remove('waiting-area');
@@ -60,7 +60,7 @@ function move(source, id, x, y) {
 }
 
 function remove(source, id) {
-    const item = document.querySelector(`#${id}`);
+    const item = document.querySelector(`[id='${id}']`);
     document.querySelector('.scenario-container').removeChild(item);
     recordEvent(source, {
         id,
@@ -141,7 +141,11 @@ function createWithAlignment(name) {
 }
 
 function create(text, ...classes) {
-    createWithId('', `gh${nextId++}`, text, ...classes);
+    if (!peeringId) {
+        console.log(`Cannot create ${text}: waiting for peeringId`);
+        return;
+    }
+    createWithId('', `${peeringId}-gh${nextId++}`, text, ...classes);
 }
 
 function createWithId(source, id, text, ...classes) {
@@ -248,6 +252,32 @@ function view() {
     console.log(JSON.stringify(history));
 }
 
+function compact() {
+    const trimmed = new Map();
+    for(let evt of history) {
+        switch(evt.type) {
+            case 'create':
+                trimmed.set(evt.id, {create: evt});
+                break;
+            case 'move':
+                const eventToUpdate = trimmed.get(evt.id);
+                eventToUpdate.move = evt;
+                break;
+            case 'remove':
+                trimmed.delete(evt.id);
+                break;
+        }
+    }
+    history = [];
+    trimmed.forEach(value => {
+        history.push(value.create);
+        if(value.move) {
+            history.push(value.move);
+        }
+    });
+    save();
+}
+
 function reset() {
     localStorage.removeItem(`history[${scenario.id}]`);
     removeAll('.scenario-container');
@@ -277,7 +307,7 @@ function load(source, events) {
     const moveEvents = events.filter(event => event.type === 'move' || 'remove');
     for (let event of createEvents) {
         createWithId(source, event.id, event.meta.text, ...event.meta.classes);
-        maxIdSeen = Math.max(maxIdSeen, parseInt(event.id.slice(2)));
+        maxIdSeen = Math.max(maxIdSeen, parseInt(event.id.substring(event.id.indexOf('-') + 3)));
     }
     // Wait for the DOM updates
     setTimeout(() => {
