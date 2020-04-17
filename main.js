@@ -283,6 +283,7 @@ function reset() {
     removeAll('.scenario-container');
     removeAll('.scenario-items');
     removeAll('#monster_type');
+    history = [];
     setScenario();
 }
 
