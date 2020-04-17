@@ -13,10 +13,6 @@ label, .labelText {
 .monster-box {
     margin-right: 20px;
 }
-.elite {
-    color: yellow !important;
-    background-color: yellow !important;
-}
 .rotate {
     transform: rotate(90deg);
 }
@@ -45,9 +41,6 @@ label, .labelText {
 }
 .available-item-container {
     display: flex;
-}
-.waiting-area {
-    position: unset !important;
 }
 .item {
     position: absolute;
@@ -280,10 +273,29 @@ label, .labelText {
 }
 .monster {
     z-index: 50 !important;
-    color: white;
-    background-color: white;
-    font-size: x-large;
+    font-size: large;
     text-align: center;
-    line-height: 3;
+    line-height: 4.5;
     font-weight: bold;
+}
+
+.waiting-area {
+    position: inherit;
+}
+
+.monster:after {
+    content: '';
+    background-color: white;
+    background-size: 50px 50px;
+    width: 26px;
+    height: 20px;
+    border-radius: 20px;
+    position: absolute;
+    top: 30px;
+    left: 12px;
+    z-index: -1;
+}
+
+.elite:after {
+    background-color: yellow;
 }
