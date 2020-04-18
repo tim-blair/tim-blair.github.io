@@ -39,50 +39,36 @@
         </div>
         <div class="configBox">
             <select id="summon">
-                <option value="&#x27B5;">Arrow</option>
-                <option value="&#x269B;">Atom</option>
-                <option value="&#x2623;">Bio Hazard</option>
-                <option value="&#x1F40A;">Crocodile</option>
-                <option value="&#x1F525;">Flame</option>
-                <option value="&#x2699;">Gear</option>
-                <option value="&#x2658;">Knight</option>
-                <option value="&#x2659;">Pawn</option>
-                <option value="&#x26CF;">Pick</option>
-                <option value="&#x2656;">Rook</option>
-                <option value="&#x2744;">Snow</option>
-                <option value="&#x2694;">Swords</option>
+                <option value="&#x27B5;">Arrow &#x27B5;</option>
+                <option value="&#x269B;">Atom &#x269B;</option>
+                <option value="&#x2623;">Bio Hazard &#x2623;</option>
+                <option value="&#x2699;">Gear &#x2699;</option>
+                <option value="&#x2658;">Knight &#x2658;</option>
+                <option value="&#x2659;">Pawn &#x2659;</option>
+                <option value="&#x26CF;">Pick &#x26CF;</option>
+                <option value="&#x2656;">Rook &#x2656;</option>
+                <option value="&#x2744;">Snow &#x2744;</option>
+                <option value="&#x2694;">Swords &#x2694;</option>
             </select>
             <input type="button" value="Summon" onclick="summon()" />
         </div>
-        <div class="configBox">
-            <input type="checkbox" value="Elite" id="elite" />
-            <label for="elite">Elite</label>
-            <select id="monster_type">
-                <option value=""></option>
-            </select>
-            <label for="standee">Standee:</label>
-            <input type="number" id="standee" name="standee" min="1" max="10">
-            <input type="button" value="Monster" onclick="monster()" />
+        <div class="available-item-container">
+            <div class="configBox monster-box">
+                <input type="checkbox" value="Elite" id="elite" />
+                <label for="elite">Elite</label>
+                <select id="monster_type"></select>
+                <label for="standee">Standee:</label>
+                <input type="number" id="standee" name="standee" min="1" max="10">
+                <input type="button" value="Monster" onclick="monster()" />
+            </div>
+            <div class="scenario-items"></div>
         </div>
-        <input type="button" value="Coin" onclick="coin()" />
-        <input type="button" value="Door" onclick="door()" />
-        <input type="button" value="Obstacle" onclick="obstacle(1)" />
-        <input type="button" value="Double Obstacle" onclick="obstacle(2)" />
-        <input type="button" value="Triple Obstacle" onclick="obstacle(3)" />
-        <input type="button" value="Trap" onclick="trap()" />
-        <input type="button" value="Start" onclick="start()" />
-        <input type="button" value="Hazard" onclick="hazard()" />
-        <input type="button" value="Altar" onclick="altar()" />
-        <input type="button" value="Treasure" onclick="treasure()" />
-        <input type="button" value="Pressure plate" onclick="pressure()" />
-        <input type="button" value="Difficult terrain" onclick="terrain()" />
         <div class="configBox">
             <label for="peer">Peer ID:</label>
             <input type="text" id="peer"/>
             <input type="button" value="Connect" onclick="connect()" />
+            <span class="labelText" id="selfId"></span>
         </div>
-        <div class="scenario-container">
-            <div class="trash-can waiting-area"></div>
-        </div>
+        <div class="scenario-container"></div>
     </body>
 </html>

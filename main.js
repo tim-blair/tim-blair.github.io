@@ -1,15 +1,18 @@
 let selected = null;
-const history = [];
-const peerConnections = [];
+let history = [];
+const peerConnections = {};
 let nextId = 100;
 
 function setScenario() {
     const scenarioContainer = document.querySelector('.scenario-container');
+    const scenarioItemsContainer = document.querySelector('.scenario-items');
     setStyle(scenarioContainer, scenario.style);
+    scenarioContainer.appendChild(createTrashCan());
     Object.keys(scenario.map).forEach(mapName =>
         scenarioContainer.appendChild(createMapTile(mapName, scenario.map[mapName])));
-    scenario.start.forEach(start => scenarioContainer.appendChild(createScenarioItem('start', start)));
-    scenario.doors.forEach(door => scenarioContainer.appendChild(createScenarioItem('door', door)));
+    scenario.start.forEach(start => scenarioContainer.appendChild(createScenarioItem('start', {style: start})));
+    scenario.doors.forEach(door => scenarioContainer.appendChild(createScenarioItem('door', {style: door})));
+    scenario.items.forEach(item => scenarioItemsContainer.appendChild(createScenarioItem(item, {click: () => createWithAlignment(item)})));
     Object.keys(scenario.markers || {}).forEach(name => scenarioContainer.appendChild(createMarker(name, scenario.markers[name])));
     seedMonsterTypes(scenario.monsters);
 }
@@ -44,7 +47,7 @@ function handleClick(e) {
 }
 
 function move(source, id, x, y) {
-    const selected = document.querySelector(`#${id}`);
+    const selected = document.querySelector(`[id='${id}']`);
     selected.style.top = `${y - selected.clientHeight / 2}`;
     selected.style.left = `${x - selected.clientWidth / 2}`;
     selected.classList.remove('waiting-area');
@@ -57,7 +60,7 @@ function move(source, id, x, y) {
 }
 
 function remove(source, id) {
-    const item = document.querySelector(`#${id}`);
+    const item = document.querySelector(`[id='${id}']`);
     document.querySelector('.scenario-container').removeChild(item);
     recordEvent(source, {
         id,
@@ -98,6 +101,12 @@ function seedMonsterTypes(monsterTypes) {
     });
 }
 
+function createTrashCan() {
+    const div = document.createElement('div');
+    addClasses(div, ['trash-can', 'waiting-area']);
+    return div;
+}
+
 function createMapTile(mapName, {classes = [], style}) {
     const div = document.createElement('div');
     addClasses(div, ['map']);
@@ -119,10 +128,11 @@ function createMarker(name, style) {
     return item;
 }
 
-function createScenarioItem(name, style) {
+function createScenarioItem(name, {style, click}) {
     const item = document.createElement('div');
     addClasses(item, [itemClass(name), 'item']);
     setStyle(item, style);
+    click && (item.onclick = click);
     return item;
 }
 
@@ -131,7 +141,11 @@ function createWithAlignment(name) {
 }
 
 function create(text, ...classes) {
-    createWithId('', `gh${nextId++}`, text, ...classes);
+    if (!peeringId) {
+        console.log(`Cannot create ${text}: waiting for peeringId`);
+        return;
+    }
+    createWithId('', `${peeringId}-gh${nextId++}`, text, ...classes);
 }
 
 function createWithId(source, id, text, ...classes) {
@@ -221,11 +235,11 @@ function summon() {
 
 function recordEvent(source, evt) {
     history.push(evt);
-    for (conn of peerConnections) {
+    Object.values(peerConnections).forEach(conn => {
         if (conn.peer !== source) {
-            conn.send([evt]);
+            conn.send({history: [evt]});
         }
-    }
+    });
     save();
 }
 
@@ -238,9 +252,46 @@ function view() {
     console.log(JSON.stringify(history));
 }
 
+function compact() {
+    const trimmed = new Map();
+    for(let evt of history) {
+        switch(evt.type) {
+            case 'create':
+                trimmed.set(evt.id, {create: evt});
+                break;
+            case 'move':
+                const eventToUpdate = trimmed.get(evt.id);
+                eventToUpdate.move = evt;
+                break;
+            case 'remove':
+                trimmed.delete(evt.id);
+                break;
+        }
+    }
+    history = [];
+    trimmed.forEach(value => {
+        history.push(value.create);
+        if(value.move) {
+            history.push(value.move);
+        }
+    });
+    save();
+}
+
 function reset() {
     localStorage.removeItem(`history[${scenario.id}]`);
-    location.reload();
+    removeAll('.scenario-container');
+    removeAll('.scenario-items');
+    removeAll('#monster_type');
+    history = [];
+    setScenario();
+}
+
+function removeAll(selector) {
+    const container = document.querySelector(selector);
+    while (container.firstChild) {
+        container.removeChild(container.lastChild);
+    }
 }
 
 function loadRaw(events) {
@@ -257,7 +308,7 @@ function load(source, events) {
     const moveEvents = events.filter(event => event.type === 'move' || 'remove');
     for (let event of createEvents) {
         createWithId(source, event.id, event.meta.text, ...event.meta.classes);
-        maxIdSeen = Math.max(maxIdSeen, parseInt(event.id.slice(2)));
+        maxIdSeen = Math.max(maxIdSeen, parseInt(event.id.substring(event.id.indexOf('-') + 3)));
     }
     // Wait for the DOM updates
     setTimeout(() => {
@@ -274,26 +325,29 @@ function load(source, events) {
     nextId = maxIdSeen + 1;
 }
 
+let dragOffsetX = 0;
+let dragOffsetY = 0;
+let draggedItem;
+
+function finishDrag(evt) {
+    const rect = draggedItem.getBoundingClientRect();
+    const x = evt.pageX - draggedItem.parentElement.offsetLeft + (rect.width / 2) + dragOffsetX - 1;
+    const y = evt.pageY - draggedItem.parentElement.offsetTop + (rect.height / 2) + dragOffsetY - 1;
+    if (shouldBeRemoved(x, y)) {
+        remove('', draggedItem.id);
+    } else {
+        move('', draggedItem.id, x, y);
+    }
+    clearSelection();
+}
+
 function initDragDrop(item) {
     item.draggable = true;
-    let offsetX = 0;
-    let offsetY = 0;
     item.ondragstart = evt => {
         const rect = evt.target.getBoundingClientRect();
-        offsetX = rect.x - evt.clientX;
-        offsetY = rect.y - evt.clientY;
-    };
-
-    const finishDrag = evt => {
-        const rect = item.getBoundingClientRect();
-        const x = evt.pageX - item.parentElement.offsetLeft + (rect.width / 2) + offsetX - 1;
-        const y = evt.pageY - item.parentElement.offsetTop + (rect.height / 2) + offsetY - 1;
-        if (shouldBeRemoved(x, y)) {
-            remove('', item.id);
-        } else {
-            move('', item.id, x, y);
-        }
-        clearSelection();
+        dragOffsetX = rect.x - evt.clientX;
+        dragOffsetY = rect.y - evt.clientY;
+        draggedItem = evt.target;
     };
 
     item.ondragend = evt => {
@@ -302,28 +356,20 @@ function initDragDrop(item) {
             finishDrag(evt);
         }
     };
+}
 
+window.onload = function () {
+    setScenario();
+    const history = localStorage.getItem(`history[${scenario.id}]`);
+    if (history) {
+        loadRaw(history);
+    }
     document.body.ondragleave = evt => {
         // should be true only in firefox when drag ends
         if (evt.buttons === 0) {
             finishDrag(evt);
         }
     };
-}
-
-function blessPredefinedItems() {
-    document.querySelectorAll('.item[id]').forEach(item => {
-        initDragDrop(item);
-    });
-}
-
-window.onload = function () {
-    setScenario();
-    blessPredefinedItems();
-    const history = localStorage.getItem(`history[${scenario.id}]`);
-    if (history) {
-        loadRaw(history);
-    }
 };
 
 let peer = new Peer();
@@ -332,15 +378,20 @@ let peeringId;
 peer.on('open', (id) => {
     peeringId = id;
     console.log(`peering id is: ${id}`);
+    const selfId = document.querySelector('#selfId');
+    selfId.textContent = `My ID: ${id}`;
 });
 
 // Someone connected to us, push our history to them
 peer.on('connection', (connection) => {
     connection.on('open', () => {
-        connection.send(history);
+        connection.send({reset: true, history});
     });
-    connection.on('data', (data) => load(connection.peer, data));
-    peerConnections.push(connection);
+    if (peerConnections[connection.peer]) {
+        return;
+    }
+    connection.on('data', (data) => load(connection.peer, data.history));
+    peerConnections[connection.peer] = connection;
 });
 peer.on('error', (err) => {
     console.log(`error: ${err}`);
@@ -349,8 +400,16 @@ peer.on('error', (err) => {
 function connect() {
     const peerId = document.querySelector(`#peer`).value;
     const connection = peer.connect(peerId);
+    if (peerConnections[connection.peer]) {
+        return;
+    }
     connection.on('open', () => {
-        connection.on('data', (data) => load(connection.peer, data));
+        connection.on('data', (data) => {
+            if (data.reset) {
+                reset();
+            }
+            load(connection.peer, data.history);
+        });
     });
-    peerConnections.push(connection);
+    peerConnections[connection.peer] = connection;
 }
