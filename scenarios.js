@@ -48,6 +48,33 @@ scenarios.set(6, {
         {top: '816px', left: '649px'},
     ]
 });
+scenarios.set(16, {
+    id: 16,
+    alignment: 'horz',
+    map: {
+        B4b: {classes: ['rotate'], style: {top: '758px', left: '567px'}},
+        A2b: {classes: ['rotate'], style: {top: '546px', left: '537px'}},
+        K2a: {classes: ['revrotate'], style: {top: '210px', left: '166px'}},
+        I2a: {classes: ['rotate'], style: {top: '90px', left: '585px'}},
+    },
+    monsters: ['earth demon', 'wind demon', 'inox guard', 'inox archer'],
+    items: ['coin', 'treasure', 'trap', 'obstacle1'],
+    start: [
+        {top: '934px', left: '701px'},
+        {top: '934px', left: '601px'},
+        {top: '906px', left: '648px'},
+        {top: '906px', left: '748px'},
+        {top: '965px', left: '648px'},
+        {top: '965px', left: '748px'},
+    ],
+    doors: [
+        {top: '231px', left: '592px'},
+        {top: '521px', left: '592px'},
+    ],
+    markers: {
+        1: {top: '536px', left: '612px'},
+    }
+});
 scenarios.set(18, {
     id: 18,
     alignment: 'horz',
