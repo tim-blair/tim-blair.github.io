@@ -23,6 +23,31 @@ scenarios.set(1, {
         {top: '466px', left: '616px'},
     ]
 });
+scenarios.set(6, {
+    id: 6,
+    alignment: 'vert',
+    map: {
+        L1a: {classes: [], style: {top: '423px', left: '487px'}},
+        K1a: {classes: ['flip'], style: {top: '828px', left: '541px'}},
+        K2b: {classes: [], style: {top: '70px', left: '541px'}},
+        M1a: {classes: [], style: {top: '424px', left: '779px'}},
+    },
+    monsters: ['living bones', 'living corpse', 'living spirit'],
+    items: ['coin', 'treasure', 'trap', 'obstacle1', 'difficult'],
+    start: [
+        {top: '618px', left: '713px'},
+        {top: '567px', left: '740px'},
+        {top: '567px', left: '687px'},
+        {top: '667px', left: '740px'},
+        {top: '667px', left: '687px'},
+    ],
+    doors: [
+        {top: '409px', left: '649px'},
+        {top: '409px', left: '943px'},
+        {top: '816px', left: '943px'},
+        {top: '816px', left: '649px'},
+    ]
+});
 scenarios.set(18, {
     id: 18,
     alignment: 'horz',

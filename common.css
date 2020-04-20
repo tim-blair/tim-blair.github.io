@@ -23,6 +23,9 @@ label, .labelText {
 .revrotate {
     transform: rotate(-90deg);
 }
+.flip {
+    transform: rotate(180deg);
+}
 .horz {
     transform: rotate(90deg);
 }
