@@ -108,7 +108,7 @@ scenarios.set(20, {
     map: {
         K1a: {style: {top: '304px', left: '289px'}},
         J1a: {classes: ['rotate'], style: {top: '598px', left: '59px'}},
-        C1a: {style: {top: '658px', left: '554px', transform: 'scale(0.15)'}},
+        C1a: {style: {top: '658px', left: '554px'}},
         D1a: {style: {top: '0', left: '350px'}},
     },
     monsters: ['living bones', 'cultist', 'night demon', 'living corpse', 'jekserah'],
