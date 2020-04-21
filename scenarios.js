@@ -129,3 +129,34 @@ scenarios.set(20, {
         1: {top: '307px', left: '556px'},
     }
 });
+scenarios.set(38, {
+    id: 38,
+    alignment: 'horz',
+    style: {height: '1150px'},
+    map: {
+        C2a: {classes: ['revrotate'], style: {top: '25px', left: '750px'}},
+        A4a: {classes: ['rotate'], style: {top: '134px', left: '547px'}},
+        M1b: {classes: ['rotate'], style: {top: '329px', left: '544px'}},
+        H2b: {classes: ['rotate'], style: {top: '709px', left: '363px'}},
+        D1b: {classes: ['revrotate'], style: {top: '729px', left: '38px'}},
+    },
+    monsters: ['inox guard', 'inox archer', 'inox shaman', 'stone golem'],
+    items: ['coin', 'treasure', 'bearTrap', 'obstacle1'],
+    start: [
+        {top: '85px', left: '963px'},
+        {top: '202px', left: '963px'},
+        {top: '232px', left: '913px'},
+        {top: '174px', left: '913px'},
+        {top: '116px', left: '913px'},
+        {top: '57px', left: '913px'},
+    ],
+    doors: [
+        {top: '140px', left: '753px'},
+        {top: '341px', left: '703px'},
+        {top: '694px', left: '703px'},
+        {top: '897px', left: '350px'},
+    ],
+    markers: {
+        a: {top: '157px', left: '975px'},
+    }
+});
