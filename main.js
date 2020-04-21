@@ -253,9 +253,14 @@ function view() {
 }
 
 function compact() {
+    history = compactedHistory();
+    save();
+}
+
+function compactedHistory() {
     const trimmed = new Map();
-    for(let evt of history) {
-        switch(evt.type) {
+    for (let evt of history) {
+        switch (evt.type) {
             case 'create':
                 trimmed.set(evt.id, {create: evt});
                 break;
@@ -268,14 +273,14 @@ function compact() {
                 break;
         }
     }
-    history = [];
+    const compactedHistory = [];
     trimmed.forEach(value => {
-        history.push(value.create);
-        if(value.move) {
-            history.push(value.move);
+        compactedHistory.push(value.create);
+        if (value.move) {
+            compactedHistory.push(value.move);
         }
     });
-    save();
+    return compactedHistory;
 }
 
 function reset() {
@@ -412,4 +417,30 @@ function connect() {
         });
     });
     peerConnections[connection.peer] = connection;
+}
+
+window.addEventListener('mousedown', e => {
+    if (e.button === 0 && e.target.classList.contains('modal')) {
+        e.target.style.display = 'none';
+    }
+});
+
+function showImportExportModal() {
+    const modal = document.querySelector('#import-export-modal');
+    modal.style.display = "block";
+    const scenarioState = modal.querySelector('#scenario-state');
+    scenarioState.value = JSON.stringify(compactedHistory());
+}
+
+function importState() {
+    const events = document.querySelector('#scenario-state').value;
+    const errorDiv = document.querySelector('#import-error');
+    try {
+        errorDiv.innerHTML = '';
+        const parsed = JSON.parse(events);
+        reset();
+        load('', parsed);
+    } catch (e) {
+        errorDiv.innerHTML = e.message;
+    }
 }
