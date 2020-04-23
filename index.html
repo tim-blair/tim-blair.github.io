@@ -15,7 +15,8 @@
     </head>
     <body onclick="handleClick(event)">
         <div class="configBox">
-            <select id="character">
+            <button id="modal-btn" onclick="showImportExportModal()">Import/Export</button>
+            <select id="character" style="margin-left: 50px">
                 <option value="angryFace">Angry Face</option>
                 <option value="brute">Brute</option>
                 <option value="circles">Circles</option>
@@ -36,9 +37,7 @@
                 <option value="twoMinisBrown">Two Minis (2)</option>
             </select>
             <input type="button" value="Character" onclick="character()" />
-        </div>
-        <div class="configBox">
-            <select id="summon">
+            <select id="summon" style="margin-left: 50px">
                 <option value="&#x27B5;">Arrow &#x27B5;</option>
                 <option value="&#x269B;">Atom &#x269B;</option>
                 <option value="&#x2623;">Bio Hazard &#x2623;</option>
@@ -70,5 +69,17 @@
             <span class="labelText" id="selfId"></span>
         </div>
         <div class="scenario-container"></div>
+        <div id='import-export-modal' class="modal">
+            <div class="modal-content">
+                <p>Scenario state is saved automatically to the browser's local storage.
+                    However, you can save this data elsewhere by copying the encoded string below.</p>
+                <p>To import, paste your encoded string over the text below and click Import.</p>
+                <textarea id="scenario-state"></textarea>
+                <div id="import-error" class="error"></div>
+                <div class="configBox">
+                    <button onclick="importState()">Import</button>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
