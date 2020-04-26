@@ -16,6 +16,9 @@ label, .labelText {
 .rotate {
     transform: rotate(90deg);
 }
+.rotate120 {
+    transform: rotate(120deg);
+}
 .revrotate {
     transform: rotate(-90deg);
 }

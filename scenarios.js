@@ -160,3 +160,38 @@ scenarios.set(38, {
         a: {top: '157px', left: '975px'},
     }
 });
+// Solo scenarios: 200 + page #
+// Two-minis
+scenarios.set(220, {
+    id: 220,
+    alignment: 'vert',
+    map: {
+        E1b: {classes: ['flip'], style: {top: '23px', left: '487px'}},
+        N1a: {classes: ['flip'], style: {top: '327px', left: '341px'}},
+        G2a: {classes: [], style: {top: '731px', left: '341px'}},
+        B4b: {classes: ['flip'], style: {top: '933px', left: '313px'}},
+        D2b: {classes: ['rotate120'], style: {top: '931px', left: '602px'}},
+    },
+    monsters: ['hound', 'forest imp', 'rending drake', 'vermling shaman', 'cave bear'],
+    items: ['coin', 'obstacle2', 'obstacle1', 'obstacle3'],
+    start: [
+        {top: '1127px', left: '511px'},
+        {top: '1127px', left: '680px'},
+    ],
+    doors: [
+        {top: '310px', left: '561px'},
+        {top: '310px', left: '677px'},
+        {top: '714px', left: '445px'},
+        {top: '714px', left: '676px'},
+        {top: '914px', left: '733px'},
+        {top: '914px', left: '383px'},
+    ],
+    markers: {
+        1: {top: '933px', left: '747px'},
+        a: {top: '933px', left: '399px'},
+        2: {top: '733px', left: '690px'},
+        b: {top: '733px', left: '459px'},
+        3: {top: '329px', left: '694px'},
+        c: {top: '329px', left: '575px'},
+    }
+});
