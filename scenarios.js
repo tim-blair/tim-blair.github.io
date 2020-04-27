@@ -67,6 +67,7 @@ scenarios.set(16, {
         {top: '965px', left: '648px'},
         {top: '965px', left: '748px'},
     ],
+    doorType: 'darkFog',
     doors: [
         {top: '231px', left: '592px'},
         {top: '521px', left: '592px'},
@@ -150,6 +151,7 @@ scenarios.set(38, {
         {top: '116px', left: '913px'},
         {top: '57px', left: '913px'},
     ],
+    doorType: 'lightFog',
     doors: [
         {top: '140px', left: '753px'},
         {top: '341px', left: '703px'},

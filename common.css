@@ -242,6 +242,30 @@ label, .labelText {
     width: 67px;
     background-size: 67px;
 }
+.darkFog {
+    background-image: url("./scenBook/tokens/darkFog.png");
+    height: 69px;
+    width: 60px;
+    background-size: 61px;
+}
+.darkFogHorz {
+    background-image: url("./scenBook/tokens/darkFogHorz.png");
+    height: 67px;
+    width: 67px;
+    background-size: 67px;
+}
+.lightFog {
+    background-image: url("./scenBook/tokens/lightFog.png");
+    height: 69px;
+    width: 60px;
+    background-size: 61px;
+}
+.lightFogHorz {
+    background-image: url("./scenBook/tokens/lightFogHorz.png");
+    height: 67px;
+    width: 67px;
+    background-size: 67px;
+}
 .obstacle1Horz {
     background-image: url("./scenBook/tokens/boulder1Horz.png");
     height: 45px;
