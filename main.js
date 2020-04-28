@@ -444,3 +444,7 @@ function importState() {
         errorDiv.innerHTML = e.message;
     }
 }
+
+function resetState() {
+    document.querySelector('#scenario-state').value = '[]';
+}
