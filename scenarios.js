@@ -166,3 +166,34 @@ scenarios.set(38, {
         a: {top: '157px', left: '975px'},
     }
 });
+scenarios.set(43, {
+    id: 43,
+    alignment: 'horz',
+    style: {height: '1250px'},
+    map: {
+        I2a: {classes: ['rotate'], style: {top: '787px', left: '273px'}},
+        N1a: {classes: ['revrotate'], style: {top: '328px', left: '265px'}},
+        G2a: {classes: ['rotate'], style: {top: '430px', left: '-38px'}},
+        A2b: {classes: ['revrotate'], style: {top: '630px', left: '630px'}},
+        A3a: {classes: ['revrotate'], style: {top: '278px', left: '630px'}},
+        E1b: {classes: ['rotate'], style: {top: '0', left: '353px'}},
+    },
+    monsters: ['flame demon', 'rending drake', 'spitting drake'],
+    items: ['coin', 'treasure', 'spikeTrap', 'nest', 'obstacle1'],
+    start: [
+        {top: '1048px', left: '389px'},
+        {top: '1048px', left: '491px'},
+        {top: '1077px', left: '340px'},
+        {top: '1077px', left: '440px'},
+        {top: '1077px', left: '540px'},
+    ],
+    doorType: 'darkFog',
+    doors: [
+        {top: '283px', left: '482px'},
+        {top: '399px', left: '684px'},
+        {top: '634px', left: '684px'},
+        {top: '693px', left: '281px'},
+        {top: '343px', left: '281px'},
+        {top: '750px', left: '483px'},
+    ],
+});

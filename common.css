@@ -164,12 +164,20 @@ label, .labelText {
     background-image: url("./scenBook/icons/startHorz.png");
     opacity: 40%;
 }
-.trap {
+.trap, .spikeTrap {
     background-image: url("./scenBook/tokens/spikeTrap.png");
     height: 57px;
 }
-.trapHorz {
+.trapHorz, .spikeTrapHorz {
     background-image: url("./scenBook/tokens/spikeTrapHorz.png");
+    height: 45px;
+}
+.nest {
+    background-image: url("./scenBook/tokens/nest.png");
+    height: 57px;
+}
+.nestHorz {
+    background-image: url("./scenBook/tokens/nestHorz.png");
     height: 45px;
 }
 .hazard {
