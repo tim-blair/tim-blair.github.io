@@ -18,6 +18,7 @@ scenarios.set(1, {
         {top: '735px', left: '675px'},
         {top: '705px', left: '725px'},
     ],
+    doorType: 'stoneDoor',
     doors: [
         {top: '229px', left: '514px'},
         {top: '466px', left: '616px'},
@@ -41,6 +42,7 @@ scenarios.set(6, {
         {top: '667px', left: '740px'},
         {top: '667px', left: '687px'},
     ],
+    doorType: 'stoneDoor',
     doors: [
         {top: '409px', left: '649px'},
         {top: '409px', left: '943px'},
@@ -67,6 +69,7 @@ scenarios.set(16, {
         {top: '965px', left: '648px'},
         {top: '965px', left: '748px'},
     ],
+    doorType: 'darkFog',
     doors: [
         {top: '231px', left: '592px'},
         {top: '521px', left: '592px'},
@@ -93,6 +96,7 @@ scenarios.set(18, {
         {top: '252px', left: '498px'},
         {top: '223px', left: '550px'},
     ],
+    doorType: 'stoneDoor',
     doors: [
         {top: '392px', left: '742px'},
         {top: '596px', left: '391px'},
@@ -120,6 +124,7 @@ scenarios.set(20, {
         {top: '955px', left: '165px'},
         {top: '1006px', left: '136px'},
     ],
+    doorType: 'stoneDoor',
     doors: [
         {top: '286px', left: '539px'},
         {top: '641px', left: '394px'},
@@ -150,6 +155,7 @@ scenarios.set(38, {
         {top: '116px', left: '913px'},
         {top: '57px', left: '913px'},
     ],
+    doorType: 'lightFog',
     doors: [
         {top: '140px', left: '753px'},
         {top: '341px', left: '703px'},
@@ -159,6 +165,37 @@ scenarios.set(38, {
     markers: {
         a: {top: '157px', left: '975px'},
     }
+});
+scenarios.set(43, {
+    id: 43,
+    alignment: 'horz',
+    style: {height: '1250px'},
+    map: {
+        I2a: {classes: ['rotate'], style: {top: '787px', left: '273px'}},
+        N1a: {classes: ['revrotate'], style: {top: '328px', left: '265px'}},
+        G2a: {classes: ['rotate'], style: {top: '430px', left: '-38px'}},
+        A2b: {classes: ['revrotate'], style: {top: '630px', left: '630px'}},
+        A3a: {classes: ['revrotate'], style: {top: '278px', left: '630px'}},
+        E1b: {classes: ['rotate'], style: {top: '0', left: '353px'}},
+    },
+    monsters: ['flame demon', 'rending drake', 'spitting drake'],
+    items: ['coin', 'treasure', 'spikeTrap', 'nest', 'obstacle1'],
+    start: [
+        {top: '1048px', left: '389px'},
+        {top: '1048px', left: '491px'},
+        {top: '1077px', left: '340px'},
+        {top: '1077px', left: '440px'},
+        {top: '1077px', left: '540px'},
+    ],
+    doorType: 'darkFog',
+    doors: [
+        {top: '283px', left: '482px'},
+        {top: '399px', left: '684px'},
+        {top: '634px', left: '684px'},
+        {top: '693px', left: '281px'},
+        {top: '343px', left: '281px'},
+        {top: '750px', left: '483px'},
+    ],
 });
 // Solo scenarios: 200 + page #
 // Two-minis

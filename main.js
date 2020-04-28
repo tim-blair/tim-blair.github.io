@@ -11,7 +11,7 @@ function setScenario() {
     Object.keys(scenario.map).forEach(mapName =>
         scenarioContainer.appendChild(createMapTile(mapName, scenario.map[mapName])));
     scenario.start.forEach(start => scenarioContainer.appendChild(createScenarioItem('start', {style: start})));
-    scenario.doors.forEach(door => scenarioContainer.appendChild(createScenarioItem('door', {style: door})));
+    scenario.doors.forEach(door => scenarioContainer.appendChild(createScenarioItem(scenario.doorType, {style: door, extraClasses: ['door']})));
     scenario.items.forEach(item => scenarioItemsContainer.appendChild(createScenarioItem(item, {click: () => createWithAlignment(item)})));
     Object.keys(scenario.markers || {}).forEach(name => scenarioContainer.appendChild(createMarker(name, scenario.markers[name])));
     seedMonsterTypes(scenario.monsters);
@@ -87,7 +87,7 @@ function addClasses(element, classes) {
     classes.forEach(cls => element.classList.add(cls));
 }
 
-function itemClass(name) {
+function classWithAlignment(name) {
     return `${name}${scenario.alignment === 'horz' ? 'Horz' : ''}`;
 }
 
@@ -128,16 +128,16 @@ function createMarker(name, style) {
     return item;
 }
 
-function createScenarioItem(name, {style, click}) {
+function createScenarioItem(name, {style, click, extraClasses = []}) {
     const item = document.createElement('div');
-    addClasses(item, [itemClass(name), 'item']);
+    addClasses(item, [classWithAlignment(name), 'item', ...extraClasses.map(classWithAlignment)]);
     setStyle(item, style);
     click && (item.onclick = click);
     return item;
 }
 
 function createWithAlignment(name) {
-    create('', itemClass(name));
+    create('', classWithAlignment(name));
 }
 
 function create(text, ...classes) {
@@ -443,4 +443,8 @@ function importState() {
     } catch (e) {
         errorDiv.innerHTML = e.message;
     }
+}
+
+function resetState() {
+    document.querySelector('#scenario-state').value = '[]';
 }

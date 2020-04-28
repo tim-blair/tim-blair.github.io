@@ -167,12 +167,20 @@ label, .labelText {
     background-image: url("./scenBook/icons/startHorz.png");
     opacity: 40%;
 }
-.trap {
+.trap, .spikeTrap {
     background-image: url("./scenBook/tokens/spikeTrap.png");
     height: 57px;
 }
-.trapHorz {
+.trapHorz, .spikeTrapHorz {
     background-image: url("./scenBook/tokens/spikeTrapHorz.png");
+    height: 45px;
+}
+.nest {
+    background-image: url("./scenBook/tokens/nest.png");
+    height: 57px;
+}
+.nestHorz {
+    background-image: url("./scenBook/tokens/nestHorz.png");
     height: 45px;
 }
 .hazard {
@@ -234,16 +242,38 @@ label, .labelText {
     height: 45px;
 }
 .door {
-    background-image: url("./scenBook/tokens/door.png");
     height: 69px;
     width: 60px;
     background-size: 61px;
 }
 .doorHorz {
-    background-image: url("./scenBook/tokens/doorHorz.png");
     height: 67px;
     width: 67px;
     background-size: 67px;
+}
+.woodDoor {
+    background-image: url("./scenBook/tokens/woodDoor.png");
+}
+.woodDoorHorz {
+    background-image: url("./scenBook/tokens/woodDoorHorz.png");
+}
+.stoneDoor {
+    background-image: url("./scenBook/tokens/stoneDoor.png");
+}
+.stoneDoorHorz {
+    background-image: url("./scenBook/tokens/stoneDoorHorz.png");
+}
+.darkFog {
+    background-image: url("./scenBook/tokens/darkFog.png");
+}
+.darkFogHorz {
+    background-image: url("./scenBook/tokens/darkFogHorz.png");
+}
+.lightFog {
+    background-image: url("./scenBook/tokens/lightFog.png");
+}
+.lightFogHorz {
+    background-image: url("./scenBook/tokens/lightFogHorz.png");
 }
 .obstacle1Horz {
     background-image: url("./scenBook/tokens/boulder1Horz.png");
