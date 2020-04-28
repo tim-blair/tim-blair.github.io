@@ -231,40 +231,38 @@ label, .labelText {
     height: 45px;
 }
 .door {
-    background-image: url("./scenBook/tokens/door.png");
     height: 69px;
     width: 60px;
     background-size: 61px;
 }
 .doorHorz {
-    background-image: url("./scenBook/tokens/doorHorz.png");
     height: 67px;
     width: 67px;
     background-size: 67px;
+}
+.woodDoor {
+    background-image: url("./scenBook/tokens/woodDoor.png");
+}
+.woodDoorHorz {
+    background-image: url("./scenBook/tokens/woodDoorHorz.png");
+}
+.stoneDoor {
+    background-image: url("./scenBook/tokens/stoneDoor.png");
+}
+.stoneDoorHorz {
+    background-image: url("./scenBook/tokens/stoneDoorHorz.png");
 }
 .darkFog {
     background-image: url("./scenBook/tokens/darkFog.png");
-    height: 69px;
-    width: 60px;
-    background-size: 61px;
 }
 .darkFogHorz {
     background-image: url("./scenBook/tokens/darkFogHorz.png");
-    height: 67px;
-    width: 67px;
-    background-size: 67px;
 }
 .lightFog {
     background-image: url("./scenBook/tokens/lightFog.png");
-    height: 69px;
-    width: 60px;
-    background-size: 61px;
 }
 .lightFogHorz {
     background-image: url("./scenBook/tokens/lightFogHorz.png");
-    height: 67px;
-    width: 67px;
-    background-size: 67px;
 }
 .obstacle1Horz {
     background-image: url("./scenBook/tokens/boulder1Horz.png");

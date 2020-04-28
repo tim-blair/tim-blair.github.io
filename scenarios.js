@@ -18,6 +18,7 @@ scenarios.set(1, {
         {top: '735px', left: '675px'},
         {top: '705px', left: '725px'},
     ],
+    doorType: 'stoneDoor',
     doors: [
         {top: '229px', left: '514px'},
         {top: '466px', left: '616px'},
@@ -41,6 +42,7 @@ scenarios.set(6, {
         {top: '667px', left: '740px'},
         {top: '667px', left: '687px'},
     ],
+    doorType: 'stoneDoor',
     doors: [
         {top: '409px', left: '649px'},
         {top: '409px', left: '943px'},
@@ -94,6 +96,7 @@ scenarios.set(18, {
         {top: '252px', left: '498px'},
         {top: '223px', left: '550px'},
     ],
+    doorType: 'stoneDoor',
     doors: [
         {top: '392px', left: '742px'},
         {top: '596px', left: '391px'},
@@ -121,6 +124,7 @@ scenarios.set(20, {
         {top: '955px', left: '165px'},
         {top: '1006px', left: '136px'},
     ],
+    doorType: 'stoneDoor',
     doors: [
         {top: '286px', left: '539px'},
         {top: '641px', left: '394px'},
