@@ -215,6 +215,7 @@ scenarios.set(220, {
         {top: '1127px', left: '511px'},
         {top: '1127px', left: '680px'},
     ],
+    doorType: 'darkFog',
     doors: [
         {top: '310px', left: '561px'},
         {top: '310px', left: '677px'},
