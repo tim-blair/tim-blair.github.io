@@ -16,6 +16,7 @@
     <body onclick="handleClick(event)">
         <div class="configBox">
             <button id="modal-btn" onclick="showImportExportModal()">Import/Export</button>
+            <button id="marker-btn" onclick="createIndicator()">Indicator</button>
             <select id="character" style="margin-left: 50px">
                 <option value="angryFace">Angry Face</option>
                 <option value="brute">Brute</option>
@@ -82,5 +83,8 @@
                 </div>
             </div>
         </div>
+    <script>
+        setInterval(clearIdleSelection, 1000);
+    </script>
     </body>
 </html>
