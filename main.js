@@ -128,6 +128,10 @@ function createMarker(name, style) {
     return item;
 }
 
+function createIndicator() {
+    create('', 'indicator', 'item', 'waiting-area');
+}
+
 function createScenarioItem(name, {style, click, extraClasses = []}) {
     const item = document.createElement('div');
     addClasses(item, [classWithAlignment(name), 'item', ...extraClasses.map(classWithAlignment)]);
