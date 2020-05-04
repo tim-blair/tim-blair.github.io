@@ -1,4 +1,5 @@
 let selected = null;
+let selectTime = 0;
 let history = [];
 const peerConnections = {};
 let nextId = 100;
@@ -22,6 +23,12 @@ function clearSelection() {
     selected = null;
 }
 
+function clearIdleSelection() {
+    if(Date.now() - selectTime > 5000) {
+        clearSelection();
+    }
+}
+
 function handleClick(e) {
     if (e.button !== 0) {
         return true;
@@ -43,6 +50,7 @@ function handleClick(e) {
         return true;
     }
     selected = target;
+    selectTime = Date.now();
     selected.classList.add('selected');
 }
 
