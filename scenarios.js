@@ -134,6 +134,40 @@ scenarios.set(20, {
         1: {top: '307px', left: '556px'},
     }
 });
+scenarios.set(24, {
+    id: 24,
+    alignment: 'horz',
+    style: {height: '1500px'},
+    map: {
+        L2a: {classes: ['rotate'], style: {top: '0px', left: '500px'}},
+        A2b: {classes: ['rotate'], style: {top: '418px', left: '475px'}},
+        G2a: {classes: ['revrotate'], style: {top: '480px', left: '211px'}},
+        J1b: {style: {top: '640px', left: '343px'}},
+        D2b: {classes: ['rotate30'], style: {top: '636px', left: '725px'}},
+        B4b: {classes: ['rotate30'], style: {top: '916px', left: '668px'}},
+    },
+    monsters: ['rending drake', 'ooze', 'living spirit'],
+    items: ['coin', 'treasure', 'bearTrap', 'obstacle1'],
+    start: [
+        {top: '106px', left: '537px'},
+        {top: '106px', left: '637px'},
+        {top: '106px', left: '737px'},
+        {top: '78px', left: '588px'},
+        {top: '78px', left: '688px'},
+        {top: '136px', left: '588px'},
+        {top: '136px', left: '688px'},
+    ],
+    doorType: 'darkFog',
+    doors: [
+        {top: '335px', left: '630px'},
+        {top: '452px', left: '530px'},
+        {top: '628px', left: '632px'},
+        {top: '687px', left: '528px'},
+        {top: '744px', left: '528px'},
+        {top: '746px', left: '730px'},
+        {top: '947px', left: '681px'},
+    ],
+});
 scenarios.set(38, {
     id: 38,
     alignment: 'horz',
