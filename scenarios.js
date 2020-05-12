@@ -165,6 +165,7 @@ scenarios.set(24, {
         {top: '687px', left: '528px'},
         {top: '744px', left: '528px'},
         {top: '746px', left: '730px'},
+        {top: '922px', left: '832px'},
         {top: '947px', left: '681px'},
     ],
 });
