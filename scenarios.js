@@ -169,6 +169,34 @@ scenarios.set(24, {
         {top: '947px', left: '681px'},
     ],
 });
+scenarios.set(32, {
+    id: 32,
+    alignment: 'vert',
+    style: {height: '1500px'},
+    map: {
+        H2b: {style: {top: '603px', left: '721px'}},
+        I1a: {classes: ['flip'], style: {top: '302px', left: '750px'}},
+        L1b: {style: {top: '450px', left: '428px'}},
+        A4a: {classes: ['flip'], style: {top: '302px', left: '400px'}},
+        G2b: {style: {top: '100px', left: '400px'}},
+    },
+    monsters: ['harrower infester', 'giant viper', 'deep terror', 'black imp'],
+    items: ['coin', 'treasure', 'poisonGas', 'obstacle1', 'obstacle2', 'obstacle3', 'corridor', 'nest'],
+    start: [
+        {top: '947px', left: '887px'},
+        {top: '947px', left: '945px'},
+        {top: '898px', left: '974px'},
+        {top: '898px', left: '916px'},
+        {top: '898px', left: '858px'},
+    ],
+    doorType: 'woodDoor',
+    doors: [
+        {top: '588px', left: '969px'},
+        {top: '634px', left: '707px'},
+        {top: '286px', left: '794px'},
+        {top: '286px', left: '443px'},
+    ],
+});
 scenarios.set(38, {
     id: 38,
     alignment: 'horz',
