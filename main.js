@@ -229,10 +229,11 @@ function obstacle(size) {
 
 function monster() {
     const isElite = document.querySelector("#elite").checked;
-    const standee = document.querySelector("#standee").value;
+    const standee = parseInt(document.querySelector("#standee").value) || 0;
     const type = document.querySelector("#monster_type").value.toLowerCase();
     const classes = monsterClasses(scenario, type, isElite);
     create(standee, ...classes);
+    document.querySelector("#standee").value = standee + 1;
 }
 
 function character() {
