@@ -181,7 +181,7 @@ scenarios.set(32, {
         G2b: {style: {top: '100px', left: '400px'}},
     },
     monsters: ['harrower infester', 'giant viper', 'deep terror', 'black imp'],
-    items: ['coin', 'treasure', 'poisonGas', 'obstacle1', 'obstacle2', 'obstacle3', 'corridor', 'nest'],
+    items: ['coin', 'treasure', 'trap', 'poisonGas', 'obstacle1', 'obstacle2', 'obstacle3', 'corridor', 'nest'],
     start: [
         {top: '947px', left: '887px'},
         {top: '947px', left: '945px'},
