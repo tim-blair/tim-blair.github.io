@@ -283,6 +283,18 @@ label, .labelText {
 .lightFogHorz {
     background-image: url("./scenBook/tokens/lightFogHorz.png");
 }
+.corridor {
+    height: 69px;
+    width: 60px;
+    background-size: 61px;
+    background-image: url("./scenBook/tokens/corridor1.png");
+}
+.corridorHorz {
+    height: 67px;
+    width: 67px;
+    background-size: 67px;
+    background-image: url("./scenBook/tokens/corridor1Horz.png");
+}
 .obstacle1Horz {
     background-image: url("./scenBook/tokens/boulder1Horz.png");
     height: 45px;
