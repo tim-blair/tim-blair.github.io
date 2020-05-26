@@ -286,6 +286,23 @@ scenarios.set(61, {
         {top: '778px', left: '562px'},
         {top: '929px', left: '712px'},
     ],
+});
+scenarios.set(62, {
+    id: 62,
+    alignment: 'vert',
+    map: {
+        M1a: {style: {top: '353px', left: '266px'}},
+        B2b: {classes: ['flip'], style: {top: '100px', left: '325px'}},
+    },
+    monsters: ['living spirit', 'living bones'],
+    items: ['coin', 'treasure', 'spikeTrap', 'difficult', 'corridor'],
+    start: [
+        {top: '698px', left: '344px'},
+        {top: '698px', left: '402px'},
+        {top: '698px', left: '460px'},
+        {top: '698px', left: '518px'},
+    ],
+    doors: [],
 })
 // Solo scenarios: 200 + page #
 // Two-minis
