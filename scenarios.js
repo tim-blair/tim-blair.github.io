@@ -260,6 +260,33 @@ scenarios.set(43, {
         {top: '750px', left: '483px'},
     ],
 });
+scenarios.set(61, {
+    id: 61,
+    alignment: 'vert',
+    style: {height: '1500px'},
+    map: {
+        M1a: {style: {top: '947px', left: '549px'}},
+        A1a: {classes: ['flip'], style: {top: '801px', left: '525px'}},
+        D1a: {classes: ['rotate300'], style: {top: '492px', left: '373px'}},
+        A3b: {style: {top: '340px', left: '519px'}},
+        C1a: {classes: ['rotate240'], style: {top: '100px', left: '600px'}},
+    },
+    monsters: ['flame demon', 'frost demon', 'ooze', 'giant viper'],
+    items: ['coin', 'treasure', 'bearTrap', 'nest', 'obstacle1', 'difficult'],
+    start: [
+        {top: '1292px', left: '627px'},
+        {top: '1292px', left: '685px'},
+        {top: '1292px', left: '743px'},
+        {top: '1292px', left: '801px'},
+    ],
+    doorType: 'stoneDoor',
+    doors: [
+        {top: '322px', left: '708px'},
+        {top: '471px', left: '564px'},
+        {top: '778px', left: '562px'},
+        {top: '929px', left: '712px'},
+    ],
+})
 // Solo scenarios: 200 + page #
 // Two-minis
 scenarios.set(220, {
