@@ -390,7 +390,16 @@ window.onload = function () {
     };
 };
 
-let peer = new Peer();
+let peer;
+if(peerHost) {
+    peer = new Peer([], {
+        host: peerHost,
+        port: 9000,
+        path: '/gloom'
+    });
+} else {
+    peer = new Peer();
+}
 let peeringId;
 
 peer.on('open', (id) => {
