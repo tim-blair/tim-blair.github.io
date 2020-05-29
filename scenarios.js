@@ -303,6 +303,25 @@ scenarios.set(62, {
         {top: '698px', left: '518px'},
     ],
     doors: [],
+});
+scenarios.set(72, {
+    id: 72,
+    alignment: 'vert',
+    style: {height: '900px'},
+    map: {
+        M1b: {style: {top: '100px', left: '617px'}},
+        L3a: {classes: ['flip'], style: {top: '100px', left: '325px'}},
+        L1b: {classes: ['flip'], style: {top: '100px', left: '967px'}},
+    },
+    monsters: ['ooze', 'forest imp', 'giant viper'],
+    items: ['coin', 'treasure', 'obstacle1', 'obstacle3', 'difficult', 'corridor'],
+    start: [
+        {top: '445px', left: '696px'},
+        {top: '445px', left: '754px'},
+        {top: '445px', left: '812px'},
+        {top: '445px', left: '872px'},
+    ],
+    doors: [],
 })
 // Solo scenarios: 200 + page #
 // Two-minis
