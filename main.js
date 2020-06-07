@@ -321,12 +321,10 @@ let loading = false;
 
 function load(source, events) {
     loading = true;
-    let maxIdSeen = nextId - 1;
     const createEvents = events.filter(event => event.type === 'create');
     const moveEvents = events.filter(event => event.type === 'move' || 'remove');
     for (let event of createEvents) {
         createWithId(source, event.id, event.meta.text, ...event.meta.classes);
-        maxIdSeen = Math.max(maxIdSeen, parseInt(event.id.substring(event.id.indexOf('-') + 3)));
     }
     // Wait for the DOM updates
     setTimeout(() => {
@@ -340,7 +338,6 @@ function load(source, events) {
         }
         loading = false;
     }, 100);
-    nextId = maxIdSeen + 1;
 }
 
 let dragOffsetX = 0;
