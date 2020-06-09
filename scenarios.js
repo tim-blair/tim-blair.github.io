@@ -169,6 +169,39 @@ scenarios.set(24, {
         {top: '947px', left: '681px'},
     ],
 });
+scenarios.set(26, {
+    id: 26,
+    alignment: 'vert',
+    style: {height: '1150px'},
+    map: {
+        M1a: {style: {top: '100px', left: '600px'}},
+        J1a: {classes: ['rotate330'], style: {top: '267px', left: '412px'}},
+        C1a: {style: {top: '403px', left: '102px'}},
+        L1a: {style: {top: '656px', left: '103px'}},
+    },
+    monsters: ['black imp', 'ooze', 'night demon', 'living corpse'],
+    items: ['coin', 'treasure', 'poisonGas', 'obstacle1', 'difficult', 'corridor'],
+    start: [
+        {top: '193px', left: '649px'},
+        {top: '193px', left: '882px'},
+        {top: '243px', left: '854px'},
+        {top: '243px', left: '795px'},
+        {top: '243px', left: '736px'},
+        {top: '243px', left: '678px'},
+    ],
+    doorType: 'woodDoor',
+    doors: [
+        {top: '485px', left: '762px'},
+        {top: '485px', left: '352px'},
+    ],
+    markers: {
+        c: {top: '759px', left: '338px'},
+        b: {top: '759px', left: '163px'},
+        a: {top: '963px', left: '163px'},
+        d: {top: '963px', left: '338px'},
+        1: {top: '504px', left: '368px'},
+    }
+})
 scenarios.set(32, {
     id: 32,
     alignment: 'vert',
