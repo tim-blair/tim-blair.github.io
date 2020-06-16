@@ -293,6 +293,40 @@ scenarios.set(43, {
         {top: '750px', left: '483px'},
     ],
 });
+scenarios.set(57, {
+    id: 57,
+    alignment: 'vert',
+    style: {height: '1250px'},
+    map: {
+        C1a: {classes: ['flip'], style: {top: '100px', left: '200px'}},
+        F1b: {classes: ['flip'], style: {top: '353px', left: '287px'}},
+        I1b: {classes: ['flip'], style: {top: '249px', left: '464px'}},
+        A1a: {style: {top: '723px', left: '478px'}},
+        C2b: {style: {top: '859px', left: '200px'}},
+    },
+    monsters: ['city guard', 'city archer', 'hound'],
+    items: ['coin', 'treasure', 'bearTrap', 'obstacle1', 'corridor'],
+    start: [
+        {top: '547px', left: '336px'},
+        {top: '598px', left: '307px'},
+        {top: '598px', left: '366px'},
+        {top: '649px', left: '338px'},
+    ],
+    doorType: 'woodDoor',
+    doors: [
+        {top: '337px', left: '331px'},
+        {top: '434px', left: '446px'},
+        {top: '738px', left: '448px'},
+        {top: '842px', left: '331px'},
+    ],
+    markers: {
+        a: {top: '760px', left: '348px'},
+        1: {top: '357px', left: '348px'},
+        2: {top: '456px', left: '462px'},
+        3: {top: '759px', left: '462px'},
+        4: {top: '863px', left: '348px'},
+    }
+});
 scenarios.set(61, {
     id: 61,
     alignment: 'vert',
