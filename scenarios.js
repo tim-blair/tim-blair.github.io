@@ -327,6 +327,40 @@ scenarios.set(57, {
         4: {top: '863px', left: '348px'},
     }
 });
+scenarios.set(58, {
+    id: 58,
+    alignment: 'horz',
+    style: {height: '1050px'},
+    map: {
+        C2a: {classes: ['revrotate'], style: {top: '407px', left: '577px'}},
+        D1b: {classes: ['rotate210'], style: {top: '0px', left: '573px'}},
+        G2b: {classes: ['revrotate'], style: {top: '256px', left: '261px'}},
+        B1a: {classes: ['rotate'], style: {top: '231px', left: '150px'}},
+    },
+    monsters: ['city guard', 'earth demon', 'black imp', 'harrower infester'],
+    items: ['coin', 'treasure', 'poisonGas', 'obstacle1'],
+    start: [
+        {top: '614px', left: '740px'},
+        {top: '584px', left: '792px'},
+        {top: '28px', left: '740px'},
+        {top: '55px', left: '793px'},
+    ],
+    doorType: 'woodDoor',
+    doors: [
+        {top: '167px', left: '578px'},
+        {top: '520px', left: '578px'},
+        {top: '343px', left: '376px'},
+    ],
+    markers: {
+        a: {top: '302px', left: '190px'},
+        b: {top: '419px', left: '190px'},
+        c: {top: '447px', left: '345px'},
+        d: {top: '272px', left: '346px'},
+        1: {top: '184px', left: '596px'},
+        l: {top: '536px', left: '596px'},
+        2: {top: '360px', left: '395px'},
+    }
+});
 scenarios.set(61, {
     id: 61,
     alignment: 'vert',
@@ -389,7 +423,34 @@ scenarios.set(72, {
         {top: '445px', left: '872px'},
     ],
     doors: [],
-})
+});
+scenarios.set(93, {
+    id: 93,
+    alignment: 'vert',
+    style: {height: '900px'},
+    map: {
+        G1a: {classes: ['rotate240'], style: {top: '505px', left: '124px'}},
+        K2a: {style: {top: '100px', left: '325px'}},
+        I1a: {classes: ['flip'], style: {top: '454px', left: '561px'}},
+        B3a: {classes: ['flip'], style: {top: '505px', left: '912px'}},
+    },
+    monsters: ['lurker', 'living spirit', 'frost demon'],
+    items: ['coin', 'treasure', 'obstacle1', 'hazard', 'difficult'],
+    start: [
+        {top: '496px', left: '232px'},
+        {top: '546px', left: '262px'},
+        {top: '597px', left: '291px'},
+        {top: '649px', left: '318px'},
+        {top: '699px', left: '349px'},
+        {top: '749px', left: '379px'},
+    ],
+    doorType: 'darkFog',
+    doors: [
+        {top: '436px', left: '720px'},
+        {top: '386px', left: '343px'},
+        {top: '638px', left: '898px'},
+    ],
+});
 // Solo scenarios: 200 + page #
 // Two-minis
 scenarios.set(220, {
