@@ -389,7 +389,34 @@ scenarios.set(72, {
         {top: '445px', left: '872px'},
     ],
     doors: [],
-})
+});
+scenarios.set(93, {
+    id: 93,
+    alignment: 'vert',
+    style: {height: '900px'},
+    map: {
+        G1a: {classes: ['rotate240'], style: {top: '505px', left: '124px'}},
+        K2a: {style: {top: '100px', left: '325px'}},
+        I1a: {classes: ['flip'], style: {top: '454px', left: '561px'}},
+        B3a: {classes: ['flip'], style: {top: '505px', left: '912px'}},
+    },
+    monsters: ['lurker', 'living spirit', 'frost demon'],
+    items: ['coin', 'treasure', 'obstacle1', 'hazard', 'difficult'],
+    start: [
+        {top: '496px', left: '232px'},
+        {top: '546px', left: '262px'},
+        {top: '597px', left: '291px'},
+        {top: '649px', left: '318px'},
+        {top: '699px', left: '349px'},
+        {top: '749px', left: '379px'},
+    ],
+    doorType: 'darkFog',
+    doors: [
+        {top: '436px', left: '720px'},
+        {top: '386px', left: '343px'},
+        {top: '638px', left: '898px'},
+    ],
+});
 // Solo scenarios: 200 + page #
 // Two-minis
 scenarios.set(220, {
