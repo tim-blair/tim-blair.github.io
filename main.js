@@ -389,13 +389,13 @@ window.onload = function () {
 
 let peer;
 if(peerHost) {
-    peer = new Peer([], {
+    peer = new Peer(requestedId, {
         host: peerHost,
         port: 9000,
         path: '/gloom'
     });
 } else {
-    peer = new Peer();
+    peer = new Peer(requestedId);
 }
 let peeringId;
 

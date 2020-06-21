@@ -22,6 +22,9 @@ label, .labelText {
 .rotate30 {
     transform: rotate(30deg);
 }
+.rotate210 {
+    transform: rotate(210deg);
+}
 .rotate240 {
     transform: rotate(240deg);
 }
