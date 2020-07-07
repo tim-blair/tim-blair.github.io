@@ -388,15 +388,7 @@ window.onload = function () {
 };
 
 let peer;
-if(peerHost) {
-    peer = new Peer(requestedId, {
-        host: peerHost,
-        port: 9000,
-        path: '/gloom'
-    });
-} else {
-    peer = new Peer(requestedId);
-}
+createPeer(requestedId);
 let peeringId;
 
 peer.on('open', (id) => {
@@ -417,9 +409,26 @@ peer.on('connection', (connection) => {
     connection.on('data', (data) => load(connection.peer, data.history));
     peerConnections[connection.peer] = connection;
 });
+let peerRetries = 0;
 peer.on('error', (err) => {
     console.log(`error: ${err}`);
+    if(!peerRetries) {
+        createPeer();
+        peerRetries++;
+    }
 });
+
+function createPeer(id) {
+    if(peerHost) {
+        peer = new Peer(requestedId, {
+            host: peerHost,
+            port: 9000,
+            path: '/gloom'
+        });
+    } else {
+        peer = new Peer(requestedId);
+    }
+}
 
 function connect() {
     const peerId = document.querySelector(`#peer`).value;
