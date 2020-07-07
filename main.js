@@ -423,13 +423,13 @@ peer.on('error', (err) => {
 
 function createPeer(id) {
     if(peerHost) {
-        peer = new Peer(requestedId, {
+        peer = new Peer(id, {
             host: peerHost,
             port: 9000,
             path: '/gloom'
         });
     } else {
-        peer = new Peer(requestedId);
+        peer = new Peer(id);
     }
 }
 function connect() {
