@@ -396,6 +396,9 @@ peer.on('open', (id) => {
     console.log(`peering id is: ${id}`);
     const selfId = document.querySelector('#selfId');
     selfId.textContent = `My ID: ${id}`;
+    if(requestedId && requestedId !== id) {
+        connectToPeer(requestedId);
+    }
 });
 
 // Someone connected to us, push our history to them
@@ -429,9 +432,12 @@ function createPeer(id) {
         peer = new Peer(requestedId);
     }
 }
-
 function connect() {
     const peerId = document.querySelector(`#peer`).value;
+    connectToPeer(peerId);
+}
+
+function connectToPeer(peerId) {
     const connection = peer.connect(peerId);
     if (peerConnections[connection.peer]) {
         return;
