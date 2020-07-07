@@ -416,8 +416,8 @@ let peerRetries = 0;
 peer.on('error', (err) => {
     console.log(`error: ${err}`);
     if(!peerRetries) {
-        createPeer();
         peerRetries++;
+        setTimeout(createPeer, 1000);
     }
 });
 
