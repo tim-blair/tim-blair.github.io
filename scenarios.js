@@ -201,7 +201,30 @@ scenarios.set(26, {
         d: {top: '963px', left: '338px'},
         1: {top: '504px', left: '368px'},
     }
-})
+});
+scenarios.set(30, {
+    id: 30,
+    alignment: 'horz',
+    style: {height: '1150px'},
+    map: {
+        N1b: {classes: ['revrotate'], style: {top: '100px', left: '200px'}},
+        L1a: {classes: ['rotate'], style: {top: '480px', left: '287px'}},
+        E1a: {classes: ['revrotate'], style: {top: '823px', left: '288px'}},
+    },
+    monsters: ['deep terror', 'lurker', 'ooze'],
+    items: ['coin', 'treasure', 'bearTrap', 'obstacle1', 'difficult', 'corridor', 'altar'],
+    start: [
+        {top: '1084px', left: '374px'},
+        {top: '1084px', left: '474px'},
+        {top: '1027px', left: '474px'},
+        {top: '1027px', left: '374px'},
+        {top: '1055px', left: '424px'},
+    ],
+    doorType: 'stoneDoor',
+    doors: [
+        {top: '815px', left: '416px'},
+    ],
+});
 scenarios.set(32, {
     id: 32,
     alignment: 'vert',

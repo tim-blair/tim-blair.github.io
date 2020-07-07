@@ -388,15 +388,7 @@ window.onload = function () {
 };
 
 let peer;
-if(peerHost) {
-    peer = new Peer(requestedId, {
-        host: peerHost,
-        port: 9000,
-        path: '/gloom'
-    });
-} else {
-    peer = new Peer(requestedId);
-}
+createPeer(requestedId);
 let peeringId;
 
 peer.on('open', (id) => {
@@ -404,6 +396,9 @@ peer.on('open', (id) => {
     console.log(`peering id is: ${id}`);
     const selfId = document.querySelector('#selfId');
     selfId.textContent = `My ID: ${id}`;
+    if(requestedId && requestedId !== id) {
+        connectToPeer(requestedId);
+    }
 });
 
 // Someone connected to us, push our history to them
@@ -417,12 +412,32 @@ peer.on('connection', (connection) => {
     connection.on('data', (data) => load(connection.peer, data.history));
     peerConnections[connection.peer] = connection;
 });
+let peerRetries = 0;
 peer.on('error', (err) => {
     console.log(`error: ${err}`);
+    if(!peerRetries) {
+        createPeer();
+        peerRetries++;
+    }
 });
 
+function createPeer(id) {
+    if(peerHost) {
+        peer = new Peer(requestedId, {
+            host: peerHost,
+            port: 9000,
+            path: '/gloom'
+        });
+    } else {
+        peer = new Peer(requestedId);
+    }
+}
 function connect() {
     const peerId = document.querySelector(`#peer`).value;
+    connectToPeer(peerId);
+}
+
+function connectToPeer(peerId) {
     const connection = peer.connect(peerId);
     if (peerConnections[connection.peer]) {
         return;
