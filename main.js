@@ -390,36 +390,7 @@ window.onload = function () {
 let peer;
 createPeer(requestedId);
 let peeringId;
-
-peer.on('open', (id) => {
-    peeringId = id;
-    console.log(`peering id is: ${id}`);
-    const selfId = document.querySelector('#selfId');
-    selfId.textContent = `My ID: ${id}`;
-    if(requestedId && requestedId !== id) {
-        connectToPeer(requestedId);
-    }
-});
-
-// Someone connected to us, push our history to them
-peer.on('connection', (connection) => {
-    connection.on('open', () => {
-        connection.send({reset: true, history});
-    });
-    if (peerConnections[connection.peer]) {
-        return;
-    }
-    connection.on('data', (data) => load(connection.peer, data.history));
-    peerConnections[connection.peer] = connection;
-});
 let peerRetries = 0;
-peer.on('error', (err) => {
-    console.log(`error: ${err}`);
-    if(!peerRetries) {
-        peerRetries++;
-        setTimeout(createPeer, 1000);
-    }
-});
 
 function createPeer(id) {
     if(peerHost) {
@@ -431,6 +402,36 @@ function createPeer(id) {
     } else {
         peer = new Peer(id);
     }
+
+    peer.on('open', (id) => {
+        peeringId = id;
+        console.log(`peering id is: ${id}`);
+        const selfId = document.querySelector('#selfId');
+        selfId.textContent = `My ID: ${id}`;
+        if(requestedId && requestedId !== id) {
+            connectToPeer(requestedId);
+        }
+    });
+
+    // Someone connected to us, push our history to them
+    peer.on('connection', (connection) => {
+        connection.on('open', () => {
+            connection.send({reset: true, history});
+        });
+        if (peerConnections[connection.peer]) {
+            return;
+        }
+        connection.on('data', (data) => load(connection.peer, data.history));
+        peerConnections[connection.peer] = connection;
+    });
+    peer.on('error', (err) => {
+        console.log(`error: ${err}`);
+        if(!peerRetries) {
+            peerRetries++;
+            setTimeout(createPeer, 1000);
+        }
+    });
+
 }
 function connect() {
     const peerId = document.querySelector(`#peer`).value;
