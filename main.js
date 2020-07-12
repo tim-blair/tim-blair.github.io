@@ -1,4 +1,5 @@
 let selected = null;
+let selectTime = 0;
 let history = [];
 const peerConnections = {};
 let nextId = 100;
@@ -11,7 +12,7 @@ function setScenario() {
     Object.keys(scenario.map).forEach(mapName =>
         scenarioContainer.appendChild(createMapTile(mapName, scenario.map[mapName])));
     scenario.start.forEach(start => scenarioContainer.appendChild(createScenarioItem('start', {style: start})));
-    scenario.doors.forEach(door => scenarioContainer.appendChild(createScenarioItem('door', {style: door})));
+    scenario.doors.forEach(door => scenarioContainer.appendChild(createScenarioItem(scenario.doorType, {style: door, extraClasses: ['door']})));
     scenario.items.forEach(item => scenarioItemsContainer.appendChild(createScenarioItem(item, {click: () => createWithAlignment(item)})));
     Object.keys(scenario.markers || {}).forEach(name => scenarioContainer.appendChild(createMarker(name, scenario.markers[name])));
     seedMonsterTypes(scenario.monsters);
@@ -20,6 +21,12 @@ function setScenario() {
 function clearSelection() {
     selected && selected.classList.remove('selected');
     selected = null;
+}
+
+function clearIdleSelection() {
+    if(Date.now() - selectTime > 5000) {
+        clearSelection();
+    }
 }
 
 function handleClick(e) {
@@ -43,6 +50,7 @@ function handleClick(e) {
         return true;
     }
     selected = target;
+    selectTime = Date.now();
     selected.classList.add('selected');
 }
 
@@ -87,7 +95,7 @@ function addClasses(element, classes) {
     classes.forEach(cls => element.classList.add(cls));
 }
 
-function itemClass(name) {
+function classWithAlignment(name) {
     return `${name}${scenario.alignment === 'horz' ? 'Horz' : ''}`;
 }
 
@@ -128,16 +136,20 @@ function createMarker(name, style) {
     return item;
 }
 
-function createScenarioItem(name, {style, click}) {
+function createIndicator() {
+    create('', 'indicator', 'item', 'waiting-area');
+}
+
+function createScenarioItem(name, {style, click, extraClasses = []}) {
     const item = document.createElement('div');
-    addClasses(item, [itemClass(name), 'item']);
+    addClasses(item, [classWithAlignment(name), 'item', ...extraClasses.map(classWithAlignment)]);
     setStyle(item, style);
     click && (item.onclick = click);
     return item;
 }
 
 function createWithAlignment(name) {
-    create('', itemClass(name));
+    create('', classWithAlignment(name));
 }
 
 function create(text, ...classes) {
@@ -217,10 +229,11 @@ function obstacle(size) {
 
 function monster() {
     const isElite = document.querySelector("#elite").checked;
-    const standee = document.querySelector("#standee").value;
+    const standee = parseInt(document.querySelector("#standee").value) || 0;
     const type = document.querySelector("#monster_type").value.toLowerCase();
     const classes = monsterClasses(scenario, type, isElite);
     create(standee, ...classes);
+    document.querySelector("#standee").value = standee + 1;
 }
 
 function character() {
@@ -308,12 +321,10 @@ let loading = false;
 
 function load(source, events) {
     loading = true;
-    let maxIdSeen = nextId - 1;
     const createEvents = events.filter(event => event.type === 'create');
     const moveEvents = events.filter(event => event.type === 'move' || 'remove');
     for (let event of createEvents) {
         createWithId(source, event.id, event.meta.text, ...event.meta.classes);
-        maxIdSeen = Math.max(maxIdSeen, parseInt(event.id.substring(event.id.indexOf('-') + 3)));
     }
     // Wait for the DOM updates
     setTimeout(() => {
@@ -327,7 +338,6 @@ function load(source, events) {
         }
         loading = false;
     }, 100);
-    nextId = maxIdSeen + 1;
 }
 
 let dragOffsetX = 0;
@@ -377,33 +387,58 @@ window.onload = function () {
     };
 };
 
-let peer = new Peer();
+let peer;
+createPeer(requestedId);
 let peeringId;
+let peerRetries = 0;
 
-peer.on('open', (id) => {
-    peeringId = id;
-    console.log(`peering id is: ${id}`);
-    const selfId = document.querySelector('#selfId');
-    selfId.textContent = `My ID: ${id}`;
-});
-
-// Someone connected to us, push our history to them
-peer.on('connection', (connection) => {
-    connection.on('open', () => {
-        connection.send({reset: true, history});
-    });
-    if (peerConnections[connection.peer]) {
-        return;
+function createPeer(id) {
+    if(peerHost) {
+        peer = new Peer(id, {
+            host: peerHost,
+            port: 9000,
+            path: '/gloom'
+        });
+    } else {
+        peer = new Peer(id);
     }
-    connection.on('data', (data) => load(connection.peer, data.history));
-    peerConnections[connection.peer] = connection;
-});
-peer.on('error', (err) => {
-    console.log(`error: ${err}`);
-});
 
+    peer.on('open', (id) => {
+        peeringId = id;
+        console.log(`peering id is: ${id}`);
+        const selfId = document.querySelector('#selfId');
+        selfId.textContent = `My ID: ${id}`;
+        if(requestedId && requestedId !== id) {
+            connectToPeer(requestedId);
+        }
+    });
+
+    // Someone connected to us, push our history to them
+    peer.on('connection', (connection) => {
+        connection.on('open', () => {
+            connection.send({reset: true, history});
+        });
+        if (peerConnections[connection.peer]) {
+            return;
+        }
+        connection.on('data', (data) => load(connection.peer, data.history));
+        peerConnections[connection.peer] = connection;
+    });
+    peer.on('error', (err) => {
+        console.log(`error: ${err}`);
+        if(!peerRetries) {
+            peerRetries++;
+            setTimeout(createPeer, 1000);
+        }
+    });
+
+}
 function connect() {
     const peerId = document.querySelector(`#peer`).value;
+    connectToPeer(peerId);
+}
+
+function connectToPeer(peerId) {
     const connection = peer.connect(peerId);
     if (peerConnections[connection.peer]) {
         return;
@@ -443,4 +478,8 @@ function importState() {
     } catch (e) {
         errorDiv.innerHTML = e.message;
     }
+}
+
+function resetState() {
+    document.querySelector('#scenario-state').value = '[]';
 }
