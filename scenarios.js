@@ -475,6 +475,37 @@ scenarios.set(93, {
     ],
 });
 // Solo scenarios: 200 + page #
+// Cthulhu/Squidface
+scenarios.set(214, {
+    id: 214,
+    alignment: 'vert',
+    map: {
+        M1a: {classes: [], style: {top: '200px', left: '500px'}},
+        A1a: {classes: ['rotate120'], style: {top: '200px', left: '291px'}},
+        C1a: {classes: ['rotate180'], style: {top: '99px', left: '792px'}},
+        C2b: {classes: [], style: {top: '453px', left: '792px'}},
+        D1a: {classes: [], style: {top: '453px', left: '208px'}},
+    },
+    monsters: ['giant viper', 'black imp', 'city guard'],
+    items: ['coin', 'obstacle2', 'obstacle1', 'obstacle3'],
+    start: [
+        {top: '1127px', left: '511px'},
+        {top: '1127px', left: '680px'},
+    ],
+    doorType: 'stoneDoor',
+    doors: [
+        {top: '230px', left: '515px'},
+        {top: '535px', left: '808px'},
+        {top: '230px', left: '808px'},
+        {top: '535px', left: '515px'}
+    ],
+    markers: {
+        b: {top: '248px', left: '530px'},
+        c: {top: '248px', left: '823px'},
+        d: {top: '553px', left: '823px'},
+        e: {top: '553px', left: '530px'},
+    }
+});
 // Two-minis
 scenarios.set(220, {
     id: 220,
