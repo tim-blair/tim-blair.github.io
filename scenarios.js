@@ -316,6 +316,41 @@ scenarios.set(43, {
         {top: '750px', left: '483px'},
     ],
 });
+scenarios.set(44, {
+    id: 44,
+    alignment: 'vert',
+    style: {height: '1250px'},
+    map: {
+        B1b: {style: {top: '757px', left: '450px'}},
+        B3a: {classes: ['flip'], style: {top: '100px', left: '450px'}},
+        B4a: {classes: ['flip'], style: {top: '100px', left: '100px'}},
+        M1b: {style: {top: '353px', left: '392px'}},
+        L1b: {classes: ['flip'], style: {top: '353px', left: '100px'}},
+    },
+    monsters: ['inox guard', 'inox archer', 'inox shaman', 'hound'],
+    items: ['coin', 'bearTrap', 'nest', 'obstacle1', 'corridor'],
+    start: [
+        {top: '952px', left: '500px'},
+        {top: '952px', left: '558px'},
+        {top: '952px', left: '616px'},
+        {top: '901px', left: '528px'},
+        {top: '901px', left: '588px'},
+    ],
+    doorType: 'woodDoor',
+    doors: [
+        {top: '333px', left: '202px'},
+        {top: '333px', left: '555px'},
+        {top: '536px', left: '373px'},
+    ],
+    markers: {
+        a: {top: '406px', left: '481px'},
+        b: {top: '912px', left: '482px'},
+        c: {top: '406px', left: '597px'},
+        d: {top: '558px', left: '569px'},
+        e: {top: '508px', left: '715px'},
+        f: {top: '608px', left: '715px'},
+    }
+})
 scenarios.set(57, {
     id: 57,
     alignment: 'vert',
