@@ -316,6 +316,41 @@ scenarios.set(43, {
         {top: '750px', left: '483px'},
     ],
 });
+scenarios.set(44, {
+    id: 44,
+    alignment: 'vert',
+    style: {height: '1250px'},
+    map: {
+        B1b: {style: {top: '757px', left: '450px'}},
+        B3a: {classes: ['flip'], style: {top: '100px', left: '450px'}},
+        B4a: {classes: ['flip'], style: {top: '100px', left: '100px'}},
+        M1b: {style: {top: '353px', left: '392px'}},
+        L1b: {classes: ['flip'], style: {top: '353px', left: '100px'}},
+    },
+    monsters: ['inox guard', 'inox archer', 'inox shaman', 'hound'],
+    items: ['coin', 'bearTrap', 'nest', 'obstacle1', 'corridor'],
+    start: [
+        {top: '952px', left: '500px'},
+        {top: '952px', left: '558px'},
+        {top: '952px', left: '616px'},
+        {top: '901px', left: '528px'},
+        {top: '901px', left: '588px'},
+    ],
+    doorType: 'woodDoor',
+    doors: [
+        {top: '333px', left: '202px'},
+        {top: '333px', left: '555px'},
+        {top: '536px', left: '373px'},
+    ],
+    markers: {
+        a: {top: '406px', left: '481px'},
+        b: {top: '912px', left: '482px'},
+        c: {top: '406px', left: '597px'},
+        d: {top: '558px', left: '569px'},
+        e: {top: '508px', left: '715px'},
+        f: {top: '608px', left: '715px'},
+    }
+})
 scenarios.set(57, {
     id: 57,
     alignment: 'vert',
@@ -475,6 +510,37 @@ scenarios.set(93, {
     ],
 });
 // Solo scenarios: 200 + page #
+// Cthulhu/Squidface
+scenarios.set(214, {
+    id: 214,
+    alignment: 'vert',
+    map: {
+        M1a: {classes: [], style: {top: '200px', left: '500px'}},
+        A1a: {classes: ['rotate120'], style: {top: '200px', left: '291px'}},
+        C1a: {classes: ['rotate180'], style: {top: '99px', left: '792px'}},
+        C2b: {classes: [], style: {top: '453px', left: '792px'}},
+        D1a: {classes: [], style: {top: '453px', left: '208px'}},
+    },
+    monsters: ['giant viper', 'black imp', 'city guard'],
+    items: ['coin', 'obstacle2', 'obstacle1', 'obstacle3'],
+    start: [
+        {top: '1127px', left: '511px'},
+        {top: '1127px', left: '680px'},
+    ],
+    doorType: 'stoneDoor',
+    doors: [
+        {top: '230px', left: '515px'},
+        {top: '535px', left: '808px'},
+        {top: '230px', left: '808px'},
+        {top: '535px', left: '515px'}
+    ],
+    markers: {
+        b: {top: '248px', left: '530px'},
+        c: {top: '248px', left: '823px'},
+        d: {top: '553px', left: '823px'},
+        e: {top: '553px', left: '530px'},
+    }
+});
 // Two-minis
 scenarios.set(220, {
     id: 220,
