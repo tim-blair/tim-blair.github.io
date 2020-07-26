@@ -281,7 +281,7 @@ function loadFromServer() {
 
         loading = false;
     }
-    xhr.open('GET', '/events');
+    xhr.open('GET', `/events/${scenarioNumber}`);
     xhr.send();
 }
 
@@ -322,11 +322,25 @@ function sendEvent(evt) {
         }
     }
 
-    xhr.open('POST', '/events');
+    xhr.open('POST', `/events/${scenarioNumber}`);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send(JSON.stringify(evt));
 }
 
+// only accessible from console
+function resetServer() {
+    const xhr = new XMLHttpRequest();
+
+    xhr.onload = () => {
+        if (xhr.status !== 200) {
+            console.error('Failed to reset server', xhr.statusText, xhr);
+        }
+    }
+
+    xhr.open('DELETE', `/events/${scenarioNumber}`);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send();
+}
 
 function onCreate(id, text, ...classes) {
     const item = document.createElement('div');
@@ -370,6 +384,9 @@ function onEvent(event) {
             return;
         case 'remove':
             onRemove(event.id);
+            return;
+        case 'forceRefresh':
+            loadFromServer();
             return;
         default:
             console.error(`Unrecognized event type: ${event.type}`, event);

@@ -3,11 +3,12 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const expressWs = require('express-ws')(app);
+const fs = require('fs');
 
 const port = 7688;
 
 let lastEventUuid = null;
-let events = [];
+let state = {};
 let sockets = {};
 
 // generic settings
@@ -35,11 +36,11 @@ app.use('/scenBook', express.static('scenBook'));
 
 // state
 
-app.get('/events', (req, res) => {
-    res.json(compactedHistory());
+app.get('/events/:scenId(\\d+)', (req, res) => {
+    res.json(compactedHistory(req.params.scenId));
 });
 
-app.post('/events', (req, res) => {
+app.post('/events/:scenId(\\d+)', (req, res) => {
     var event = req.body;
     console.log('Received event', event);
 
@@ -54,13 +55,30 @@ app.post('/events', (req, res) => {
     }
 
     res.sendStatus(200);
-
-    events.push(event);
+    record(req.params.scenId, event);
 
     const wsEvent = {...event};
     wsEvent.prevUuid = prevUuid;
     publish(wsEvent);
 });
+
+app.delete('/events/:scenId(\\d+)', (req, res) => {
+    console.info('Events cleared!');
+    delete state[req.params.scenId];
+    save();
+    res.sendStatus(200);
+    publish({
+        uuid: uuid(),
+        type: 'forceRefresh'
+    });
+});
+
+function record(scenId, event) {
+    const scenState = state[scenId] = (state[scenId] || {events: []});
+    const events = scenState.events;
+    events.push(event);
+    save();
+}
 
 function publish(event) {
     Object.values(sockets).forEach(ws => {
@@ -90,7 +108,8 @@ app.ws('/updates', function (ws, req) {
 
 app.listen(port, () => console.log(`Now running at http://localhost:${port}`));
 
-function compactedHistory() {
+function compactedHistory(scenId) {
+    const events = (state[scenId] && state[scenId].events) || [];
     const trimmed = new Map();
     for (let evt of events) {
         switch (evt.type) {
@@ -115,3 +134,28 @@ function compactedHistory() {
     });
     return compactedHistory;
 }
+
+function save() {
+    const data = JSON.stringify(state, null, 2);
+    fs.writeFile('state.json', data, (err, data) => {
+        if (err) {
+            console.error('Failed to save state', err);
+        }
+    });
+}
+
+function load() {
+    fs.readFile('state.json', (err, data) => {
+        if (err) {
+            console.error('Error loading state', err);
+        } else {
+            try {
+                state = JSON.parse(data);
+            } catch (e) {
+                console.error('Error loading state', e);
+            }
+        }
+    });
+}
+
+load();
