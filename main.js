@@ -1,8 +1,8 @@
 let selected = null;
 let selectTime = 0;
-let history = [];
-const peerConnections = {};
-let nextId = 100;
+let lastEventUuid = null;
+let ws = null;
+let loading = false;
 
 function setScenario() {
     const scenarioContainer = document.querySelector('.scenario-container');
@@ -39,9 +39,9 @@ function handleClick(e) {
         const x = e.pageX - selected.parentElement.offsetLeft;
         const y = e.pageY - selected.parentElement.offsetTop;
         if (shouldBeRemoved(x, y)) {
-            remove('', selected.id);
+            remove(selected.id);
         } else {
-            move('', selected.id, x, y);
+            move(selected.id, x, y);
         }
         clearSelection();
         return false;
@@ -54,27 +54,26 @@ function handleClick(e) {
     selected.classList.add('selected');
 }
 
-function move(source, id, x, y) {
-    const selected = document.querySelector(`[id='${id}']`);
-    selected.style.top = `${y - selected.clientHeight / 2}`;
-    selected.style.left = `${x - selected.clientWidth / 2}`;
-    selected.classList.remove('waiting-area');
-    recordEvent(source, {
+function create(text, ...classes) {
+    sendEvent({
+        type: 'create',
+        meta: {text, classes: classes}
+    });
+}
+
+function move(id, x, y) {
+    sendEvent({
         id,
         type: 'move',
         meta: {x, y}
     });
-    save();
 }
 
-function remove(source, id) {
-    const item = document.querySelector(`[id='${id}']`);
-    document.querySelector('.scenario-container').removeChild(item);
-    recordEvent(source, {
+function remove(id) {
+    sendEvent({
         id,
         type: 'remove',
     });
-    save();
 }
 
 function shouldBeRemoved(x, y) {
@@ -152,28 +151,6 @@ function createWithAlignment(name) {
     create('', classWithAlignment(name));
 }
 
-function create(text, ...classes) {
-    if (!peeringId) {
-        console.log(`Cannot create ${text}: waiting for peeringId`);
-        return;
-    }
-    createWithId('', `${peeringId}-gh${nextId++}`, text, ...classes);
-}
-
-function createWithId(source, id, text, ...classes) {
-    const item = document.createElement('div');
-    item.id = id;
-    addClasses(item, [...classes, 'item', 'waiting-area']);
-    recordEvent(source, {
-        id: item.id,
-        type: 'create',
-        meta: {text, classes: toArray(item.classList)}
-    });
-    item.textContent = text;
-    initDragDrop(item);
-    document.querySelector('.scenario-container').appendChild(item);
-}
-
 function toArray(classList) {
     const iter = classList.entries();
     const array = [];
@@ -246,62 +223,10 @@ function summon() {
     create(type, 'summon');
 }
 
-function recordEvent(source, evt) {
-    history.push(evt);
-    Object.values(peerConnections).forEach(conn => {
-        if (conn.peer !== source) {
-            conn.send({history: [evt]});
-        }
-    });
-    save();
-}
-
-function save() {
-    const serializedHistory = JSON.stringify(history);
-    localStorage.setItem(`history[${scenario.id}]`, serializedHistory);
-}
-
-function view() {
-    console.log(JSON.stringify(history));
-}
-
-function compact() {
-    history = compactedHistory();
-    save();
-}
-
-function compactedHistory() {
-    const trimmed = new Map();
-    for (let evt of history) {
-        switch (evt.type) {
-            case 'create':
-                trimmed.set(evt.id, {create: evt});
-                break;
-            case 'move':
-                const eventToUpdate = trimmed.get(evt.id);
-                eventToUpdate.move = evt;
-                break;
-            case 'remove':
-                trimmed.delete(evt.id);
-                break;
-        }
-    }
-    const compactedHistory = [];
-    trimmed.forEach(value => {
-        compactedHistory.push(value.create);
-        if (value.move) {
-            compactedHistory.push(value.move);
-        }
-    });
-    return compactedHistory;
-}
-
 function reset() {
-    localStorage.removeItem(`history[${scenario.id}]`);
     removeAll('.scenario-container');
     removeAll('.scenario-items');
     removeAll('#monster_type');
-    history = [];
     setScenario();
 }
 
@@ -312,32 +237,143 @@ function removeAll(selector) {
     }
 }
 
-function loadRaw(events) {
-    const parsed = JSON.parse(events);
-    load('', parsed);
+function loadFromServer() {
+    loading = true;
+    const bufferedWsEvents = [];
+    if (ws) {
+        ws.close();
+    }
+
+    ws = new WebSocket(wsUrl());
+    ws.addEventListener('open', evt => {
+        console.info('Websocket established', evt);
+    })
+
+    ws.addEventListener('message', evt => {
+        console.debug('WS message', evt);
+        const event = JSON.parse(evt.data);
+
+        if (loading) {
+            // buffer events that come in while loading
+            bufferedWsEvents.push(event);
+        } else {
+            onEvent(event);
+        }
+    });
+
+    const xhr = new XMLHttpRequest();
+    xhr.onload = () => {
+        if (xhr.status !== 200) {
+            console.error('Error fetching state from server', xhr.statusText, xhr);
+            return;
+        }
+        const events = JSON.parse(xhr.responseText);
+
+        load(events);
+
+        // discard events that don't match our state
+        while (bufferedWsEvents.length && bufferedWsEvents[0].prevUuid && bufferedWsEvents[0].prevUuid !== lastEventUuid) {
+            const discardedEvent = bufferedWsEvents.unshift();
+            console.warn('Dropped WS event because it did not follow last applied event', discardedEvent);
+        }
+
+        bufferedWsEvents.forEach(evt => onEvent(evt));
+
+        loading = false;
+    }
+    xhr.open('GET', '/events');
+    xhr.send();
 }
 
-let loading = false;
+function wsUrl() {
+    const loc = window.location;
+    let wsUri;
+    if (loc.protocol === "https:") {
+        wsUri = "wss:";
+    } else {
+        wsUri = "ws:";
+    }
+    wsUri += "//" + loc.host;
+    wsUri += '/updates';
+    return wsUri;
+}
 
-function load(source, events) {
-    loading = true;
+function load(events) {
+    reset();
     const createEvents = events.filter(event => event.type === 'create');
-    const moveEvents = events.filter(event => event.type === 'move' || 'remove');
+    const moveEvents = events.filter(event => event.type === 'move' || event.type === 'remove');
     for (let event of createEvents) {
-        createWithId(source, event.id, event.meta.text, ...event.meta.classes);
+        onEvent(event);
     }
     // Wait for the DOM updates
     setTimeout(() => {
         for (let event of moveEvents) {
-            if (event.type === 'move') {
-                move(source, event.id, event.meta.x, event.meta.y);
-            }
-            if (event.type === 'remove') {
-                remove(source, event.id);
-            }
+            onEvent(event);
         }
-        loading = false;
     }, 100);
+}
+
+function sendEvent(evt) {
+    const xhr = new XMLHttpRequest();
+
+    xhr.onload = () => {
+        if (xhr.status !== 200) {
+            console.error('Failed to send event', xhr.statusText, xhr);
+        }
+    }
+
+    xhr.open('POST', '/events');
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify(evt));
+}
+
+
+function onCreate(id, text, ...classes) {
+    const item = document.createElement('div');
+    item.id = id;
+    addClasses(item, [...classes, 'item', 'waiting-area']);
+
+    item.textContent = text;
+    initDragDrop(item);
+    document.querySelector('.scenario-container').appendChild(item);
+}
+
+function onMove(id, x, y) {
+    const selected = document.querySelector(`[id='${id}']`);
+    selected.style.top = `${y - selected.clientHeight / 2}`;
+    selected.style.left = `${x - selected.clientWidth / 2}`;
+    selected.classList.remove('waiting-area');
+}
+
+function onRemove(id) {
+    const item = document.querySelector(`[id='${id}']`);
+    document.querySelector('.scenario-container').removeChild(item);
+}
+
+function onEvent(event) {
+
+    // only sent on incremental events
+    if (event.prevUuid && (event.prevUuid !== lastEventUuid)) {
+        console.error(`Missed event ${event.prevUuid}, loading fresh`, event);
+        loadFromServer();
+        return;
+    }
+
+    lastEventUuid = event.uuid;
+
+    switch (event.type) {
+        case 'create':
+            onCreate(event.id, event.meta.text, ...event.meta.classes);
+            return;
+        case 'move':
+            onMove(event.id, event.meta.x, event.meta.y);
+            return;
+        case 'remove':
+            onRemove(event.id);
+            return;
+        default:
+            console.error(`Unrecognized event type: ${event.type}`, event);
+    }
 }
 
 let dragOffsetX = 0;
@@ -349,9 +385,9 @@ function finishDrag(evt) {
     const x = evt.pageX - draggedItem.parentElement.offsetLeft + (rect.width / 2) + dragOffsetX - 1;
     const y = evt.pageY - draggedItem.parentElement.offsetTop + (rect.height / 2) + dragOffsetY - 1;
     if (shouldBeRemoved(x, y)) {
-        remove('', draggedItem.id);
+        remove(draggedItem.id);
     } else {
-        move('', draggedItem.id, x, y);
+        move(draggedItem.id, x, y);
     }
     clearSelection();
 }
@@ -374,11 +410,7 @@ function initDragDrop(item) {
 }
 
 window.onload = function () {
-    setScenario();
-    const history = localStorage.getItem(`history[${scenario.id}]`);
-    if (history) {
-        loadRaw(history);
-    }
+    loadFromServer();
     document.body.ondragleave = evt => {
         // should be true only in firefox when drag ends
         if (evt.buttons === 0) {
@@ -387,99 +419,8 @@ window.onload = function () {
     };
 };
 
-let peer;
-createPeer(requestedId);
-let peeringId;
-let peerRetries = 0;
-
-function createPeer(id) {
-    if(peerHost) {
-        peer = new Peer(id, {
-            host: peerHost,
-            port: 9000,
-            path: '/gloom'
-        });
-    } else {
-        peer = new Peer(id);
-    }
-
-    peer.on('open', (id) => {
-        peeringId = id;
-        console.log(`peering id is: ${id}`);
-        const selfId = document.querySelector('#selfId');
-        selfId.textContent = `My ID: ${id}`;
-        if(requestedId && requestedId !== id) {
-            connectToPeer(requestedId);
-        }
-    });
-
-    // Someone connected to us, push our history to them
-    peer.on('connection', (connection) => {
-        connection.on('open', () => {
-            connection.send({reset: true, history});
-        });
-        if (peerConnections[connection.peer]) {
-            return;
-        }
-        connection.on('data', (data) => load(connection.peer, data.history));
-        peerConnections[connection.peer] = connection;
-    });
-    peer.on('error', (err) => {
-        console.log(`error: ${err}`);
-        if(!peerRetries) {
-            peerRetries++;
-            setTimeout(createPeer, 1000);
-        }
-    });
-
-}
-function connect() {
-    const peerId = document.querySelector(`#peer`).value;
-    connectToPeer(peerId);
-}
-
-function connectToPeer(peerId) {
-    const connection = peer.connect(peerId);
-    if (peerConnections[connection.peer]) {
-        return;
-    }
-    connection.on('open', () => {
-        connection.on('data', (data) => {
-            if (data.reset) {
-                reset();
-            }
-            load(connection.peer, data.history);
-        });
-    });
-    peerConnections[connection.peer] = connection;
-}
-
 window.addEventListener('mousedown', e => {
     if (e.button === 0 && e.target.classList.contains('modal')) {
         e.target.style.display = 'none';
     }
 });
-
-function showImportExportModal() {
-    const modal = document.querySelector('#import-export-modal');
-    modal.style.display = "block";
-    const scenarioState = modal.querySelector('#scenario-state');
-    scenarioState.value = JSON.stringify(compactedHistory());
-}
-
-function importState() {
-    const events = document.querySelector('#scenario-state').value;
-    const errorDiv = document.querySelector('#import-error');
-    try {
-        errorDiv.innerHTML = '';
-        const parsed = JSON.parse(events);
-        reset();
-        load('', parsed);
-    } catch (e) {
-        errorDiv.innerHTML = e.message;
-    }
-}
-
-function resetState() {
-    document.querySelector('#scenario-state').value = '[]';
-}
