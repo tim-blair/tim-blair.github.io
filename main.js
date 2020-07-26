@@ -3,6 +3,7 @@ let selectTime = 0;
 let lastEventUuid = null;
 let ws = null;
 let loading = false;
+let cursorLastUpdates = {};
 
 function setScenario() {
     const scenarioContainer = document.querySelector('.scenario-container');
@@ -364,6 +365,24 @@ function onRemove(id) {
     document.querySelector('.scenario-container').removeChild(item);
 }
 
+function onCursor(event) {
+    const id = event.id;
+    let item = document.getElementById(id);
+
+    if (!item) {
+        item = document.createElement('div');
+        item.id = id;
+        addClasses(item, ['cursor']);
+        document.getElementsByTagName('body')[0].appendChild(item);
+    }
+
+    cursorLastUpdates[id] = new Date().getTime();
+    item.style.visibility = 'visible';
+    item.style.left = (event.meta.x - (item.getBoundingClientRect().width / 2)) + 'px';
+    item.style.top = (event.meta.y - (item.getBoundingClientRect().height / 2)) + 'px';
+    item.style['background-color'] = event.meta.c;
+}
+
 function onEvent(event) {
 
     // only sent on incremental events
@@ -373,7 +392,9 @@ function onEvent(event) {
         return;
     }
 
-    lastEventUuid = event.uuid;
+    if (event.uuid) {
+        lastEventUuid = event.uuid;
+    }
 
     switch (event.type) {
         case 'create':
@@ -384,6 +405,9 @@ function onEvent(event) {
             return;
         case 'remove':
             onRemove(event.id);
+            return;
+        case 'cursor':
+            onCursor(event);
             return;
         case 'forceRefresh':
             loadFromServer();
@@ -441,3 +465,39 @@ window.addEventListener('mousedown', e => {
         e.target.style.display = 'none';
     }
 });
+
+let bufferedMouseMove = 0;
+let mouseX = 0;
+let mouseY = 0;
+
+window.addEventListener('mousemove', e => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+
+    if (bufferedMouseMove) {
+        return;
+    }
+
+    bufferedMouseMove = setTimeout(() => {
+            if (ws && ws.readyState === 1) {
+                try {
+                    ws.send(JSON.stringify({type: 'cursor', x: mouseX, y: mouseY}));
+                    bufferedMouseMove = 0;
+                } catch (e) {
+                    console.warn('Unable to send cursor', e);
+                }
+
+            }
+    }, 50);
+});
+
+setInterval(() => {
+    const now = new Date().getTime();
+    Object.entries(cursorLastUpdates).forEach(([id, time]) => {
+        // hide inactive cursors
+        if (now - time > 10000) {
+            const item = document.getElementById(id);
+            item.style.visibility = 'hidden';
+        }
+    });
+}, 1000);
