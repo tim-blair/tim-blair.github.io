@@ -6,6 +6,12 @@ body {
 label, .labelText {
     color: #CCCCCC;
 }
+.toolBox {
+    position: absolute;
+    z-index: 1000;
+    top: 10px;
+    left: 10px;
+}
 .configBox {
     margin: 10px 0;
     align-self: center;
@@ -48,6 +54,7 @@ label, .labelText {
 }
 .scenario-container {
     position: relative;
+    top: 120px;
 }
 .scenario-items {
     display: flex;

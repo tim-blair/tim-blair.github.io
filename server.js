@@ -65,12 +65,18 @@ app.use('/scenBook', express.static('scenBook'));
 // state
 
 app.get('/events/:scenId(\\d+)', (req, res) => {
-    res.json(compactedHistory(req.params.scenId));
+    const events = [...compactedHistory(req.params.scenId), {
+        // always end with an event with the current last event uuid.  This is because the current
+        // compactedHistory implementation might remove the last event we recorded and thus not send it to the
+        // client, or might reorder it
+        type: 'stateCorrection',
+        uuid: lastEventUuid
+    }];
+    res.json(events);
 });
 
 app.post('/events/:scenId(\\d+)', (req, res) => {
     var event = req.body;
-    console.log('Received event', event);
 
     const eventUuid = uuid();
     event.uuid = eventUuid;
@@ -128,7 +134,15 @@ app.ws('/updates', function (ws) {
     const color = CURSOR_COLORS.filter(color => !Object.values(cursorColors).includes(color))[0] || '#FFFFFF';
     cursorColors[wsUuid] = color;
 
+    console.log('Active clients:', cursorColors);
+
     ws.on('close', () => {
+        delete sockets[wsUuid];
+        delete cursorColors[wsUuid];
+    });
+
+    ws.on('error', (err) => {
+        console.error('Error in WS connection ' + wsUuid, err);
         delete sockets[wsUuid];
         delete cursorColors[wsUuid];
     });

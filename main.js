@@ -301,17 +301,7 @@ function wsUrl() {
 
 function load(events) {
     reset();
-    const createEvents = events.filter(event => event.type === 'create');
-    const moveEvents = events.filter(event => event.type === 'move' || event.type === 'remove');
-    for (let event of createEvents) {
-        onEvent(event);
-    }
-    // Wait for the DOM updates
-    setTimeout(() => {
-        for (let event of moveEvents) {
-            onEvent(event);
-        }
-    }, 100);
+    events.forEach(evt => onEvent(evt));
 }
 
 function sendEvent(evt) {
@@ -394,6 +384,7 @@ function onEvent(event) {
 
     if (event.uuid) {
         lastEventUuid = event.uuid;
+        console.debug('Processed event', lastEventUuid);
     }
 
     switch (event.type) {
@@ -411,6 +402,10 @@ function onEvent(event) {
             return;
         case 'forceRefresh':
             loadFromServer();
+            return;
+        case 'stateCorrection':
+            // the sole purpose for this event is to make sure the lastEventUuid is correct even if history has
+            // been collapsed
             return;
         default:
             console.error(`Unrecognized event type: ${event.type}`, event);
@@ -479,10 +474,10 @@ window.addEventListener('mousemove', e => {
     }
 
     bufferedMouseMove = setTimeout(() => {
+            bufferedMouseMove = 0;
             if (ws && ws.readyState === 1) {
                 try {
                     ws.send(JSON.stringify({type: 'cursor', x: mouseX, y: mouseY}));
-                    bufferedMouseMove = 0;
                 } catch (e) {
                     console.warn('Unable to send cursor', e);
                 }
