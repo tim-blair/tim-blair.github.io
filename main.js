@@ -471,8 +471,8 @@ let mouseX = 0;
 let mouseY = 0;
 
 window.addEventListener('mousemove', e => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
+    mouseX = e.pageX;
+    mouseY = e.pageY;
 
     if (bufferedMouseMove) {
         return;

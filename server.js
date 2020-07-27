@@ -7,7 +7,7 @@ const fs = require('fs');
 
 expressWs(app);
 
-const port = 7688;
+const port = 7689;
 
 const CURSOR_COLORS = [
     '#e6194b',
@@ -111,7 +111,9 @@ function record(scenId, event) {
 function publish(event) {
     Object.values(sockets).forEach(ws => {
         try {
-            ws.send(JSON.stringify(event));
+            if (ws.readyState === 1) {
+                ws.send(JSON.stringify(event));
+            }
         } catch (e) {
             console.warn('Failed to send event to socket', e, event, ws);
         }
