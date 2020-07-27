@@ -411,3 +411,15 @@ label, .labelText {
 .error {
     color: red;
 }
+
+div.cursor {
+    z-index: 10000;
+    pointer-events: none;
+    position: absolute;
+    border: none;
+    border-radius:50%;
+    background-color: white;
+    opacity: 0.4;
+    width:30px;
+    height:30px;
+}
