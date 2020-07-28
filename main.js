@@ -366,7 +366,7 @@ function onCursor(event) {
         document.getElementsByTagName('body')[0].appendChild(item);
     }
 
-    cursorLastUpdates[id] = new Date().getTime();
+    cursorLastUpdates[id] = Date.now();
     item.style.visibility = 'visible';
     item.style.left = (event.meta.x - (item.getBoundingClientRect().width / 2)) + 'px';
     item.style.top = (event.meta.y - (item.getBoundingClientRect().height / 2)) + 'px';
@@ -486,13 +486,23 @@ window.addEventListener('mousemove', e => {
     }, 50);
 });
 
+window.addEventListener('keyup', e => {
+    if (e.key === 'Escape') {
+        clearSelection();
+    }
+});
+
 setInterval(() => {
-    const now = new Date().getTime();
+    const now = Date.now();
+
+    // hide inactive cursors
     Object.entries(cursorLastUpdates).forEach(([id, time]) => {
-        // hide inactive cursors
         if (now - time > 10000) {
             const item = document.getElementById(id);
             item.style.visibility = 'hidden';
         }
     });
+
+    // idle selection
+    clearIdleSelection();
 }, 1000);
