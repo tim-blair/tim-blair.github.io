@@ -7,9 +7,7 @@ let cursorLastUpdates = {};
 
 function setScenario() {
     const scenarioContainer = document.querySelector('.scenario-container');
-    setStyle(scenarioContainer, scenario.style);
     scenarioContainer.appendChild(createTrashCan());
-    scenario.start.forEach(start => scenarioContainer.appendChild(createScenarioItem('start', {style: start})));
     seedScenarioItems();
     seedMonsterTypes(scenario.monsters);
 }

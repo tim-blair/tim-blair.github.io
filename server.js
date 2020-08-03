@@ -209,9 +209,10 @@ function fetchScenarioEvents(scenId) {
         });
     }
 
+    const alignment = scenario.alignment === 'horz' ? 'Horz' : '';
+
     if (scenario.doors) {
         const doorType = scenario.doorType || 'stoneDoor';
-        const alignment = scenario.alignment === 'horz' ? 'Horz' : '';
 
         scenario.doors.forEach(door => {
             const id = uuid();
@@ -241,6 +242,25 @@ function fetchScenarioEvents(scenId) {
                 meta: {
                     text,
                     classes: ['marker', 'item']
+                }
+            })
+
+            events.push({
+                type: 'move',
+                id,
+                meta: style
+            });
+        });
+    }
+
+    if (scenario.start) {
+        Object.entries(scenario.start).forEach(([text, style]) => {
+            const id = uuid();
+            events.push({
+                type: 'create',
+                id,
+                meta: {
+                    classes: [`start${alignment}`]
                 }
             })
 
