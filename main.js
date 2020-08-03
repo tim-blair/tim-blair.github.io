@@ -104,7 +104,11 @@ function scenarioAlignment() {
 }
 
 function mapTile() {
-    const name = document.querySelector("#mapTileName").value;
+    const mapTileName = document.querySelector("#mapTileName").value.trim();
+    if (mapTileName.length !== 3) {
+        return;
+    }
+    const name = mapTileName[0].toUpperCase() + mapTileName[1] + mapTileName[2].toLowerCase();
     const rotation = document.querySelector("#mapTileRotation").value;
     sendEvent({type: 'createMapTile', meta: {name, rotation}});
 }
