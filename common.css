@@ -12,11 +12,17 @@ label, .labelText {
     top: 10px;
     left: 10px;
 }
+#designToolBox, .design-mode #scenarioToolBox {
+    display: none;
+}
+.design-mode #designToolBox {
+    display: unset;
+}
 .configBox {
     margin: 10px 0;
     align-self: center;
 }
-.monster-box {
+.monster-box, .map-box {
     margin-right: 30px;
 }
 .rotate {
@@ -70,6 +76,12 @@ label, .labelText {
     transform: scale(0.3);
     transform-origin: top left;
 }
+.design-mode .map {
+    pointer-events: unset;
+}
+img {
+    pointer-events: none;
+}
 .available-item-container {
     display: flex;
 }
@@ -82,7 +94,7 @@ label, .labelText {
     z-index: 30;
     border-radius: 12px;
 }
-.item.selected {
+.item.selected, .map.selected {
     box-shadow: 0 0 3px 3px turquoise !important;
 }
 .item:hover[id] {
@@ -197,6 +209,13 @@ label, .labelText {
     background-image: url("./scenBook/icons/startHorz.png");
     opacity: 40%;
 }
+.scenario-container .start, .scenario-container .startHorz {
+    pointer-events: none;
+}
+.design-mode .scenario-container .start, .design-mode .scenario-container .startHorz {
+    pointer-events: unset;
+}
+
 .trap, .spikeTrap {
     background-image: url("./scenBook/tokens/spikeTrap.png");
     height: 57px;
@@ -219,6 +238,14 @@ label, .labelText {
 }
 .hazardHorz {
     background-image: url("./scenBook/tokens/hotCoalsHorz.png");
+    height: 45px;
+}
+.thorns {
+    background-image: url("./scenBook/tokens/thorns.png");
+    height: 57px;
+}
+.thornsHorz {
+    background-image: url("./scenBook/tokens/thornsHorz.png");
     height: 45px;
 }
 .terrain, .difficult, .water {
@@ -281,6 +308,13 @@ label, .labelText {
     width: 67px;
     background-size: 67px;
 }
+.scenario-container .door, .scenario-container .doorHorz {
+    pointer-events: none;
+}
+.design-mode .scenario-container .door, .design-mode .scenario-container .doorHorz {
+    pointer-events: unset;
+}
+
 .woodDoor {
     background-image: url("./scenBook/tokens/woodDoor.png");
 }

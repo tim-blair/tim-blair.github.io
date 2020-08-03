@@ -7,16 +7,32 @@ let cursorLastUpdates = {};
 
 function setScenario() {
     const scenarioContainer = document.querySelector('.scenario-container');
-    const scenarioItemsContainer = document.querySelector('.scenario-items');
     setStyle(scenarioContainer, scenario.style);
     scenarioContainer.appendChild(createTrashCan());
     Object.keys(scenario.map).forEach(mapName =>
         scenarioContainer.appendChild(createMapTile(mapName, scenario.map[mapName])));
     scenario.start.forEach(start => scenarioContainer.appendChild(createScenarioItem('start', {style: start})));
-    scenario.doors.forEach(door => scenarioContainer.appendChild(createScenarioItem(scenario.doorType, {style: door, extraClasses: ['door']})));
-    scenario.items.forEach(item => scenarioItemsContainer.appendChild(createScenarioItem(item, {click: () => createWithAlignment(item)})));
+    scenario.doors.forEach(door => scenarioContainer.appendChild(createScenarioItem(scenario.doorType, {
+        style: door,
+        extraClasses: ['door']
+    })));
     Object.keys(scenario.markers || {}).forEach(name => scenarioContainer.appendChild(createMarker(name, scenario.markers[name])));
+    seedScenarioItems();
     seedMonsterTypes(scenario.monsters);
+}
+
+function seedScenarioItems() {
+    removeAll('.scenario-items');
+    const scenarioItemsContainer = document.querySelector('.scenario-items');
+    scenario.items.forEach(item => scenarioItemsContainer.appendChild(createScenarioItem(item, {click: () => createWithAlignment(item)})));
+
+    removeAll('#designToolBox .scenario-items');
+    const designToolboxScenarioItemsContainer = document.querySelector('#designToolBox .scenario-items');
+    designToolboxScenarioItemsContainer.appendChild(createScenarioItem(scenario.doorType, {
+        extraClasses: ['door'],
+        click: () => door()
+    }));
+    designToolboxScenarioItemsContainer.appendChild(createScenarioItem('start', {style: start, click: () => start()}));
 }
 
 function clearSelection() {
@@ -25,7 +41,7 @@ function clearSelection() {
 }
 
 function clearIdleSelection() {
-    if(Date.now() - selectTime > 5000) {
+    if (Date.now() - selectTime > 5000) {
         clearSelection();
     }
 }
@@ -42,12 +58,17 @@ function handleClick(e) {
         if (shouldBeRemoved(x, y)) {
             remove(selected.id);
         } else {
-            move(selected.id, x, y);
+            const top = `${y - selected.getBoundingClientRect().height / 2}`;
+            const left = `${x - selected.getBoundingClientRect().width / 2}`;
+            move(selected.id, top, left);
         }
         clearSelection();
         return false;
     }
-    if (!target.classList.contains('item') || !target.id) {
+    if (!target.id) {
+        return true;
+    }
+    if (!target.classList.contains('item') && !target.classList.contains('map')) {
         return true;
     }
     selected = target;
@@ -62,11 +83,11 @@ function create(text, ...classes) {
     });
 }
 
-function move(id, x, y) {
+function move(id, top, left) {
     sendEvent({
         id,
         type: 'move',
-        meta: {x, y}
+        meta: {top, left}
     });
 }
 
@@ -75,6 +96,21 @@ function remove(id) {
         id,
         type: 'remove',
     });
+}
+
+function scenarioAlignment() {
+    const alignment = document.querySelector("#scenarioAlignment").value;
+    sendEvent({type: 'alignment', meta: {alignment}});
+}
+
+function mapTile() {
+    const mapTileName = document.querySelector("#mapTileName").value.trim();
+    if (mapTileName.length !== 3) {
+        return;
+    }
+    const name = mapTileName[0].toUpperCase() + mapTileName[1] + mapTileName[2].toLowerCase();
+    const rotation = document.querySelector("#mapTileRotation").value;
+    sendEvent({type: 'createMapTile', meta: {name, rotation}});
 }
 
 function shouldBeRemoved(x, y) {
@@ -115,8 +151,11 @@ function createTrashCan() {
     return div;
 }
 
-function createMapTile(mapName, {classes = [], style}) {
+function createMapTile(mapName, {id, classes = [], style}) {
     const div = document.createElement('div');
+    if (id) {
+        div.id = id;
+    }
     addClasses(div, ['map']);
     setStyle(div, style);
 
@@ -138,6 +177,15 @@ function createMarker(name, style) {
 
 function createIndicator() {
     create('', 'indicator', 'item', 'waiting-area');
+}
+
+function switchDesignMode() {
+    const designMode = document.querySelector("#designMode").checked;
+    if (designMode) {
+        document.body.classList.add('design-mode');
+    } else {
+        document.body.classList.remove('design-mode');
+    }
 }
 
 function createScenarioItem(name, {style, click, extraClasses = []}) {
@@ -194,7 +242,7 @@ function altar() {
 }
 
 function door() {
-    createWithAlignment(`door`);
+    create('', classWithAlignment('door'), classWithAlignment(scenario.doorType), 'item');
 }
 
 function hazard() {
@@ -343,10 +391,10 @@ function onCreate(id, text, ...classes) {
     document.querySelector('.scenario-container').appendChild(item);
 }
 
-function onMove(id, x, y) {
+function onMove(id, top, left) {
     const selected = document.querySelector(`[id='${id}']`);
-    selected.style.top = `${y - selected.clientHeight / 2}`;
-    selected.style.left = `${x - selected.clientWidth / 2}`;
+    selected.style.top = top;
+    selected.style.left = left;
     selected.classList.remove('waiting-area');
 }
 
@@ -373,6 +421,17 @@ function onCursor(event) {
     item.style['background-color'] = event.meta.c;
 }
 
+function onAlignment(alignment) {
+    scenario.alignment = alignment;
+    seedScenarioItems();
+}
+
+function onCreateMapTile(id, name, rotation) {
+    const item = createMapTile(name, {id, classes: rotation ? [rotation] : []});
+    initDragDrop(item);
+    document.querySelector('.scenario-container').appendChild(item);
+}
+
 function onEvent(event) {
 
     // only sent on incremental events
@@ -392,13 +451,19 @@ function onEvent(event) {
             onCreate(event.id, event.meta.text, ...event.meta.classes);
             return;
         case 'move':
-            onMove(event.id, event.meta.x, event.meta.y);
+            onMove(event.id, event.meta.top, event.meta.left);
             return;
         case 'remove':
             onRemove(event.id);
             return;
         case 'cursor':
             onCursor(event);
+            return;
+        case 'alignment':
+            onAlignment(event.meta.alignment);
+            return;
+        case 'createMapTile':
+            onCreateMapTile(event.id, event.meta.name, event.meta.rotation);
             return;
         case 'forceRefresh':
             loadFromServer();
@@ -423,7 +488,9 @@ function finishDrag(evt) {
     if (shouldBeRemoved(x, y)) {
         remove(draggedItem.id);
     } else {
-        move(draggedItem.id, x, y);
+        const top = `${y - draggedItem.getBoundingClientRect().height / 2}`;
+        const left = `${x - draggedItem.getBoundingClientRect().width / 2}`;
+        move(draggedItem.id, top, left);
     }
     clearSelection();
 }
@@ -474,21 +541,45 @@ window.addEventListener('mousemove', e => {
     }
 
     bufferedMouseMove = setTimeout(() => {
-            bufferedMouseMove = 0;
-            if (ws && ws.readyState === 1) {
-                try {
-                    ws.send(JSON.stringify({type: 'cursor', x: mouseX, y: mouseY}));
-                } catch (e) {
-                    console.warn('Unable to send cursor', e);
-                }
-
+        bufferedMouseMove = 0;
+        if (ws && ws.readyState === 1) {
+            try {
+                ws.send(JSON.stringify({type: 'cursor', x: mouseX, y: mouseY}));
+            } catch (e) {
+                console.warn('Unable to send cursor', e);
             }
+        }
     }, 50);
 });
 
-window.addEventListener('keyup', e => {
+window.addEventListener('keydown', e => {
     if (e.key === 'Escape') {
         clearSelection();
+    }
+    if (selected) {
+        if (!e.key.startsWith('Arrow')) {
+            return;
+        }
+        e.preventDefault();
+        selectTime = Date.now();
+
+        let top = parseInt(selected.style.top) || 0;
+        let left = parseInt(selected.style.left) || 0;
+        switch (e.key) {
+            case 'ArrowRight':
+                left++;
+                break;
+            case 'ArrowLeft':
+                left--;
+                break;
+            case 'ArrowUp':
+                top--;
+                break;
+            case 'ArrowDown':
+                top++;
+                break;
+        }
+        move(selected.id, top, left);
     }
 });
 
