@@ -10,10 +10,6 @@ function setScenario() {
     setStyle(scenarioContainer, scenario.style);
     scenarioContainer.appendChild(createTrashCan());
     scenario.start.forEach(start => scenarioContainer.appendChild(createScenarioItem('start', {style: start})));
-    scenario.doors.forEach(door => scenarioContainer.appendChild(createScenarioItem(scenario.doorType, {
-        style: door,
-        extraClasses: ['door']
-    })));
     Object.keys(scenario.markers || {}).forEach(name => scenarioContainer.appendChild(createMarker(name, scenario.markers[name])));
     seedScenarioItems();
     seedMonsterTypes(scenario.monsters);

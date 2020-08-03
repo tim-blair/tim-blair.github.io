@@ -209,6 +209,29 @@ function fetchScenarioEvents(scenId) {
         });
     }
 
+    if (scenario.doors) {
+        const doorType = scenario.doorType || 'stoneDoor';
+        const alignment = scenario.alignment === 'horz' ? 'Horz' : '';
+
+        scenario.doors.forEach(door => {
+            const doorUuid = uuid();
+            events.push({
+                type: 'create',
+                id: doorUuid,
+                meta: {
+                    text: '',
+                    classes: [`door${alignment}`, `${doorType}${alignment}`, 'item']
+                }
+            })
+
+            events.push({
+                type: 'move',
+                id: doorUuid,
+                meta: door
+            });
+        });
+    }
+
     return events;
 }
 
