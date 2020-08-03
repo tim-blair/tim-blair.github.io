@@ -240,6 +240,14 @@ img {
     background-image: url("./scenBook/tokens/hotCoalsHorz.png");
     height: 45px;
 }
+.thorns {
+    background-image: url("./scenBook/tokens/thorns.png");
+    height: 57px;
+}
+.thornsHorz {
+    background-image: url("./scenBook/tokens/thornsHorz.png");
+    height: 45px;
+}
 .terrain, .difficult, .water {
     background-image: url("./scenBook/tokens/water.png");
     height: 57px;

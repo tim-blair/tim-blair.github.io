@@ -358,7 +358,7 @@ scenarios.set(55, {
     map: {},
     monsters: ['bandit guard', 'bandit archer', 'hound', 'giant viper', 'ooze', 'vermling shaman', 'vermling scout',
         'cave bear', 'rending drake', 'spitting drake', 'inox guard', 'inox archer', 'inox shaman', 'forest imp'],
-    items: ['coin', 'trap', 'obstacle1', 'treasure'],
+    items: ['coin', 'trap', 'bearTrap', 'thorns', 'obstacle1', 'treasure'],
     start: [],
     doorType: 'stoneDoor',
     doors: [],
