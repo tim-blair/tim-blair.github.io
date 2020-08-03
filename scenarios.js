@@ -351,6 +351,19 @@ scenarios.set(44, {
         f: {top: '608px', left: '715px'},
     }
 })
+scenarios.set(55, {
+    id: 55,
+    alignment: 'vert',
+    style: {height: '1250px'},
+    map: {},
+    monsters: ['bandit guard', 'bandit archer', 'hound', 'giant viper', 'ooze', 'vermling shaman', 'vermling scout',
+        'cave bear', 'rending drake', 'spitting drake', 'inox guard', 'inox archer', 'inox shaman', 'forest imp'],
+    items: ['coin', 'trap', 'obstacle1', 'treasure'],
+    start: [],
+    doorType: 'stoneDoor',
+    doors: [],
+    markers: {}
+})
 scenarios.set(57, {
     id: 57,
     alignment: 'vert',

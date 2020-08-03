@@ -84,7 +84,7 @@ app.post('/events/:scenId(\\d+)', (req, res) => {
     lastEventUuid = eventUuid;
 
     // server is sole source of IDs, creates are sent without ids
-    if (event.type === 'create') {
+    if (event.type === 'create' || event.type === 'createMapTile') {
         event.id = uuid();
     }
 
@@ -172,6 +172,7 @@ function compactedHistory(scenId) {
     for (let evt of events) {
         switch (evt.type) {
             case 'create':
+            case 'createMapTile':
                 trimmed.set(evt.id, {create: evt});
                 break;
             case 'move':
