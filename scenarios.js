@@ -401,7 +401,6 @@ scenarios.set(57, {
 scenarios.set(58, {
     id: 58,
     alignment: 'horz',
-    style: {height: '1050px'},
     map: {
         C2a: {classes: ['revrotate'], style: {top: '407px', left: '577px'}},
         D1b: {classes: ['rotate210'], style: {top: '0px', left: '573px'}},

@@ -214,10 +214,10 @@ function fetchScenarioEvents(scenId) {
         const alignment = scenario.alignment === 'horz' ? 'Horz' : '';
 
         scenario.doors.forEach(door => {
-            const doorUuid = uuid();
+            const id = uuid();
             events.push({
                 type: 'create',
-                id: doorUuid,
+                id,
                 meta: {
                     text: '',
                     classes: [`door${alignment}`, `${doorType}${alignment}`, 'item']
@@ -226,8 +226,28 @@ function fetchScenarioEvents(scenId) {
 
             events.push({
                 type: 'move',
-                id: doorUuid,
+                id,
                 meta: door
+            });
+        });
+    }
+
+    if (scenario.markers) {
+        Object.entries(scenario.markers).forEach(([text, style]) => {
+            const id = uuid();
+            events.push({
+                type: 'create',
+                id,
+                meta: {
+                    text,
+                    classes: ['marker', 'item']
+                }
+            })
+
+            events.push({
+                type: 'move',
+                id,
+                meta: style
             });
         });
     }
