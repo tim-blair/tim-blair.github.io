@@ -218,10 +218,21 @@ img {
     background-image: url("./scenBook/icons/startHorz.png");
     opacity: 40%;
 }
-.scenario-container .start, .scenario-container .startHorz {
+.scenario-container .start,
+.scenario-container .startHorz,
+.scenario-container .corridor,
+.scenario-container .corridorHorz
+{
     pointer-events: none;
 }
-.design-mode .scenario-container .start, .design-mode .scenario-container .startHorz, .design-mode .scenario-container .marker {
+.design-mode .scenario-container .start,
+.design-mode .scenario-container .startHorz,
+.design-mode .scenario-container .marker,
+.design-mode .scenario-container .corridor,
+.design-mode .scenario-container .corridorHorz,
+.design-mode .scenario-container .door,
+.design-mode .scenario-container .doorHorz
+{
     pointer-events: unset;
 }
 
@@ -319,9 +330,6 @@ img {
 }
 .scenario-container .door, .scenario-container .doorHorz {
     pointer-events: none;
-}
-.design-mode .scenario-container .door, .design-mode .scenario-container .doorHorz {
-    pointer-events: unset;
 }
 
 .woodDoor {
