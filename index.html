@@ -4,12 +4,6 @@
         <link href='./monster.css' rel='stylesheet'>
         <link href='./common.css' rel='stylesheet'>
         <script src="./monsters.js" type="text/javascript"></script>
-        <script src="./scenarios.js" type="text/javascript"></script>
-        <script>
-            const url = new URL(window.location.href);
-            const scenarioNumber = parseInt(url.searchParams.get('n') || 0);
-            const scenario = scenarios.get(scenarioNumber) || { map: {}, start: [], doors: [], items: [], monsters: [], doorType: 'stoneDoor' };
-        </script>
         <script src="./main.js" type="text/javascript"></script>
     </head>
 <body onclick="handleClick(event)">
@@ -72,6 +66,10 @@
                 <option value="vert">Vertical</option>
                 <option value="horz">Horizontal</option>
             </select>
+            <label for="scenarioMonsters">Monsters:</label>
+            <input type="text" id="scenarioMonsters" style="width: 400px">
+            <label for="scenarioItems">Items:</label>
+            <input type="text" id="scenarioItems" style="width: 400px">
         </div>
         <div class="available-item-container">
             <div class="configBox map-box">
@@ -89,6 +87,10 @@
                     <option value="rotate330">Rotate 330°</option>
                 </select>
                 <input type="button" value="Map tile" onclick="mapTile()" />
+            </div>
+            <div class="configBox map-box">
+                <input type="text" value="a" id="markerText" style="width: 60px" />
+                <input type="button" value="Marker" onclick="marker()" />
             </div>
             <div class="scenario-items"></div>
         </div>

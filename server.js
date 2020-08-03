@@ -272,6 +272,25 @@ function fetchScenarioEvents(scenId) {
         });
     }
 
+    if (scenario.alignment) {
+        events.push({
+            type: 'alignment',
+            meta: {
+                alignment: scenario.alignment
+            }
+        });
+    }
+
+    if (scenario.monsters || scenario.items) {
+        events.push({
+            type: 'available',
+            meta: {
+                monsters: scenario.monsters,
+                items: scenario.items
+            }
+        });
+    }
+
     return events;
 }
 
@@ -292,6 +311,7 @@ function fetchState(scenId) {
 function compactedHistory(scenId) {
     const events = fetchState(scenId).events;
     const trimmed = new Map();
+    const passThrough = [];
     for (let evt of events) {
         switch (evt.type) {
             case 'create':
@@ -305,9 +325,17 @@ function compactedHistory(scenId) {
             case 'remove':
                 trimmed.delete(evt.id);
                 break;
+            case 'alignment':
+                trimmed.set('alignment', {create: evt});
+                break;
+            case 'available':
+                trimmed.set('available', {create: evt});
+                break;
+            default:
+                passThrough.push(evt);
         }
     }
-    const compactedHistory = [];
+    const compactedHistory = [...passThrough];
     trimmed.forEach(value => {
         compactedHistory.push(value.create);
         if (value.move) {
