@@ -151,7 +151,7 @@ function scenarioAlignment() {
 
 function mapTile() {
     const mapTileName = document.querySelector("#mapTileName").value.trim();
-    if (mapTileName.length !== 3) {
+    if (mapTileName.length !== 3 || !parseInt(mapTileName[1])) {
         return;
     }
     const name = mapTileName[0].toUpperCase() + mapTileName[1] + mapTileName[2].toLowerCase();
