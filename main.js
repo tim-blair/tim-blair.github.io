@@ -317,7 +317,7 @@ function monster() {
 
 function marker() {
     const markerText = document.querySelector('#markerText').value;
-    create(markerText, ['marker', 'item']);
+    create(markerText, 'marker', 'item');
 }
 
 function character() {
