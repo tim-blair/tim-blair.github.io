@@ -19,10 +19,12 @@ function seedScenarioItems() {
 
     removeAll('#designToolBox .scenario-items');
     const designToolboxScenarioItemsContainer = document.querySelector('#designToolBox .scenario-items');
-    designToolboxScenarioItemsContainer.appendChild(createScenarioItem(scenario.doorType, {
-        extraClasses: ['door'],
-        click: () => door()
-    }));
+    ['stoneDoor', 'woodDoor', 'darkFog', 'lightFog', 'corridor'].forEach(type => {
+        designToolboxScenarioItemsContainer.appendChild(createScenarioItem(type, {
+            extraClasses: ['door'],
+            click: () => door(type)
+        }));
+    })
     designToolboxScenarioItemsContainer.appendChild(createScenarioItem('start', {style: start, click: () => start()}));
 }
 
@@ -224,8 +226,8 @@ function altar() {
     createWithAlignment(`altar`);
 }
 
-function door() {
-    create('', classWithAlignment('door'), classWithAlignment(scenario.doorType), 'item');
+function door(type) {
+    create('', classWithAlignment('door'), classWithAlignment(type), 'item');
 }
 
 function hazard() {
