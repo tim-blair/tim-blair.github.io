@@ -589,3 +589,9 @@ scenarios.set(220, {
         c: {top: '329px', left: '575px'},
     }
 });
+
+if (typeof module !== 'undefined') {
+    module.exports = {
+        scenarios
+    };
+}

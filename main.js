@@ -9,8 +9,6 @@ function setScenario() {
     const scenarioContainer = document.querySelector('.scenario-container');
     setStyle(scenarioContainer, scenario.style);
     scenarioContainer.appendChild(createTrashCan());
-    Object.keys(scenario.map).forEach(mapName =>
-        scenarioContainer.appendChild(createMapTile(mapName, scenario.map[mapName])));
     scenario.start.forEach(start => scenarioContainer.appendChild(createScenarioItem('start', {style: start})));
     scenario.doors.forEach(door => scenarioContainer.appendChild(createScenarioItem(scenario.doorType, {
         style: door,

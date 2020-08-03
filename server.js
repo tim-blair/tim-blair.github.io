@@ -5,6 +5,8 @@ const app = express();
 const expressWs = require('express-ws');
 const fs = require('fs');
 
+const {scenarios} = require('./scenarios');
+
 expressWs(app);
 
 const port = 7689;
@@ -166,8 +168,66 @@ app.ws('/updates', function (ws) {
 
 app.listen(port, () => console.log(`Now running at http://localhost:${port}`));
 
+function fetchScenarioEvents(scenId) {
+    if (typeof scenId !== "number") {
+        try {
+            scenId = parseInt(scenId);
+        } catch (e) {
+            console.error(e);
+            return [];
+        }
+    }
+
+    const scenario = scenarios.get(scenId);
+    if (!scenario) {
+        return [];
+    }
+
+    const events = [];
+    if (scenario.map) {
+        Object.entries(scenario.map).forEach(([tileId, meta]) => {
+            const tileUuid = uuid();
+            events.push({
+                type: 'createMapTile',
+                id: tileUuid,
+                meta: {
+                    name: tileId,
+                    rotation: (meta.classes && meta.classes.length && meta.classes[0]) || null
+                }
+            });
+
+            if (meta.style && (meta.style.top || meta.style.left)) {
+                events.push({
+                    type: 'move',
+                    id: tileUuid,
+                    meta: {
+                        top: meta.style.top,
+                        left: meta.style.left
+                    }
+                });
+            }
+        });
+    }
+
+    return events;
+}
+
+function fetchState(scenId) {
+    if (!state[scenId]) {
+        state[scenId] = {
+            events: fetchScenarioEvents(scenId)
+        }
+        save();
+    }
+
+    if (!state[scenId].events) {
+        state[scenId].events = [];
+    }
+    return state[scenId];
+}
+
 function compactedHistory(scenId) {
-    const events = (state[scenId] && state[scenId].events) || [];
+    const events = fetchState(scenId).events;
     const trimmed = new Map();
     for (let evt of events) {
         switch (evt.type) {

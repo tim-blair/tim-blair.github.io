@@ -78,9 +78,15 @@
                 <input type="text" value="" id="mapTileName" style="width: 60px" />
                 <select id="mapTileRotation">
                     <option value=""></option>
-                    <option value="rotate">Rotate</option>
-                    <option value="revrotate">Rev-rotate</option>
-                    <option value="flip">Flip</option>
+                    <option value="rotate30">Rotate 30°</option>
+                    <option value="rotate90">Rotate 90°</option>
+                    <option value="rotate120">Rotate 120°</option>
+                    <option value="rotate180">Rotate 180°</option>
+                    <option value="rotate210">Rotate 210°</option>
+                    <option value="rotate240">Rotate 240°</option>
+                    <option value="rotate270">Rotate 270°</option>
+                    <option value="rotate300">Rotate 300°</option>
+                    <option value="rotate330">Rotate 330°</option>
                 </select>
                 <input type="button" value="Map tile" onclick="mapTile()" />
             </div>
@@ -88,8 +94,5 @@
         </div>
     </div>
     <div class="scenario-container"></div>
-    <script>
-        setInterval(clearIdleSelection, 1000);
-    </script>
 </body>
 </html>
