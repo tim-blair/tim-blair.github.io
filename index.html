@@ -4,12 +4,6 @@
         <link href='./monster.css' rel='stylesheet'>
         <link href='./common.css' rel='stylesheet'>
         <script src="./monsters.js" type="text/javascript"></script>
-        <script src="./scenarios.js" type="text/javascript"></script>
-        <script>
-            const url = new URL(window.location.href);
-            const scenarioNumber = parseInt(url.searchParams.get('n') || 0);
-            const scenario = scenarios.get(scenarioNumber) || { map: {}, start: [], doors: [], items: [], monsters: [], doorType: 'stoneDoor' };
-        </script>
         <script src="./main.js" type="text/javascript"></script>
     </head>
 <body onclick="handleClick(event)">
@@ -72,24 +66,37 @@
                 <option value="vert">Vertical</option>
                 <option value="horz">Horizontal</option>
             </select>
+            <label for="scenarioMonsters">Monsters:</label>
+            <input type="text" id="scenarioMonsters" style="width: 400px">
+            <label for="scenarioItems">Items:</label>
+            <input type="text" id="scenarioItems" style="width: 400px">
         </div>
         <div class="available-item-container">
             <div class="configBox map-box">
                 <input type="text" value="" id="mapTileName" style="width: 60px" />
                 <select id="mapTileRotation">
                     <option value=""></option>
-                    <option value="rotate">Rotate</option>
-                    <option value="revrotate">Rev-rotate</option>
-                    <option value="flip">Flip</option>
+                    <option value="rotate30">Rotate 30°</option>
+                    <option value="rotate60">Rotate 60°</option>
+                    <option value="rotate90">Rotate 90°</option>
+                    <option value="rotate120">Rotate 120°</option>
+                    <option value="rotate150">Rotate 150°</option>
+                    <option value="rotate180">Rotate 180°</option>
+                    <option value="rotate210">Rotate 210°</option>
+                    <option value="rotate240">Rotate 240°</option>
+                    <option value="rotate270">Rotate 270°</option>
+                    <option value="rotate300">Rotate 300°</option>
+                    <option value="rotate330">Rotate 330°</option>
                 </select>
                 <input type="button" value="Map tile" onclick="mapTile()" />
+            </div>
+            <div class="configBox map-box">
+                <input type="text" value="a" id="markerText" style="width: 60px" />
+                <input type="button" value="Marker" onclick="marker()" />
             </div>
             <div class="scenario-items"></div>
         </div>
     </div>
     <div class="scenario-container"></div>
-    <script>
-        setInterval(clearIdleSelection, 1000);
-    </script>
 </body>
 </html>

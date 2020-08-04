@@ -1,37 +1,83 @@
+const url = new URL(window.location.href);
+const scenarioNumber = parseInt(url.searchParams.get('n') || 0);
+
 let selected = null;
 let selectTime = 0;
 let lastEventUuid = null;
 let ws = null;
 let loading = false;
 let cursorLastUpdates = {};
+let alignment = 'horz';
+let scenarioItems = ['coin', 'obstacle1', 'difficult', 'treasure', 'spikeTrap', 'bearTrap'];
+let scenarioMonsters = [
+    'ancient artillery',
+    'bandit archer',
+    'bandit guard',
+    'black imp',
+    'cave bear',
+    'city archer',
+    'city guard',
+    'cultist',
+    'deep terror',
+    'earth demon',
+    'flame demon',
+    'forest imp',
+    'frost demon',
+    'giant viper',
+    'harrower infester',
+    'hound',
+    'inox archer',
+    'inox bodyguard',
+    'inox guard',
+    'inox shaman',
+    'living bones',
+    'living dead',
+    'living spirit',
+    'lurker',
+    'night demon',
+    'ooze',
+    'rending drake',
+    'savaas icestorm',
+    'savaas lavaflow',
+    'spitting drake',
+    'stone golem',
+    'sun demon',
+    'vermling scout',
+    'vermling shaman',
+    'wind demon',
+];
 
 function setScenario() {
     const scenarioContainer = document.querySelector('.scenario-container');
-    setStyle(scenarioContainer, scenario.style);
     scenarioContainer.appendChild(createTrashCan());
-    Object.keys(scenario.map).forEach(mapName =>
-        scenarioContainer.appendChild(createMapTile(mapName, scenario.map[mapName])));
-    scenario.start.forEach(start => scenarioContainer.appendChild(createScenarioItem('start', {style: start})));
-    scenario.doors.forEach(door => scenarioContainer.appendChild(createScenarioItem(scenario.doorType, {
-        style: door,
-        extraClasses: ['door']
-    })));
-    Object.keys(scenario.markers || {}).forEach(name => scenarioContainer.appendChild(createMarker(name, scenario.markers[name])));
     seedScenarioItems();
-    seedMonsterTypes(scenario.monsters);
 }
 
-function seedScenarioItems() {
+function seedScenarioItems(items = scenarioItems, monsters = scenarioMonsters) {
+    scenarioItems = items;
+    scenarioMonsters = monsters;
+
+    document.getElementById('scenarioMonsters').value = monsters.join(',');
+    document.getElementById('scenarioItems').value = items.join(',');
+
+    // play mode
     removeAll('.scenario-items');
     const scenarioItemsContainer = document.querySelector('.scenario-items');
-    scenario.items.forEach(item => scenarioItemsContainer.appendChild(createScenarioItem(item, {click: () => createWithAlignment(item)})));
+    items.forEach(
+        item => scenarioItemsContainer.appendChild(createScenarioItem(item, {click: () => createWithAlignment(item)}))
+    );
 
+    seedMonsterTypes(monsters);
+
+    // design mode
     removeAll('#designToolBox .scenario-items');
     const designToolboxScenarioItemsContainer = document.querySelector('#designToolBox .scenario-items');
-    designToolboxScenarioItemsContainer.appendChild(createScenarioItem(scenario.doorType, {
-        extraClasses: ['door'],
-        click: () => door()
-    }));
+    ['stoneDoor', 'woodDoor', 'darkFog', 'lightFog', 'corridor'].forEach(type => {
+        designToolboxScenarioItemsContainer.appendChild(createScenarioItem(type, {
+            extraClasses: ['door'],
+            click: () => door(type)
+        }));
+    })
     designToolboxScenarioItemsContainer.appendChild(createScenarioItem('start', {style: start, click: () => start()}));
 }
 
@@ -105,7 +151,7 @@ function scenarioAlignment() {
 
 function mapTile() {
     const mapTileName = document.querySelector("#mapTileName").value.trim();
-    if (mapTileName.length !== 3) {
+    if (mapTileName.length !== 3 || !parseInt(mapTileName[1])) {
         return;
     }
     const name = mapTileName[0].toUpperCase() + mapTileName[1] + mapTileName[2].toLowerCase();
@@ -132,11 +178,12 @@ function addClasses(element, classes) {
 }
 
 function classWithAlignment(name) {
-    return `${name}${scenario.alignment === 'horz' ? 'Horz' : ''}`;
+    return `${name}${alignment === 'horz' ? 'Horz' : ''}`;
 }
 
 function seedMonsterTypes(monsterTypes) {
     const monsterSelector = document.querySelector('#monster_type');
+    removeAll('#monster_type');
     monsterTypes.forEach(monsterType => {
         const opt = document.createElement('option');
         opt.value = monsterType;
@@ -167,14 +214,6 @@ function createMapTile(mapName, {id, classes = [], style}) {
     return div;
 }
 
-function createMarker(name, style) {
-    const item = document.createElement('div');
-    addClasses(item, ['marker']);
-    setStyle(item, style);
-    item.textContent = name;
-    return item;
-}
-
 function createIndicator() {
     create('', 'indicator', 'item', 'waiting-area');
 }
@@ -185,6 +224,20 @@ function switchDesignMode() {
         document.body.classList.add('design-mode');
     } else {
         document.body.classList.remove('design-mode');
+
+        const oldMonsters = scenarioMonsters.join(',');
+        const newMonsters = document.getElementById('scenarioMonsters').value;
+        const oldItems = scenarioItems.join(',');
+        const newItems = document.getElementById('scenarioItems').value;
+        if (oldMonsters !== newMonsters || oldItems !== newItems) {
+            sendEvent({
+                type: 'available',
+                meta: {
+                    monsters: newMonsters.split(','),
+                    items: newItems.split(',')
+                }
+            });
+        }
     }
 }
 
@@ -241,8 +294,8 @@ function altar() {
     createWithAlignment(`altar`);
 }
 
-function door() {
-    create('', classWithAlignment('door'), classWithAlignment(scenario.doorType), 'item');
+function door(type) {
+    create('', classWithAlignment('door'), classWithAlignment(type), 'item');
 }
 
 function hazard() {
@@ -257,9 +310,14 @@ function monster() {
     const isElite = document.querySelector("#elite").checked;
     const standee = parseInt(document.querySelector("#standee").value) || 0;
     const type = document.querySelector("#monster_type").value.toLowerCase();
-    const classes = monsterClasses(scenario, type, isElite);
+    const classes = monsterClasses(alignment, type, isElite);
     create(standee, ...classes);
     document.querySelector("#standee").value = standee + 1;
+}
+
+function marker() {
+    const markerText = document.querySelector('#markerText').value;
+    create(markerText, 'marker', 'item');
 }
 
 function character() {
@@ -421,8 +479,9 @@ function onCursor(event) {
     item.style['background-color'] = event.meta.c;
 }
 
-function onAlignment(alignment) {
-    scenario.alignment = alignment;
+function onAlignment(align) {
+    alignment = align;
+    document.getElementById('scenarioAlignment').value = align;
     seedScenarioItems();
 }
 
@@ -461,6 +520,9 @@ function onEvent(event) {
             return;
         case 'alignment':
             onAlignment(event.meta.alignment);
+            return;
+        case 'available':
+            seedScenarioItems(event.meta.items, event.meta.monsters);
             return;
         case 'createMapTile':
             onCreateMapTile(event.id, event.meta.name, event.meta.rotation);

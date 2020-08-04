@@ -1,6 +1,6 @@
 body {
     background: url("./resources/blankMap.jpg");
-    background-size: 1650px 1650px;
+    background-position-y: -300px;
     background-repeat: no-repeat;
 }
 label, .labelText {
@@ -28,11 +28,20 @@ label, .labelText {
 .rotate {
     transform: rotate(90deg);
 }
+.rotate30 {
+    transform: rotate(30deg);
+}
+.rotate60 {
+    transform: rotate(60deg);
+}
+.rotate90 {
+    transform: rotate(90deg);
+}
 .rotate120 {
     transform: rotate(120deg);
 }
-.rotate30 {
-    transform: rotate(30deg);
+.rotate150 {
+    transform: rotate(150deg);
 }
 .rotate180 {
     transform: rotate(180deg);
@@ -43,12 +52,17 @@ label, .labelText {
 .rotate240 {
     transform: rotate(240deg);
 }
+.rotate270 {
+    transform: rotate(270deg);
+}
 .rotate300 {
     transform: rotate(300deg);
 }
 .rotate330 {
     transform: rotate(330deg);
 }
+
+/*deprecated*/
 .revrotate {
     transform: rotate(-90deg);
 }
@@ -122,6 +136,7 @@ img {
     height: 22px;
     width: 22px;
     border: 3px solid antiquewhite;
+    pointer-events: none;
 }
 .summon {
     z-index: 50 !important;
@@ -209,10 +224,21 @@ img {
     background-image: url("./scenBook/icons/startHorz.png");
     opacity: 40%;
 }
-.scenario-container .start, .scenario-container .startHorz {
+.scenario-container .start,
+.scenario-container .startHorz,
+.scenario-container .corridor,
+.scenario-container .corridorHorz
+{
     pointer-events: none;
 }
-.design-mode .scenario-container .start, .design-mode .scenario-container .startHorz {
+.design-mode .scenario-container .start,
+.design-mode .scenario-container .startHorz,
+.design-mode .scenario-container .marker,
+.design-mode .scenario-container .corridor,
+.design-mode .scenario-container .corridorHorz,
+.design-mode .scenario-container .door,
+.design-mode .scenario-container .doorHorz
+{
     pointer-events: unset;
 }
 
@@ -310,9 +336,6 @@ img {
 }
 .scenario-container .door, .scenario-container .doorHorz {
     pointer-events: none;
-}
-.design-mode .scenario-container .door, .design-mode .scenario-container .doorHorz {
-    pointer-events: unset;
 }
 
 .woodDoor {

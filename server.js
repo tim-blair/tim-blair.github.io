@@ -5,6 +5,8 @@ const app = express();
 const expressWs = require('express-ws');
 const fs = require('fs');
 
+const {scenarios} = require('./scenarios');
+
 expressWs(app);
 
 const port = 7689;
@@ -166,9 +168,150 @@ app.ws('/updates', function (ws) {
 
 app.listen(port, () => console.log(`Now running at http://localhost:${port}`));
 
+function fetchScenarioEvents(scenId) {
+    if (typeof scenId !== "number") {
+        try {
+            scenId = parseInt(scenId);
+        } catch (e) {
+            console.error(e);
+            return [];
+        }
+    }
+
+    const scenario = scenarios.get(scenId);
+    if (!scenario) {
+        return [];
+    }
+
+    const events = [];
+    if (scenario.map) {
+        Object.entries(scenario.map).forEach(([tileId, meta]) => {
+            const tileUuid = uuid();
+            events.push({
+                type: 'createMapTile',
+                id: tileUuid,
+                meta: {
+                    name: tileId,
+                    rotation: (meta.classes && meta.classes.length && meta.classes[0]) || null
+                }
+            });
+
+            if (meta.style && (meta.style.top || meta.style.left)) {
+                events.push({
+                    type: 'move',
+                    id: tileUuid,
+                    meta: {
+                        top: meta.style.top,
+                        left: meta.style.left
+                    }
+                });
+            }
+        });
+    }
+
+    const alignment = scenario.alignment === 'horz' ? 'Horz' : '';
+
+    if (scenario.doors) {
+        const doorType = scenario.doorType || 'stoneDoor';
+
+        scenario.doors.forEach(door => {
+            const id = uuid();
+            events.push({
+                type: 'create',
+                id,
+                meta: {
+                    text: '',
+                    classes: [`door${alignment}`, `${doorType}${alignment}`, 'item']
+                }
+            })
+
+            events.push({
+                type: 'move',
+                id,
+                meta: door
+            });
+        });
+    }
+
+    if (scenario.markers) {
+        Object.entries(scenario.markers).forEach(([text, style]) => {
+            const id = uuid();
+            events.push({
+                type: 'create',
+                id,
+                meta: {
+                    text,
+                    classes: ['marker', 'item']
+                }
+            })
+
+            events.push({
+                type: 'move',
+                id,
+                meta: style
+            });
+        });
+    }
+
+    if (scenario.start) {
+        Object.entries(scenario.start).forEach(([text, style]) => {
+            const id = uuid();
+            events.push({
+                type: 'create',
+                id,
+                meta: {
+                    classes: [`start${alignment}`]
+                }
+            })
+
+            events.push({
+                type: 'move',
+                id,
+                meta: style
+            });
+        });
+    }
+
+    if (scenario.alignment) {
+        events.push({
+            type: 'alignment',
+            meta: {
+                alignment: scenario.alignment
+            }
+        });
+    }
+
+    if (scenario.monsters || scenario.items) {
+        events.push({
+            type: 'available',
+            meta: {
+                monsters: scenario.monsters,
+                items: scenario.items
+            }
+        });
+    }
+
+    return events;
+}
+
+function fetchState(scenId) {
+    if (!state[scenId]) {
+        state[scenId] = {
+            events: fetchScenarioEvents(scenId)
+        }
+        save();
+    }
+
+    if (!state[scenId].events) {
+        state[scenId].events = [];
+    }
+    return state[scenId];
+}
+
 function compactedHistory(scenId) {
-    const events = (state[scenId] && state[scenId].events) || [];
+    const events = fetchState(scenId).events;
     const trimmed = new Map();
+    const passThrough = [];
     for (let evt of events) {
         switch (evt.type) {
             case 'create':
@@ -182,9 +325,17 @@ function compactedHistory(scenId) {
             case 'remove':
                 trimmed.delete(evt.id);
                 break;
+            case 'alignment':
+                trimmed.set('alignment', {create: evt});
+                break;
+            case 'available':
+                trimmed.set('available', {create: evt});
+                break;
+            default:
+                passThrough.push(evt);
         }
     }
-    const compactedHistory = [];
+    const compactedHistory = [...passThrough];
     trimmed.forEach(value => {
         compactedHistory.push(value.create);
         if (value.move) {
