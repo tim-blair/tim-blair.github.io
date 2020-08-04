@@ -31,11 +31,17 @@ label, .labelText {
 .rotate30 {
     transform: rotate(30deg);
 }
+.rotate60 {
+    transform: rotate(60deg);
+}
 .rotate90 {
     transform: rotate(90deg);
 }
 .rotate120 {
     transform: rotate(120deg);
+}
+.rotate150 {
+    transform: rotate(150deg);
 }
 .rotate180 {
     transform: rotate(180deg);
