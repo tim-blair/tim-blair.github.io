@@ -584,12 +584,6 @@ window.onload = function () {
     };
 };
 
-window.addEventListener('mousedown', e => {
-    if (e.button === 0 && e.target.classList.contains('modal')) {
-        e.target.style.display = 'none';
-    }
-});
-
 let bufferedMouseMove = 0;
 let mouseX = 0;
 let mouseY = 0;
