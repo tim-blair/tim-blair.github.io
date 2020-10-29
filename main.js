@@ -117,9 +117,13 @@ function handleClick(e) {
     if (!target.classList.contains('item') && !target.classList.contains('map')) {
         return true;
     }
-    selected = target;
-    selectTime = Date.now();
-    selected.classList.add('selected');
+    if (e.getModifierState('Control')) {
+        remove(target.id);
+    } else {
+        selected = target;
+        selectTime = Date.now();
+        selected.classList.add('selected');
+    }
 }
 
 function create(text, ...classes) {
@@ -266,8 +270,11 @@ function toArray(classList) {
     return array;
 }
 
-function coin() {
-    create('', `coin`);
+function coin(top, left) {
+    sendEvent({
+        type: 'create',
+        meta: {text: '', classes: ['coin'], top, left}
+    });
 }
 
 function start() {
@@ -511,6 +518,9 @@ function onEvent(event) {
     switch (event.type) {
         case 'create':
             onCreate(event.id, event.meta.text, ...event.meta.classes);
+            if (event.meta.top || event.meta.left) {
+                onMove(event.id, event.meta.top, event.meta.left);
+            }
             return;
         case 'move':
             onMove(event.id, event.meta.top, event.meta.left);
@@ -639,6 +649,10 @@ window.addEventListener('keydown', e => {
                 break;
         }
         move(selected.id, top, left);
+    }
+    if (e.key === 'C') {
+        const container = document.getElementsByClassName('scenario-container')[0];
+        coin(mouseY - container.offsetTop - 16, mouseX - container.offsetLeft - 16);
     }
 });
 
