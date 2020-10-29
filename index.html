@@ -34,7 +34,7 @@
             </select>
             <input type="button" value="Character" onclick="character()" />
             <select id="summon" style="margin-left: 50px">
-                <option value="&#x27B5;">Arrow &#x27B5;</option>
+                <option value="&#x1F3F9;">Arrow &#x1F3F9;</option>
                 <option value="&#x269B;">Atom &#x269B;</option>
                 <option value="&#x2623;">Bio Hazard &#x2623;</option>
                 <option value="&#x2699;">Gear &#x2699;</option>
@@ -44,7 +44,27 @@
                 <option value="&#x2656;">Rook &#x2656;</option>
                 <option value="&#x2744;">Snow &#x2744;</option>
                 <option value="&#x2694;">Swords &#x2694;</option>
+                <option value="&#x1F987;">Bat &#x1F987;</option>
+                <option value="&#x1F4A3;">Bomb &#x1F4A3;</option>
+                <option value="&#x1F409;">Dragon &#x1F409;</option>
+                <option value="&#x1F916;">Golem &#x1F916;</option>
+                <option value="&#x1F6E1;">Shield &#x1F6E1;</option>
+                <option value="&#x1F40D;">Snake &#x1F40D;</option>
+                <option value="&#x1F438;">Toad &#x1F438;</option>
+                <option value="&#x1F422;">Turtle &#x1F422;</option>
+                <option value="&#x1F43A;">Wolf &#x1F43A;</option>
             </select>
+            <select id="summonColor">
+                <option value="blue">Blue</option>
+                <option value="green">Green</option>
+                <option value="yellow">Yellow</option>
+                <option value="orange">Orange</option>
+                <option value="white">White</option>
+                <option value="purple">Purple</option>
+                <option value="pink">Pink</option>
+                <option value="red">Red</option>
+            </select>
+            <input type="number" id="summonNumber" style="width: 40px" min="1" max="4" value="1"/>
             <input type="button" value="Summon" onclick="summon()" />
         </div>
         <div class="available-item-container">
@@ -64,7 +84,7 @@
             <label for="scenarioAlignment">Alignment:</label>
             <select id="scenarioAlignment" onchange="scenarioAlignment()">
                 <option value="vert">Vertical</option>
-                <option value="horz">Horizontal</option>
+                <option value="horz" selected>Horizontal</option>
             </select>
             <label for="scenarioMonsters">Monsters:</label>
             <input type="text" id="scenarioMonsters" style="width: 400px">

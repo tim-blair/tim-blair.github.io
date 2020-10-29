@@ -327,7 +327,10 @@ function character() {
 
 function summon() {
     const type = document.querySelector("#summon").value;
-    create(type, 'summon');
+    const color = document.querySelector("#summonColor").value;
+    const number = document.querySelector("#summonNumber").value;
+    const numberClass = ['one', 'two', 'three', 'four'][number - 1] || 'one';
+    create(type, 'summon', color, numberClass);
 }
 
 function reset() {
