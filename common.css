@@ -1,26 +1,47 @@
 body {
     background: url("./resources/blankMap.jpg");
-    background-size: 100%;
+    background-position-y: -300px;
     background-repeat: no-repeat;
 }
 label, .labelText {
     color: #CCCCCC;
 }
+.toolBox {
+    position: absolute;
+    z-index: 1000;
+    top: 10px;
+    left: 10px;
+}
+#designToolBox, .design-mode #scenarioToolBox {
+    display: none;
+}
+.design-mode #designToolBox {
+    display: unset;
+}
 .configBox {
     margin: 10px 0;
     align-self: center;
 }
-.monster-box {
+.monster-box, .map-box {
     margin-right: 30px;
 }
 .rotate {
     transform: rotate(90deg);
 }
+.rotate30 {
+    transform: rotate(30deg);
+}
+.rotate60 {
+    transform: rotate(60deg);
+}
+.rotate90 {
+    transform: rotate(90deg);
+}
 .rotate120 {
     transform: rotate(120deg);
 }
-.rotate30 {
-    transform: rotate(30deg);
+.rotate150 {
+    transform: rotate(150deg);
 }
 .rotate180 {
     transform: rotate(180deg);
@@ -31,12 +52,17 @@ label, .labelText {
 .rotate240 {
     transform: rotate(240deg);
 }
+.rotate270 {
+    transform: rotate(270deg);
+}
 .rotate300 {
     transform: rotate(300deg);
 }
 .rotate330 {
     transform: rotate(330deg);
 }
+
+/*deprecated*/
 .revrotate {
     transform: rotate(-90deg);
 }
@@ -48,6 +74,9 @@ label, .labelText {
 }
 .scenario-container {
     position: relative;
+    top: 120px;
+    height: 3000px;
+    width: 3000px;
 }
 .scenario-items {
     display: flex;
@@ -62,6 +91,13 @@ label, .labelText {
     z-index: 1;
     transform: scale(0.3);
     transform-origin: top left;
+    filter: drop-shadow(5px 5px 30px black);
+}
+.design-mode .map {
+    pointer-events: unset;
+}
+img {
+    pointer-events: none;
 }
 .available-item-container {
     display: flex;
@@ -74,8 +110,9 @@ label, .labelText {
     background-repeat: no-repeat;
     z-index: 30;
     border-radius: 12px;
+    filter: drop-shadow(2px 4px 6px black);
 }
-.item.selected {
+.item.selected, .map.selected {
     box-shadow: 0 0 3px 3px turquoise !important;
 }
 .item:hover[id] {
@@ -86,6 +123,7 @@ label, .labelText {
     background-size: contain;
     height: 60px;
     width: 50px;
+    filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.7));
 }
 .indicator {
     border: 3px solid red;
@@ -103,20 +141,101 @@ label, .labelText {
     height: 22px;
     width: 22px;
     border: 3px solid antiquewhite;
+    pointer-events: none;
 }
 .summon {
     z-index: 50 !important;
     border-radius: 80px;
     background-color: white;
-    font-size: 40px;
+    font-size: 30px;
+    line-height: 50px;
+    vertical-align: top;
+    text-shadow: 1px 1px 4px black;
     color: black;
     text-align: center;
 }
+.summon:after {
+    content: '';
+    background-color: transparent;
+    background-size: 50px 50px;
+    width: 26px;
+    height: 20px;
+    border-radius: 20px;
+    position: absolute;
+    top: 35px;
+    left: 12px;
+    font-size: 16px;
+    text-align: center;
+    text-shadow: none;
+    vertical-align: baseline;
+    line-height: 20px;
+    font-weight: bold;
+    color: white;
+}
+
+.summon.blue:after {
+    background-color: #35879d;
+}
+
+.summon.green:after {
+    background-color: #39ba49;
+}
+
+.summon.yellow:after {
+    background-color: #efdf56;
+    color: black;
+}
+
+.summon.orange:after {
+    background-color: #aa5732;
+}
+
+.summon.purple:after {
+    background-color: #521676;
+}
+
+.summon.white:after {
+    background-color: #6b6b6b;
+    border: 1px solid black;
+    color: black;
+}
+
+.summon.pink:after {
+    background-color: #e66eb4;
+    color: black;
+}
+
+.summon.red:after {
+    background-color: #7c171e;
+}
+
+
+.summon.one:after {
+    content: '1';
+}
+
+.summon.two:after {
+    content: '2';
+}
+
+.summon.three:after {
+    content: '3';
+}
+
+.summon.four:after {
+    content: '4';
+}
+
+
+
 .character {
     z-index: 40 !important;
     background-color: white;
     border-radius: 80px;
     border: 1px solid white;
+}
+.character, .summon, .monster {
+    transition: left 0.5s, top 0.5s;
 }
 .twoMinisBrown {
     background-image: url("./resources/twoMinisBrown.png");
@@ -190,6 +309,24 @@ label, .labelText {
     background-image: url("./scenBook/icons/startHorz.png");
     opacity: 40%;
 }
+.scenario-container .start,
+.scenario-container .startHorz,
+.scenario-container .corridor,
+.scenario-container .corridorHorz
+{
+    pointer-events: none;
+}
+.design-mode .scenario-container .start,
+.design-mode .scenario-container .startHorz,
+.design-mode .scenario-container .marker,
+.design-mode .scenario-container .corridor,
+.design-mode .scenario-container .corridorHorz,
+.design-mode .scenario-container .door,
+.design-mode .scenario-container .doorHorz
+{
+    pointer-events: unset;
+}
+
 .trap, .spikeTrap {
     background-image: url("./scenBook/tokens/spikeTrap.png");
     height: 57px;
@@ -212,6 +349,14 @@ label, .labelText {
 }
 .hazardHorz {
     background-image: url("./scenBook/tokens/hotCoalsHorz.png");
+    height: 45px;
+}
+.thorns {
+    background-image: url("./scenBook/tokens/thorns.png");
+    height: 57px;
+}
+.thornsHorz {
+    background-image: url("./scenBook/tokens/thornsHorz.png");
     height: 45px;
 }
 .terrain, .difficult, .water {
@@ -274,6 +419,10 @@ label, .labelText {
     width: 67px;
     background-size: 67px;
 }
+.scenario-container .door, .scenario-container .doorHorz {
+    pointer-events: none;
+}
+
 .woodDoor {
     background-image: url("./scenBook/tokens/woodDoor.png");
 }
@@ -303,12 +452,15 @@ label, .labelText {
     width: 60px;
     background-size: 61px;
     background-image: url("./scenBook/tokens/corridor1.png");
+    filter: none;
+    z-index: 2;
 }
 .corridorHorz {
     height: 67px;
     width: 67px;
     background-size: 67px;
     background-image: url("./scenBook/tokens/corridor1Horz.png");
+    filter: none;
 }
 .obstacle1Horz {
     background-image: url("./scenBook/tokens/boulder1Horz.png");
@@ -371,38 +523,6 @@ label, .labelText {
     background-color: yellow;
 }
 
-.modal {
-    display: none;
-    position: fixed;
-    padding-top: 50px;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1000;
-    background-color: rgb(0, 0, 0);
-    background-color: rgba(0, 0, 0, 0.5);
-}
-.modal-content {
-    position: relative;
-    background-color: white;
-    padding: 20px;
-    margin: auto;
-    width: 75%;
-    -webkit-animation-name: animatetop;
-    -webkit-animation-duration: 0.4s;
-    animation-name: animatetop;
-    animation-duration: 0.4s
-}
-@-webkit-keyframes animatetop {
-    from {top:-300px; opacity:0}
-    to {top:0; opacity:1}
-}
-@keyframes animatetop {
-    from {top:-300px; opacity:0}
-    to {top:0; opacity:1}
-}
-
 #scenario-state {
     width: 100%;
     height: 440px;
@@ -410,4 +530,16 @@ label, .labelText {
 
 .error {
     color: red;
+}
+
+div.cursor {
+    z-index: 10000;
+    pointer-events: none;
+    position: absolute;
+    border: none;
+    border-radius:50%;
+    background-color: white;
+    opacity: 0.4;
+    width:30px;
+    height:30px;
 }

@@ -1,23 +1,17 @@
 <html lang="en">
     <head>
         <title>Scenario</title>
+        <link href="resources/favicon.png" rel="icon" type="image/png"/>
         <link href='./monster.css' rel='stylesheet'>
         <link href='./common.css' rel='stylesheet'>
-        <script src="./peer.js" type="text/javascript"></script>
         <script src="./monsters.js" type="text/javascript"></script>
-        <script src="./scenarios.js" type="text/javascript"></script>
-        <script>
-            const url = new URL(window.location.href);
-            const scenarioNumber = parseInt(url.searchParams.get('n'));
-            const scenario = scenarios.get(scenarioNumber);
-            const peerHost = url.searchParams.get('host');
-            const requestedId = url.searchParams.get('id');
-        </script>
         <script src="./main.js" type="text/javascript"></script>
     </head>
-    <body onclick="handleClick(event)">
+<body onclick="handleClick(event)">
+    <input type="checkbox" value="Design mode" id="designMode" style="float: right" onchange="switchDesignMode()"/>
+    <label for="designMode" style="float: right">Design mode</label>
+    <div id="scenarioToolBox" class="toolBox">
         <div class="configBox">
-            <button id="modal-btn" onclick="showImportExportModal()">Import/Export</button>
             <button id="marker-btn" onclick="createIndicator()">Indicator</button>
             <select id="character" style="margin-left: 50px">
                 <option value="angryFace">Angry Face</option>
@@ -41,7 +35,7 @@
             </select>
             <input type="button" value="Character" onclick="character()" />
             <select id="summon" style="margin-left: 50px">
-                <option value="&#x27B5;">Arrow &#x27B5;</option>
+                <option value="&#x1F3F9;">Arrow &#x1F3F9;</option>
                 <option value="&#x269B;">Atom &#x269B;</option>
                 <option value="&#x2623;">Bio Hazard &#x2623;</option>
                 <option value="&#x2699;">Gear &#x2699;</option>
@@ -51,7 +45,27 @@
                 <option value="&#x2656;">Rook &#x2656;</option>
                 <option value="&#x2744;">Snow &#x2744;</option>
                 <option value="&#x2694;">Swords &#x2694;</option>
+                <option value="&#x1F987;">Bat &#x1F987;</option>
+                <option value="&#x1F4A3;">Bomb &#x1F4A3;</option>
+                <option value="&#x1F409;">Dragon &#x1F409;</option>
+                <option value="&#x1F916;">Golem &#x1F916;</option>
+                <option value="&#x1F6E1;">Shield &#x1F6E1;</option>
+                <option value="&#x1F40D;">Snake &#x1F40D;</option>
+                <option value="&#x1F438;">Toad &#x1F438;</option>
+                <option value="&#x1F422;">Turtle &#x1F422;</option>
+                <option value="&#x1F43A;">Wolf &#x1F43A;</option>
             </select>
+            <select id="summonColor">
+                <option value="blue">Blue</option>
+                <option value="green">Green</option>
+                <option value="yellow">Yellow</option>
+                <option value="orange">Orange</option>
+                <option value="white">White</option>
+                <option value="purple">Purple</option>
+                <option value="pink">Pink</option>
+                <option value="red">Red</option>
+            </select>
+            <input type="number" id="summonNumber" style="width: 40px" min="1" max="4" value="1"/>
             <input type="button" value="Summon" onclick="summon()" />
         </div>
         <div class="available-item-container">
@@ -65,28 +79,45 @@
             </div>
             <div class="scenario-items"></div>
         </div>
+    </div>
+    <div id="designToolBox" class="toolBox">
         <div class="configBox">
-            <label for="peer">Peer ID:</label>
-            <input type="text" id="peer"/>
-            <input type="button" value="Connect" onclick="connect()" />
-            <span class="labelText" id="selfId"></span>
+            <label for="scenarioAlignment">Alignment:</label>
+            <select id="scenarioAlignment" onchange="scenarioAlignment()">
+                <option value="vert">Vertical</option>
+                <option value="horz" selected>Horizontal</option>
+            </select>
+            <label for="scenarioMonsters">Monsters:</label>
+            <input type="text" id="scenarioMonsters" style="width: 400px">
+            <label for="scenarioItems">Items:</label>
+            <input type="text" id="scenarioItems" style="width: 400px">
         </div>
-        <div class="scenario-container"></div>
-        <div id='import-export-modal' class="modal">
-            <div class="modal-content">
-                <p>Scenario state is saved automatically to the browser's local storage.
-                    However, you can save this data elsewhere by copying the encoded string below.</p>
-                <p>To import, paste your encoded string over the text below and click Import.</p>
-                <textarea id="scenario-state"></textarea>
-                <div id="import-error" class="error"></div>
-                <div class="configBox">
-                    <button onclick="importState()">Import</button>
-                    <button onclick="resetState()">Reset</button>
-                </div>
+        <div class="available-item-container">
+            <div class="configBox map-box">
+                <input type="text" value="" id="mapTileName" style="width: 60px" />
+                <select id="mapTileRotation">
+                    <option value=""></option>
+                    <option value="rotate30">Rotate 30°</option>
+                    <option value="rotate60">Rotate 60°</option>
+                    <option value="rotate90">Rotate 90°</option>
+                    <option value="rotate120">Rotate 120°</option>
+                    <option value="rotate150">Rotate 150°</option>
+                    <option value="rotate180">Rotate 180°</option>
+                    <option value="rotate210">Rotate 210°</option>
+                    <option value="rotate240">Rotate 240°</option>
+                    <option value="rotate270">Rotate 270°</option>
+                    <option value="rotate300">Rotate 300°</option>
+                    <option value="rotate330">Rotate 330°</option>
+                </select>
+                <input type="button" value="Map tile" onclick="mapTile()" />
             </div>
+            <div class="configBox map-box">
+                <input type="text" value="a" id="markerText" style="width: 60px" />
+                <input type="button" value="Marker" onclick="marker()" />
+            </div>
+            <div class="scenario-items"></div>
         </div>
-    <script>
-        setInterval(clearIdleSelection, 1000);
-    </script>
-    </body>
+    </div>
+    <div class="scenario-container"></div>
+</body>
 </html>

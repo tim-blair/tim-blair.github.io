@@ -351,6 +351,19 @@ scenarios.set(44, {
         f: {top: '608px', left: '715px'},
     }
 })
+scenarios.set(55, {
+    id: 55,
+    alignment: 'vert',
+    style: {height: '1250px'},
+    map: {},
+    monsters: ['bandit guard', 'bandit archer', 'hound', 'giant viper', 'ooze', 'vermling shaman', 'vermling scout',
+        'cave bear', 'rending drake', 'spitting drake', 'inox guard', 'inox archer', 'inox shaman', 'forest imp'],
+    items: ['coin', 'trap', 'bearTrap', 'thorns', 'obstacle1', 'treasure'],
+    start: [],
+    doorType: 'stoneDoor',
+    doors: [],
+    markers: {}
+})
 scenarios.set(57, {
     id: 57,
     alignment: 'vert',
@@ -388,7 +401,6 @@ scenarios.set(57, {
 scenarios.set(58, {
     id: 58,
     alignment: 'horz',
-    style: {height: '1050px'},
     map: {
         C2a: {classes: ['revrotate'], style: {top: '407px', left: '577px'}},
         D1b: {classes: ['rotate210'], style: {top: '0px', left: '573px'}},
@@ -576,3 +588,9 @@ scenarios.set(220, {
         c: {top: '329px', left: '575px'},
     }
 });
+
+if (typeof module !== 'undefined') {
+    module.exports = {
+        scenarios
+    };
+}
